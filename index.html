@@ -1,355 +1,2055 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.5">
-  <style type="text/css">
-    body {background-color: #0c0a0d}
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf; min-height: 15.0px}
-    p.p2 {margin: 0.0px 0.0px 18.0px 0.0px; text-align: center; font: 9.0px 'Helvetica Neue'; color: #e1aa5a; -webkit-text-stroke: #e1aa5a}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 64.0px 'Helvetica Neue'; color: #e1aa5a; -webkit-text-stroke: #e1aa5a}
-    p.p5 {margin: 0.0px 126.0px 0.0px 126.0px; text-align: center; text-indent: -126.0px; font: 12.6px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 8.4px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62; min-height: 10.0px}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.4px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62}
-    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.6px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62}
-    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 16.8px '.Apple Color Emoji UI'; color: #ece3cf; -webkit-text-stroke: #ece3cf}
-    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf}
-    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 9.8px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62}
-    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; font: 60.0px 'Helvetica Neue'; color: #4db3a6; -webkit-text-stroke: #4db3a6}
-    p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf; background-color: #4db3a6; min-height: 15.0px}
-    p.p14 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.4px 'Helvetica Neue'; color: #4db3a6; -webkit-text-stroke: #4db3a6}
-    p.p15 {margin: 0.0px 0.0px 0.0px 0.0px; font: 32.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf}
-    p.p16 {margin: 0.0px 0.0px 0.0px 0.0px; font: 48.0px '.Apple Color Emoji UI'; color: #ece3cf; -webkit-text-stroke: #ece3cf}
-    p.p17 {margin: 0.0px 0.0px 0.0px 0.0px; font: 19.2px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf}
-    p.p18 {margin: 0.0px 0.0px 0.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62}
-    p.p19 {margin: 0.0px 0.0px 0.0px 0.0px; font: 30.0px '.Apple Color Emoji UI'; color: #4db3a6; -webkit-text-stroke: #4db3a6}
-    p.p20 {margin: 0.0px 0.0px 0.0px 0.0px; font: 16.2px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf}
-    p.p21 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.6px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62; background-color: #776c62; min-height: 10.0px}
-    p.p22 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.6px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62}
-    p.p23 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.8px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62}
-    p.p24 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.4px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62; background-color: #15101c}
-    p.p25 {margin: 0.0px 0.0px 0.0px 0.0px; font: 60.0px 'Helvetica Neue'; color: #e1aa5a; -webkit-text-stroke: #e1aa5a}
-    p.p26 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf; background-color: #e1aa5a; min-height: 15.0px}
-    p.p27 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.4px 'Helvetica Neue'; color: #e1aa5a; -webkit-text-stroke: #e1aa5a}
-    p.p28 {margin: 0.0px 0.0px 0.0px 0.0px; font: 30.0px '.Apple Color Emoji UI'; color: #e1aa5a; -webkit-text-stroke: #e1aa5a}
-    p.p29 {margin: 0.0px 0.0px 0.0px 0.0px; font: 60.0px 'Helvetica Neue'; color: #8865e2; -webkit-text-stroke: #8865e2}
-    p.p30 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf; background-color: #8865e2; min-height: 15.0px}
-    p.p31 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.4px 'Helvetica Neue'; color: #8865e2; -webkit-text-stroke: #8865e2}
-    p.p32 {margin: 0.0px 0.0px 0.0px 0.0px; font: 30.0px '.Apple Color Emoji UI'; color: #8865e2; -webkit-text-stroke: #8865e2}
-    p.p33 {margin: 0.0px 0.0px 0.0px 0.0px; font: 60.0px 'Helvetica Neue'; color: #c85167; -webkit-text-stroke: #c85167}
-    p.p34 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf; background-color: #c85167; min-height: 15.0px}
-    p.p35 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.4px 'Helvetica Neue'; color: #c85167; -webkit-text-stroke: #c85167}
-    p.p36 {margin: 0.0px 0.0px 0.0px 0.0px; font: 30.0px '.Apple Color Emoji UI'; color: #c85167; -webkit-text-stroke: #c85167}
-    p.p37 {margin: 0.0px 0.0px 0.0px 0.0px; font: 60.0px 'Helvetica Neue'; color: #e0683a; -webkit-text-stroke: #e0683a}
-    p.p38 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf; background-color: #e0683a; min-height: 15.0px}
-    p.p39 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.4px 'Helvetica Neue'; color: #e0683a; -webkit-text-stroke: #e0683a}
-    p.p40 {margin: 0.0px 0.0px 0.0px 0.0px; font: 30.0px '.Apple Color Emoji UI'; color: #e0683a; -webkit-text-stroke: #e0683a}
-    p.p41 {margin: 0.0px 0.0px 0.0px 0.0px; font: 60.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf}
-    p.p42 {margin: 0.0px 0.0px 0.0px 0.0px; font: 8.4px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf}
-    p.p43 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf; background-color: #0c0a0d; min-height: 15.0px}
-    p.p44 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 18.0px 'Helvetica Neue'; color: #e1aa5a; -webkit-text-stroke: #e1aa5a}
-    p.p45 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 9.0px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62}
-    p.p46 {margin: 0.0px 0.0px 0.0px 0.0px; font: 36.0px '.Apple Color Emoji UI'; color: #ece3cf; -webkit-text-stroke: #ece3cf}
-    p.p47 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf; min-height: 15.0px}
-    p.p48 {margin: 0.0px 0.0px 0.0px 0.0px; font: 7.2px 'Helvetica Neue'; color: #ffffff; color: rgba(255, 255, 255, 0.4); -webkit-text-stroke: rgba(255, 255, 255, 0.4); background-color: #000000; background-color: rgba(0, 0, 0, 0.4); min-height: 9.0px}
-    p.p49 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.2px 'Zapf Dingbats'; color: #ece3cf; -webkit-text-stroke: #ece3cf}
-    p.p50 {margin: 0.0px 0.0px 0.0px 0.0px; font: 30.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf; min-height: 35.0px}
-    p.p51 {margin: 0.0px 0.0px 0.0px 0.0px; font: 7.8px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62; min-height: 10.0px}
-    p.p52 {margin: 0.0px 0.0px 0.0px 0.0px; font: 24.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf; min-height: 28.0px}
-    p.p53 {margin: 0.0px 0.0px 0.0px 0.0px; font: 9.0px 'Helvetica Neue'; color: #776c62; -webkit-text-stroke: #776c62; min-height: 11.0px}
-    p.p54 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf; background-color: #ffffff; background-color: rgba(255, 255, 255, 0.071); min-height: 15.0px}
-    p.p55 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.8px 'Helvetica Neue'; color: #ece3cf; color: rgba(236, 227, 207, 0.8); -webkit-text-stroke: rgba(236, 227, 207, 0.8); min-height: 12.0px}
-    p.p56 {margin: 0.0px 0.0px 0.0px 0.0px; font: 7.8px 'Helvetica Neue'; color: #e1aa5a; -webkit-text-stroke: #e1aa5a}
-    span.s1 {font-kerning: none}
-    span.s2 {font-kerning: none; background-color: rgba(12, 10, 13, 0.85)}
-    span.s3 {font-kerning: none; background-color: #15101c}
-    span.s4 {font-kerning: none; background-color: #110d13}
-    span.s5 {font: 18.0px '.Apple Color Emoji UI'; font-kerning: none}
-    span.s6 {font-kerning: none; color: #ece3cf; -webkit-text-stroke: 0px #ece3cf}
-    span.s7 {font-kerning: none; background-color: #0c0a0d}
-    span.s8 {font-kerning: none; background-color: rgba(255, 255, 255, 0.078)}
-    span.s9 {font: 7.8px '.Apple Color Emoji UI'; font-kerning: none; background-color: rgba(225, 170, 90, 0.059)}
-    span.s10 {font-kerning: none; background-color: rgba(225, 170, 90, 0.059)}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World of Musical Instruments</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0a0f;
+    --surface: #151018;
+    --card: #1c1525;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0e8d8;
+    --muted: #8a7f75;
+    --accent-gold: #e8b86d;
+    --accent-rose: #d4687a;
+    --accent-teal: #5bbfb5;
+    --accent-violet: #9b7fe8;
+    --accent-warm: #e87d4a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,184,109,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 80% 80%, rgba(155,127,232,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 10% 90%, rgba(91,191,181,0.08) 0%, transparent 60%);
+  }
+
+  /* Floating musical notes */
+  .notes-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .note {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0;
+    animation: floatNote linear infinite;
+    color: var(--accent-gold);
+  }
+
+  @keyframes floatNote {
+    0%   { opacity: 0; transform: translateY(100vh) rotate(0deg); }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-10vh) rotate(360deg); }
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 1.5rem;
+    position: relative;
+    animation: fadeUp 1s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 0.95;
+    position: relative;
+    animation: fadeUp 1s 0.2s ease both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent-gold);
+    display: block;
+  }
+
+  .hero-sub {
+    max-width: 500px;
+    margin: 2rem auto 0;
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    position: relative;
+    animation: fadeUp 1s 0.4s ease both;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    animation: fadeUp 1s 0.8s ease both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--accent-gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13, 10, 15, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border-radius: 2rem;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  nav a:hover {
+    color: var(--text);
+    border-color: var(--border);
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-number {
+    font-size: 5rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    line-height: 1;
+    opacity: 0.08;
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  .section-info {}
+
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+  }
+
+  /* ── INSTRUMENT CARDS ── */
+  .instruments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .instrument-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    cursor: default;
+  }
+
+  .instrument-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .instrument-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .instrument-card:hover::before { opacity: 1; }
+
+  /* Category color themes */
+  .cat-reed .section-tag, .cat-reed .instrument-icon { color: var(--accent-teal); }
+  .cat-reed .section-number { color: var(--accent-teal); }
+  .cat-reed nav a.active, .cat-reed .instrument-card:hover { border-color: var(--accent-teal); }
+  .cat-reed .instrument-card::before { background: radial-gradient(ellipse at top left, rgba(91,191,181,0.08), transparent 70%); }
+  .cat-reed .instrument-card:hover { border-color: rgba(91,191,181,0.4); box-shadow: 0 20px 60px rgba(91,191,181,0.1); }
+
+  .cat-string .section-tag, .cat-string .instrument-icon { color: var(--accent-gold); }
+  .cat-string .section-number { color: var(--accent-gold); }
+  .cat-string .instrument-card::before { background: radial-gradient(ellipse at top left, rgba(232,184,109,0.08), transparent 70%); }
+  .cat-string .instrument-card:hover { border-color: rgba(232,184,109,0.4); box-shadow: 0 20px 60px rgba(232,184,109,0.1); }
+
+  .cat-keys .section-tag, .cat-keys .instrument-icon { color: var(--accent-violet); }
+  .cat-keys .section-number { color: var(--accent-violet); }
+  .cat-keys .instrument-card::before { background: radial-gradient(ellipse at top left, rgba(155,127,232,0.08), transparent 70%); }
+  .cat-keys .instrument-card:hover { border-color: rgba(155,127,232,0.4); box-shadow: 0 20px 60px rgba(155,127,232,0.1); }
+
+  .cat-percussion .section-tag, .cat-percussion .instrument-icon { color: var(--accent-rose); }
+  .cat-percussion .section-number { color: var(--accent-rose); }
+  .cat-percussion .instrument-card::before { background: radial-gradient(ellipse at top left, rgba(212,104,122,0.08), transparent 70%); }
+  .cat-percussion .instrument-card:hover { border-color: rgba(212,104,122,0.4); box-shadow: 0 20px 60px rgba(212,104,122,0.1); }
+
+  .cat-brass .section-tag, .cat-brass .instrument-icon { color: var(--accent-warm); }
+  .cat-brass .section-number { color: var(--accent-warm); }
+  .cat-brass .instrument-card::before { background: radial-gradient(ellipse at top left, rgba(232,125,74,0.08), transparent 70%); }
+  .cat-brass .instrument-card:hover { border-color: rgba(232,125,74,0.4); box-shadow: 0 20px 60px rgba(232,125,74,0.1); }
+
+  .instrument-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+    animation: none;
+    transition: transform 0.3s ease;
+  }
+
+  .instrument-card:hover .instrument-icon {
+    transform: scale(1.2) rotate(-5deg);
+    animation: wiggle 0.5s ease;
+  }
+
+  @keyframes wiggle {
+    0%,100% { transform: scale(1.2) rotate(-5deg); }
+    50% { transform: scale(1.2) rotate(5deg); }
+  }
+
+  .instrument-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .instrument-origin {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .origin-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  .instrument-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .how-badge {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* ── DIVIDER ── */
+  .wave-divider {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    opacity: 0.15;
+    margin: 2rem 0;
+  }
+
+  /* ── HOW IT WORKS BANNER ── */
+  .how-it-works {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem;
+  }
+
+  .how-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .how-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .how-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+
+  .how-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .how-text {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── FEATURED HORIZONTAL CARD ── */
+  .featured-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .featured-card:hover {
+    border-color: rgba(232,184,109,0.3);
+  }
+
+  .featured-emoji {
+    font-size: 4rem;
+    line-height: 1;
+    animation: breathe 4s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  .featured-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .featured-desc {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+
+  /* ── TIMELINE SECTION ── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.4rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent-gold), var(--accent-violet), var(--accent-teal), transparent);
+    opacity: 0.4;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -1.65rem;
+    top: 0.3rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-gold);
+    background: var(--bg);
+  }
+
+  .timeline-era {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .timeline-text {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.8;
+  }
+
+  footer strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* staggered children */
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:0s; }
+  .stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.1s; }
+  .stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.2s; }
+  .stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.3s; }
+  .stagger.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay:0.4s; }
+  .stagger.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay:0.5s; }
+  .stagger.visible > *:nth-child(7) { opacity:1; transform:none; transition-delay:0.6s; }
+  .stagger.visible > *:nth-child(8) { opacity:1; transform:none; transition-delay:0.7s; }
+
+  /* Pulse glow on section accent dividers */
+  .accent-line {
+    width: 60px;
+    height: 2px;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .accent-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    filter: blur(4px);
+    opacity: 0.8;
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%,100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  @media (max-width: 600px) {
+    .section-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .section-number { font-size: 3rem; }
+    .featured-card { grid-template-columns: 1fr; text-align: center; }
+  }
+
+  /* ── CLICKABLE CARD CURSOR ── */
+  .instrument-card { cursor: pointer; }
+  .instrument-card .click-hint {
+    position: absolute;
+    bottom: 1rem; right: 1rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .instrument-card:hover .click-hint { opacity: 1; }
+
+  /* ── MODAL OVERLAY ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0,0,0,0);
+    backdrop-filter: blur(0px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    pointer-events: none;
+    transition: background 0.35s ease, backdrop-filter 0.35s ease;
+  }
+  .modal-overlay.active {
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(12px);
+    pointer-events: all;
+  }
+
+  /* ── MODAL BOX ── */
+  .modal-box {
+    background: #1a1220;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 1.5rem;
+    width: 100%;
+    max-width: 860px;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    transform: scale(0.85) translateY(30px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease;
+    position: relative;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+  }
+  .modal-overlay.active .modal-box {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  /* ── MODAL IMAGE PANEL ── */
+  .modal-image-panel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem 0 0 1.5rem;
+    min-height: 340px;
+    background: #0d0a0f;
+  }
+  .modal-image-panel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 6s ease;
+  }
+  .modal-box:hover .modal-image-panel img { transform: scale(1.05); }
+
+  .modal-img-credit {
+    position: absolute;
+    bottom: 0.6rem;
+    left: 0.6rem;
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.4);
+    background: rgba(0,0,0,0.4);
+    padding: 0.2rem 0.5rem;
+    border-radius: 1rem;
+  }
+
+  .modal-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 60%, #1a1220 100%);
+  }
+
+  /* ── MODAL CONTENT PANEL ── */
+  .modal-content-panel {
+    padding: 2.2rem 2rem 2rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow-y: auto;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    z-index: 10;
+    line-height: 1;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.18); transform: rotate(90deg); }
+
+  .modal-emoji { font-size: 2.5rem; line-height: 1; }
+
+  .modal-category-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.7rem;
+    border-radius: 2rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--muted);
+    width: fit-content;
+  }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 0.2rem 0;
+  }
+
+  .modal-origin {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .modal-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+  }
+
+  .modal-desc-full {
+    font-size: 0.9rem;
+    color: rgba(240,232,216,0.8);
+    line-height: 1.75;
+  }
+
+  .modal-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+    margin-top: 0.3rem;
+  }
+
+  .modal-fact {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .modal-fact-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.2rem;
+  }
+
+  .modal-fact-value {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .modal-fun-fact {
+    background: rgba(232,184,109,0.06);
+    border-left: 3px solid var(--accent-gold);
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 0.9rem 1rem;
+    font-size: 0.85rem;
+    color: rgba(240,232,216,0.75);
+    line-height: 1.6;
+  }
+
+  .modal-fun-fact strong {
+    color: var(--accent-gold);
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  /* ── IMAGE LOADING STATE ── */
+  .modal-image-panel .img-loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    animation: pulse 1.5s ease-in-out infinite;
+    background: #0d0a0f;
+    z-index: 2;
+    transition: opacity 0.4s;
+  }
+  @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+  /* ── RESPONSIVE MODAL ── */
+  @media (max-width: 650px) {
+    .modal-box { grid-template-columns: 1fr; }
+    .modal-image-panel { border-radius: 1.5rem 1.5rem 0 0; min-height: 220px; max-height: 220px; }
+    .modal-img-overlay { background: linear-gradient(to bottom, transparent 60%, #1a1220 100%); }
+    .modal-facts { grid-template-columns: 1fr; }
+    .modal-content-panel { padding: 1.5rem; }
+  }
+</style>
 </head>
 <body>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p2"><span class="s1">INSIDE THE INSTRUMENT FAMILY</span></p>
-<h1 style="margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 64.0px 'Helvetica Neue'; color: #ece3cf; -webkit-text-stroke: #ece3cf"><span class="s1">World of</span></h1>
-<p class="p4"><span class="s1">Instruments.</span></p>
-<p class="p5"><span class="s1">Explore reed, string, percussion, brass, and keyboard instruments through their sound, structure, origins, and cultural role from traditions around the world.</span></p>
-<p class="p6"><span class="s1"></span><br></p>
-<p class="p7"><span class="s1">SCROLL</span></p>
-<p class="p8"><span class="s2">REED INSTRUMENTS</span></p>
-<p class="p8"><span class="s2">STRINGED INSTRUMENTS</span></p>
-<p class="p8"><span class="s2">KEYBOARD INSTRUMENTS</span></p>
-<p class="p8"><span class="s2">PERCUSSION</span></p>
-<p class="p8"><span class="s2">BRASS INSTRUMENTS</span></p>
-<p class="p8"><span class="s2">HISTORY</span></p>
-<p class="p9"><span class="s3">💨</span></p>
-<p class="p10"><span class="s4">Vibration</span></p>
-<p class="p11"><span class="s4">All sound is created by vibrations that travel through air as waves.</span></p>
-<p class="p9"><span class="s3">〰️</span></p>
-<p class="p10"><span class="s4">Frequency</span></p>
-<p class="p11"><span class="s4">Higher frequency vibrations produce higher pitched notes.</span></p>
-<p class="p9"><span class="s3">🔊</span></p>
-<p class="p10"><span class="s4">Resonance</span></p>
-<p class="p11"><span class="s4">Instrument bodies amplify vibrations — making soft sounds loud.</span></p>
-<p class="p9"><span class="s3">🎵</span></p>
-<p class="p10"><span class="s4">Timbre</span></p>
-<p class="p11"><span class="s4">The unique "colour" of each instrument — why a flute sounds different from a violin.</span></p>
-<p class="p12"><span class="s1">01</span></p>
-<p class="p13"><span class="s1"></span><br></p>
-<p class="p14"><span class="s1">WIND FAMILY</span></p>
-<p class="p15"><span class="s1">Reed-Pipe Instruments</span></p>
-<p class="p16"><span class="s3">🎷</span></p>
-<p class="p17"><span class="s3">How Reed Instruments Work</span></p>
-<p class="p18"><span class="s3">Reed instruments produce sound when the player blows air past a thin piece of wood or cane called a reed. The air makes the reed vibrate extremely fast, creating sound waves. The tube (bore) around it shapes and amplifies these waves. By opening and closing holes along the tube, players change the length of the air column, producing different notes. Shorter air column = higher pitch. Longer air column = lower pitch.</span></p>
-<p class="p19"><span class="s3">🎷</span></p>
-<p class="p20"><span class="s3">Saxophone</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">BELGIUM, 1840S</span></p>
-<p class="p23"><span class="s3">Invented by Adolphe Sax in Brussels. Despite being made of brass, it's classified as a woodwind because it uses a single reed. Widely used in jazz, blues, and classical music. The reed is attached to the mouthpiece and vibrates when blown.</span></p>
-<p class="p24"><span class="s1">SINGLE REED</span></p>
-<p class="p19"><span class="s3">🎵</span></p>
-<p class="p20"><span class="s3">Clarinet</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">GERMANY, 1700S</span></p>
-<p class="p23"><span class="s3">Developed from earlier instruments called the chalumeau. Uses a single reed and cylindrical bore. One of the most versatile woodwind instruments, used in orchestras, jazz bands, and folk music around the world.</span></p>
-<p class="p24"><span class="s1">SINGLE REED</span></p>
-<p class="p19"><span class="s3">🎼</span></p>
-<p class="p20"><span class="s3">Oboe</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">FRANCE, 17TH CENTURY</span></p>
-<p class="p23"><span class="s3">One of the hardest woodwinds to master. The oboe uses a double reed — two pieces of cane bound together. When the player blows between them, both reeds vibrate against each other. Known for its bright, penetrating tone in orchestras.</span></p>
-<p class="p24"><span class="s1">DOUBLE REED</span></p>
-<p class="p19"><span class="s3">🪗</span></p>
-<p class="p20"><span class="s3">Bassoon</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">ITALY/GERMANY, 16TH CENTURY</span></p>
-<p class="p23"><span class="s3">The bass voice of the woodwind family. Uses a double reed like the oboe but is much larger — the tube is over 2.5 metres long, folded back on itself! Provides the deep, rich low notes in orchestras.</span></p>
-<p class="p24"><span class="s1">DOUBLE REED</span></p>
-<p class="p19"><span class="s3">🎶</span></p>
-<p class="p20"><span class="s3">Shehnai (Shahnai)</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">INDIA / SOUTH ASIA</span></p>
-<p class="p23"><span class="s3">A traditional Indian reed instrument with deep cultural importance. Played at weddings, temples, and festivals. Uses a double reed. The legendary Ustad Bismillah Khan made it famous worldwide. It produces a piercing, soulful sound.</span></p>
-<p class="p24"><span class="s1">DOUBLE REED</span></p>
-<p class="p19"><span class="s3">🪘</span></p>
-<p class="p20"><span class="s3">Bagpipes</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">SCOTLAND / MIDDLE EAST</span></p>
-<p class="p23"><span class="s3">Air is blown into a bag and squeezed out through pipes containing reeds. The bag acts as a reservoir, maintaining a constant airflow. The melody pipe (chanter) uses a double reed. Ancient forms existed in Persia, Egypt, and India.</span></p>
-<p class="p24"><span class="s1">DOUBLE REED + BAG</span></p>
-<p class="p25"><span class="s1">02</span></p>
-<p class="p26"><span class="s1"></span><br></p>
-<p class="p27"><span class="s1">CHORDOPHONE FAMILY</span></p>
-<p class="p15"><span class="s1">Stringed Instruments</span></p>
-<p class="p16"><span class="s3">🎸</span></p>
-<p class="p17"><span class="s3">How Stringed Instruments Work</span></p>
-<p class="p18"><span class="s3">All stringed instruments produce sound by vibrating stretched strings. The strings are made to vibrate by plucking (guitar, harp), bowing (violin, cello), or striking (piano). The body of the instrument acts as a resonator — it amplifies the vibrations so we can hear them clearly. Thinner, shorter, or tighter strings vibrate faster → higher pitch.</span></p>
-<p class="p28"><span class="s3">🎻</span></p>
-<p class="p20"><span class="s3">Violin</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">ITALY, 16TH CENTURY</span></p>
-<p class="p23"><span class="s3">The smallest and highest-pitched member of the bowed string family. The bow (horsehair on a wooden stick) is drawn across the strings causing them to vibrate. By pressing fingers on the neck, players shorten the string length to change pitch.</span></p>
-<p class="p24"><span class="s1">BOWED</span></p>
-<p class="p28"><span class="s3">🎵</span></p>
-<p class="p20"><span class="s3">Sitar</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">INDIA, 13TH CENTURY</span></p>
-<p class="p23"><span class="s3">An iconic Indian classical instrument with a long neck and gourd resonator body. Has 18–21 strings (some are drone strings that aren't plucked). The curved frets allow players to bend notes beautifully — giving sitar its characteristic sound. Associated with Ravi Shankar globally.</span></p>
-<p class="p24"><span class="s1">PLUCKED</span></p>
-<p class="p28"><span class="s3">🎸</span></p>
-<p class="p20"><span class="s3">Guitar</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">SPAIN, 15TH CENTURY</span></p>
-<p class="p23"><span class="s3">One of the world's most popular instruments. Six strings stretched over a hollow wooden body. Plucking or strumming the strings causes them to vibrate; the hollow body amplifies the sound. Electric guitars use magnetic pickups to convert vibrations to electrical signals.</span></p>
-<p class="p24"><span class="s1">PLUCKED / STRUMMED</span></p>
-<p class="p28"><span class="s3">🪕</span></p>
-<p class="p20"><span class="s3">Sarod</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">INDIA / AFGHANISTAN</span></p>
-<p class="p23"><span class="s3">A classical Indian string instrument without frets — the player slides their fingernails on a metal fingerboard, allowing smooth, gliding tones. The body is covered in animal skin. It's known for its deep, resonant, meditative sound in Hindustani classical music.</span></p>
-<p class="p24"><span class="s1">PLUCKED</span></p>
-<p class="p28"><span class="s3">🎶</span></p>
-<p class="p20"><span class="s3">Harp</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">ANCIENT MESOPOTAMIA / EGYPT</span></p>
-<p class="p23"><span class="s3">One of the oldest instruments in the world — depictions date back to 3,000 BCE. Each string produces a different note, unlike most instruments where one string covers multiple notes. Pedals on modern harps can change tuning. Associated with angels and heavenly music in many cultures.</span></p>
-<p class="p24"><span class="s1">PLUCKED</span></p>
-<p class="p28"><span class="s3">🎼</span></p>
-<p class="p20"><span class="s3">Cello (Violoncello)</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">ITALY, 16TH CENTURY</span></p>
-<p class="p23"><span class="s3">Held between the player's knees, the cello is the tenor/bass voice of the string family. Its four strings are much thicker than a violin's, producing lower frequencies. Widely considered one of the instruments closest in range and tone to the human voice.</span></p>
-<p class="p24"><span class="s1">BOWED</span></p>
-<p class="p29"><span class="s1">03</span></p>
-<p class="p30"><span class="s1"></span><br></p>
-<p class="p31"><span class="s1">KEYBOARD FAMILY</span></p>
-<p class="p15"><span class="s1">Keyboard Instruments</span></p>
-<p class="p16"><span class="s3">🎹</span></p>
-<p class="p17"><span class="s3">How Keyboard Instruments Work</span></p>
-<p class="p18"><span class="s3">Keyboard instruments trigger sound through a row of levers called keys. When a key is pressed, it sets off a mechanism that causes a string to vibrate (piano), a pipe to sound (organ), or an electronic circuit to activate (synthesizer). The keyboard layout is the same across most instruments — 88 keys on a grand piano, arranged in octaves of white and black keys.</span></p>
-<p class="p32"><span class="s3">🎹</span></p>
-<p class="p20"><span class="s3">Piano</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">ITALY, 1700</span></p>
-<p class="p23"><span class="s3">Invented by Bartolomeo Cristofori in Florence. When a key is pressed, a padded hammer strikes a steel string. The name comes from "pianoforte" (soft-loud) — it was the first keyboard instrument that could play both softly and loudly. A grand piano has ~230 strings!</span></p>
-<p class="p24"><span class="s1">STRUCK STRINGS</span></p>
-<p class="p32"><span class="s3">⛪</span></p>
-<p class="p20"><span class="s3">Pipe Organ</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">ANCIENT GREECE, ~200 BCE</span></p>
-<p class="p23"><span class="s3">The largest musical instrument! When a key is pressed, pressurised air is sent through pipes of different lengths. Longer pipes produce lower notes. Churches often have pipes taller than a person. Some organs have thousands of pipes. Known as the "King of Instruments."</span></p>
-<p class="p24"><span class="s1">AIR THROUGH PIPES</span></p>
-<p class="p32"><span class="s3">🎼</span></p>
-<p class="p20"><span class="s3">Harpsichord</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">EUROPE, 14TH–15TH CENTURY</span></p>
-<p class="p23"><span class="s3">The predecessor of the piano. When a key is pressed, a small leather or quill plectrum plucks the string (unlike the piano which strikes it). This means the harpsichord can't vary its volume — all notes sound equally loud. Popular in Baroque music (Bach era).</span></p>
-<p class="p24"><span class="s1">PLUCKED STRINGS</span></p>
-<p class="p32"><span class="s3">🎛️</span></p>
-<p class="p20"><span class="s3">Synthesizer</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">USA, 1960S</span></p>
-<p class="p23"><span class="s3">Generates sound electronically — no physical strings or pipes. Electronic oscillators create sound waves that can be shaped, filtered, and modulated. Moog synthesizers (1965) revolutionized pop and rock music. Modern synths can imitate any instrument or create entirely new sounds.</span></p>
-<p class="p24"><span class="s1">ELECTRONIC</span></p>
-<p class="p32"><span class="s3">🪗</span></p>
-<p class="p20"><span class="s3">Accordion</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">GERMANY / AUSTRIA, 1820S</span></p>
-<p class="p23"><span class="s3">A hand-held reed instrument with a keyboard. Squeezing and expanding the bellows forces air over metal reeds (like small versions of a harmonica reed). The left hand plays bass notes and chords; the right hand plays the melody. Widely used in folk music across Europe and Latin America.</span></p>
-<p class="p24"><span class="s1">BELLOWS + REEDS</span></p>
-<p class="p33"><span class="s1">04</span></p>
-<p class="p34"><span class="s1"></span><br></p>
-<p class="p35"><span class="s1">MEMBRANOPHONE &amp; IDIOPHONE</span></p>
-<p class="p15"><span class="s1">Percussion Instruments</span></p>
-<p class="p16"><span class="s3">🥁</span></p>
-<p class="p17"><span class="s3">How Percussion Instruments Work</span></p>
-<p class="p18"><span class="s3">Percussion instruments make sound when they are struck, shaken, or scraped. Some produce definite pitch (like xylophones and tablas), while others produce indefinite pitch (like cymbals and snare drums). Percussion is one of the oldest forms of music — humans were beating objects together before any other instrument existed.</span></p>
-<p class="p36"><span class="s3">🥁</span></p>
-<p class="p20"><span class="s3">Tabla</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">INDIA, 18TH CENTURY</span></p>
-<p class="p23"><span class="s3">The most famous percussion instrument of Indian classical music. A pair of hand drums — the smaller dayan (right, higher pitch) and larger bayan (left, lower pitch). The black spot (syahi) on each drum head is a tuning paste that gives the tabla its unique melodic quality. Over 500 rhythmic patterns (taals) exist.</span></p>
-<p class="p24"><span class="s1">STRUCK BY HAND</span></p>
-<p class="p36"><span class="s3">🎶</span></p>
-<p class="p20"><span class="s3">Mridangam</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">SOUTH INDIA</span></p>
-<p class="p23"><span class="s3">The main percussion instrument in Carnatic (South Indian classical) music. A barrel-shaped, double-headed drum made from jackfruit wood. Like the tabla, it has paste applied to tune the drum heads. Played horizontally across the lap, using fingers and palms.</span></p>
-<p class="p24"><span class="s1">STRUCK BY HAND</span></p>
-<p class="p36"><span class="s3">🔔</span></p>
-<p class="p20"><span class="s3">Xylophone</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">AFRICA / SOUTHEAST ASIA</span></p>
-<p class="p23"><span class="s3">Wooden bars of different lengths are arranged like a keyboard. Striking them with mallets causes each bar to vibrate at a specific frequency. Longer bars produce lower notes. The name means "wood sound" in Greek. Used in orchestras and African folk music.</span></p>
-<p class="p24"><span class="s1">STRUCK WOODEN BARS</span></p>
-<p class="p36"><span class="s3">🥁</span></p>
-<p class="p20"><span class="s3">Dhol</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">SOUTH ASIA (INDIA/PAKISTAN)</span></p>
-<p class="p23"><span class="s3">A large, barrel-shaped drum worn around the neck or hung from the shoulder. One side uses a heavy stick for the bass boom, while the other side uses a thin stick for a treble beat. Central to Bhangra music and Punjabi celebrations. Also used in Afghan and South Asian folk traditions.</span></p>
-<p class="p24"><span class="s1">DOUBLE-HEADED DRUM</span></p>
-<p class="p36"><span class="s3">🎵</span></p>
-<p class="p20"><span class="s3">Snare Drum</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">MEDIEVAL EUROPE</span></p>
-<p class="p23"><span class="s3">Has metal wires (snares) stretched across the bottom drum head. When the top is struck, the snares rattle against the bottom head, creating a sharp, crisp sound. The crisp "crack" of a snare drum is essential to virtually all Western popular music and marching bands.</span></p>
-<p class="p24"><span class="s1">SNARE WIRES + STRUCK</span></p>
-<p class="p36"><span class="s3">🔔</span></p>
-<p class="p20"><span class="s3">Cymbals</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">TURKEY / ANCIENT CIVILIZATIONS</span></p>
-<p class="p23"><span class="s3">Thin, circular metal discs that crash together or are struck with a drumstick. The alloy (usually bronze) vibrates all over its surface at multiple frequencies simultaneously — which is why cymbals have that "splashy," shimmering sound rather than a definite pitch. Zildjian (founded 1623) is the world's oldest cymbal maker.</span></p>
-<p class="p24"><span class="s1">CRASHED / STRUCK METAL</span></p>
-<p class="p37"><span class="s1">05</span></p>
-<p class="p38"><span class="s1"></span><br></p>
-<p class="p39"><span class="s1">AEROPHONE FAMILY</span></p>
-<p class="p15"><span class="s1">Brass Instruments</span></p>
-<p class="p16"><span class="s3">🎺</span></p>
-<p class="p17"><span class="s3">How Brass Instruments Work</span></p>
-<p class="p18"><span class="s3">Despite the name, sound in brass instruments isn't made by the metal — it's made by the player's lips vibrating in a cup-shaped mouthpiece! The lips buzz together at high speed, and this buzzing vibration travels through the brass tubing. By pressing valves or moving a slide, players change the tube length to produce different pitches. Longer tube = lower pitch.</span></p>
-<p class="p40"><span class="s3">🎺</span></p>
-<p class="p20"><span class="s3">Trumpet</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">ANCIENT EGYPT / MODERN EUROPE</span></p>
-<p class="p23"><span class="s3">The highest-pitched brass instrument. Has three valves to change pitch. Ancient trumpets (without valves) date to 1,500 BCE in Egypt. The modern valve trumpet was developed around 1820. It's the lead voice of the brass section — bright, bold, and penetrating. Essential to jazz and orchestras.</span></p>
-<p class="p24"><span class="s1">3 VALVES</span></p>
-<p class="p40"><span class="s3">🔊</span></p>
-<p class="p20"><span class="s3">French Horn</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">FRANCE / GERMANY, 17TH CENTURY</span></p>
-<p class="p23"><span class="s3">Has a conical bore that flares out into a wide bell. The player's right hand is inserted into the bell to modify tone. Uncoiled, the tubing would be over 3.7 metres long! Produces a warm, mellow sound compared to the trumpet's brightness.</span></p>
-<p class="p24"><span class="s1">ROTARY VALVES</span></p>
-<p class="p40"><span class="s3">🎷</span></p>
-<p class="p20"><span class="s3">Trombone</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">EUROPE, 15TH CENTURY</span></p>
-<p class="p23"><span class="s3">Unique among brass instruments — instead of valves, it uses a U-shaped slide that extends in and out to change pitch continuously. This allows smooth, gliding "glissando" effects. The trombone was one of the first instruments written into orchestral compositions.</span></p>
-<p class="p24"><span class="s1">SLIDE</span></p>
-<p class="p40"><span class="s3">📯</span></p>
-<p class="p20"><span class="s3">Tuba</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">GERMANY, 1835</span></p>
-<p class="p23"><span class="s3">The largest and lowest-pitched brass instrument. Invented by Wilhelm Wieprecht in Berlin. The enormous amount of tubing (up to 5.5 metres uncoiled) produces those deep, booming bass notes. It provides the foundation of the brass section in orchestras and marching bands.</span></p>
-<p class="p24"><span class="s1">ROTARY / PISTON VALVES</span></p>
-<p class="p40"><span class="s3">🎵</span></p>
-<p class="p20"><span class="s3">Bugle</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">EUROPE, 18TH CENTURY</span></p>
-<p class="p23"><span class="s3">The simplest brass instrument — it has NO valves at all! Players change pitch only by adjusting the tension and speed of their lips. Limited to about 5 natural notes. Used historically by armies to signal commands (charge, retreat, reveille). The Last Post is played on a bugle.</span></p>
-<p class="p24"><span class="s1">NO VALVES (LIP ONLY)</span></p>
-<p class="p40"><span class="s3">🎺</span></p>
-<p class="p20"><span class="s3">Shehnai / Nadaswaram</span></p>
-<p class="p21"><span class="s1"></span><br></p>
-<p class="p22"><span class="s3">SOUTH INDIA</span></p>
-<p class="p23"><span class="s3">The Nadaswaram is a large, double-reed wind instrument from South India — technically a reed instrument, but often grouped with ceremonial winds like brass. It can reach over 90 decibels without amplification! Played at Hindu temple ceremonies and South Indian weddings.</span></p>
-<p class="p24"><span class="s1">DOUBLE REED / CEREMONIAL</span></p>
-<p class="p41"><span class="s1">06</span></p>
-<p class="p26"><span class="s1"></span><br></p>
-<p class="p42"><span class="s1">A BRIEF HISTORY</span></p>
-<p class="p15"><span class="s1">Instruments Through the Ages</span></p>
-<p class="p43"><span class="s1"></span><br></p>
-<p class="p27"><span class="s1">~40,000 BCE — STONE AGE</span></p>
-<p class="p23"><span class="s1">The oldest known musical instruments are flutes made from vulture bones and mammoth ivory, found in Germany. Drums and clappers (percussion) were likely the very first instruments used by early humans for ritual purposes.</span></p>
-<p class="p43"><span class="s1"></span><br></p>
-<p class="p27"><span class="s1">~3,000 BCE — ANCIENT CIVILIZATIONS</span></p>
-<p class="p23"><span class="s1">Harps and lyres were played in ancient Mesopotamia (present-day Iraq) and Egypt. Flutes, trumpets, and cymbals appeared in China and the Mediterranean. Music was used in temples, royal courts, and ceremonies.</span></p>
-<p class="p43"><span class="s1"></span><br></p>
-<p class="p27"><span class="s1">~500 BCE — CLASSICAL ANTIQUITY</span></p>
-<p class="p23"><span class="s1">Ancient Greeks developed music theory. The hydraulis (water organ) was invented, the ancestor of all pipe organs. Indian texts like the Natya Shastra catalogued instruments into four groups: strings, wind, membranes, and solid (a system still used today!).</span></p>
-<p class="p43"><span class="s1"></span><br></p>
-<p class="p27"><span class="s1">~8TH–15TH CENTURY CE — MEDIEVAL ERA</span></p>
-<p class="p23"><span class="s1">Lutes arrived in Europe from Arabic-Islamic culture. The violin family began developing in Italy. Church organs became grander. In India, the veena, sitar, and tabla traditions were formalized. The sitar is thought to have been developed by Amir Khusrau.</span></p>
-<p class="p43"><span class="s1"></span><br></p>
-<p class="p27"><span class="s1">16TH–18TH CENTURY — BAROQUE &amp; CLASSICAL PERIOD</span></p>
-<p class="p23"><span class="s1">The violin reached its current form through Italian makers like Stradivari and Guarneri. The harpsichord was king of keyboard instruments. Bartolomeo Cristofori invented the piano (~1700). Brass valves were introduced, allowing more notes. Bach and Mozart composed for these instruments.</span></p>
-<p class="p43"><span class="s1"></span><br></p>
-<p class="p27"><span class="s1">19TH CENTURY — INDUSTRIAL REVOLUTION</span></p>
-<p class="p23"><span class="s1">Mass production made instruments widely available. The saxophone was patented in 1846. The modern brass valve system was perfected. The concert grand piano reached its current form. Orchestras grew larger and louder to fill new concert halls.</span></p>
-<p class="p43"><span class="s1"></span><br></p>
-<p class="p27"><span class="s1">20TH–21ST CENTURY — ELECTRONIC AGE</span></p>
-<p class="p23"><span class="s1">Electric guitars transformed popular music (1930s–50s). Moog synthesizers launched electronic music (1964). Digital sampling allows any sound to be triggered from a keyboard. Today, apps on a phone can simulate an entire orchestra, and new hybrid instruments combine ancient design with modern electronics.</span></p>
-<p class="p44"><span class="s5">🎵</span><span class="s1"> World of Musical Instruments</span></p>
-<p class="p11"><span class="s1">Every culture on Earth has developed its own musical instruments — over </span><span class="s6">1,000 different types</span><span class="s1"> have been documented worldwide.</span></p>
-<p class="p11"><span class="s1">Music is a universal human language that connects us across time, geography, and culture.</span></p>
-<p class="p45"><span class="s1">Created for Class 8 Music Studies · Instruments span woodwind, chordophone, membranophone, idiophone, aerophone &amp; electrophone families</span></p>
-<p class="p46"><span class="s7">🎵</span></p>
-<p class="p47"><span class="s1"></span><br></p>
-<p class="p48"><span class="s1"></span><br></p>
-<p class="p49"><span class="s8">✕</span></p>
-<p class="p50"><span class="s1"></span><br></p>
-<p class="p51"><span class="s1"></span><br></p>
-<p class="p52"><span class="s1"></span><br></p>
-<p class="p53"><span class="s1"></span><br></p>
-<p class="p54"><span class="s1"></span><br></p>
-<p class="p55"><span class="s1"></span><br></p>
-<p class="p56"><span class="s9">🌟</span><span class="s10"> FUN FACT</span></p>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="notes-container" id="notesContainer"></div>
+
+  <p class="hero-eyebrow">Inside The Instrument Family</p>
+  <h1>World of<em>Instruments</em></h1>
+  <p class="hero-sub">Explore reed, string, percussion, brass, and keyboard instruments through their sound, structure, origins, and cultural role from traditions around the world.</p>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</section>
+
+<!-- NAV -->
+<nav>
+  <a href="#reed">Reed Instruments</a>
+  <a href="#string">Stringed Instruments</a>
+  <a href="#keys">Keyboard Instruments</a>
+  <a href="#percussion">Percussion</a>
+  <a href="#brass">Brass Instruments</a>
+  <a href="#history">History</a>
+</nav>
+
+<!-- HOW SOUND WORKS -->
+<div class="how-it-works">
+  <div class="how-grid stagger" id="howGrid">
+    <div class="how-item">
+      <div class="how-icon">💨</div>
+      <div class="how-label">Vibration</div>
+      <div class="how-text">All sound is created by vibrations that travel through air as waves.</div>
+    </div>
+    <div class="how-item">
+      <div class="how-icon">〰️</div>
+      <div class="how-label">Frequency</div>
+      <div class="how-text">Higher frequency vibrations produce higher pitched notes.</div>
+    </div>
+    <div class="how-item">
+      <div class="how-icon">🔊</div>
+      <div class="how-label">Resonance</div>
+      <div class="how-text">Instrument bodies amplify vibrations — making soft sounds loud.</div>
+    </div>
+    <div class="how-item">
+      <div class="how-icon">🎵</div>
+      <div class="how-label">Timbre</div>
+      <div class="how-text">The unique "colour" of each instrument — why a flute sounds different from a violin.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ REED INSTRUMENTS ══════════ -->
+<div id="reed" class="cat-reed">
+  <div class="section">
+    <div class="section-header reveal">
+      <div class="section-number">01</div>
+      <div class="section-info">
+        <div class="accent-line" style="background: var(--accent-teal);"></div>
+        <div class="section-tag">Wind Family</div>
+        <div class="section-title">Reed-Pipe Instruments</div>
+      </div>
+    </div>
+
+    <div class="featured-card reveal">
+      <div class="featured-emoji">🎷</div>
+      <div>
+        <div class="featured-title">How Reed Instruments Work</div>
+        <div class="featured-desc">Reed instruments produce sound when the player blows air past a thin piece of wood or cane called a <strong>reed</strong>. The air makes the reed vibrate extremely fast, creating sound waves. The tube (bore) around it shapes and amplifies these waves. By opening and closing holes along the tube, players change the length of the air column, producing different notes. <em>Shorter air column = higher pitch. Longer air column = lower pitch.</em></div>
+      </div>
+    </div>
+
+    <div class="instruments-grid stagger" id="reedGrid">
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎷</span>
+        <div class="instrument-name">Saxophone</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Belgium, 1840s</div>
+        <div class="instrument-desc">Invented by Adolphe Sax in Brussels. Despite being made of brass, it's classified as a woodwind because it uses a single reed. Widely used in jazz, blues, and classical music. The reed is attached to the mouthpiece and vibrates when blown.</div>
+        <span class="how-badge">Single Reed</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎵</span>
+        <div class="instrument-name">Clarinet</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Germany, 1700s</div>
+        <div class="instrument-desc">Developed from earlier instruments called the chalumeau. Uses a single reed and cylindrical bore. One of the most versatile woodwind instruments, used in orchestras, jazz bands, and folk music around the world.</div>
+        <span class="how-badge">Single Reed</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎼</span>
+        <div class="instrument-name">Oboe</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> France, 17th Century</div>
+        <div class="instrument-desc">One of the hardest woodwinds to master. The oboe uses a <em>double reed</em> — two pieces of cane bound together. When the player blows between them, both reeds vibrate against each other. Known for its bright, penetrating tone in orchestras.</div>
+        <span class="how-badge">Double Reed</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🪗</span>
+        <div class="instrument-name">Bassoon</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Italy/Germany, 16th Century</div>
+        <div class="instrument-desc">The bass voice of the woodwind family. Uses a double reed like the oboe but is much larger — the tube is over 2.5 metres long, folded back on itself! Provides the deep, rich low notes in orchestras.</div>
+        <span class="how-badge">Double Reed</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎶</span>
+        <div class="instrument-name">Shehnai (Shahnai)</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> India / South Asia</div>
+        <div class="instrument-desc">A traditional Indian reed instrument with deep cultural importance. Played at weddings, temples, and festivals. Uses a double reed. The legendary Ustad Bismillah Khan made it famous worldwide. It produces a piercing, soulful sound.</div>
+        <span class="how-badge">Double Reed</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🪘</span>
+        <div class="instrument-name">Bagpipes</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Scotland / Middle East</div>
+        <div class="instrument-desc">Air is blown into a bag and squeezed out through pipes containing reeds. The bag acts as a reservoir, maintaining a constant airflow. The melody pipe (chanter) uses a double reed. Ancient forms existed in Persia, Egypt, and India.</div>
+        <span class="how-badge">Double Reed + Bag</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ STRING INSTRUMENTS ══════════ -->
+<div id="string" class="cat-string">
+  <div class="section">
+    <div class="section-header reveal">
+      <div class="section-number">02</div>
+      <div class="section-info">
+        <div class="accent-line" style="background: var(--accent-gold);"></div>
+        <div class="section-tag">Chordophone Family</div>
+        <div class="section-title">Stringed Instruments</div>
+      </div>
+    </div>
+
+    <div class="featured-card reveal">
+      <div class="featured-emoji">🎸</div>
+      <div>
+        <div class="featured-title">How Stringed Instruments Work</div>
+        <div class="featured-desc">All stringed instruments produce sound by <strong>vibrating stretched strings</strong>. The strings are made to vibrate by plucking (guitar, harp), bowing (violin, cello), or striking (piano). The body of the instrument acts as a resonator — it amplifies the vibrations so we can hear them clearly. <em>Thinner, shorter, or tighter strings vibrate faster → higher pitch.</em></div>
+      </div>
+    </div>
+
+    <div class="instruments-grid stagger" id="stringGrid">
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎻</span>
+        <div class="instrument-name">Violin</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Italy, 16th Century</div>
+        <div class="instrument-desc">The smallest and highest-pitched member of the bowed string family. The bow (horsehair on a wooden stick) is drawn across the strings causing them to vibrate. By pressing fingers on the neck, players shorten the string length to change pitch.</div>
+        <span class="how-badge">Bowed</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎵</span>
+        <div class="instrument-name">Sitar</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> India, 13th Century</div>
+        <div class="instrument-desc">An iconic Indian classical instrument with a long neck and gourd resonator body. Has 18–21 strings (some are drone strings that aren't plucked). The curved frets allow players to bend notes beautifully — giving sitar its characteristic sound. Associated with Ravi Shankar globally.</div>
+        <span class="how-badge">Plucked</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎸</span>
+        <div class="instrument-name">Guitar</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Spain, 15th Century</div>
+        <div class="instrument-desc">One of the world's most popular instruments. Six strings stretched over a hollow wooden body. Plucking or strumming the strings causes them to vibrate; the hollow body amplifies the sound. Electric guitars use magnetic pickups to convert vibrations to electrical signals.</div>
+        <span class="how-badge">Plucked / Strummed</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🪕</span>
+        <div class="instrument-name">Sarod</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> India / Afghanistan</div>
+        <div class="instrument-desc">A classical Indian string instrument without frets — the player slides their fingernails on a metal fingerboard, allowing smooth, gliding tones. The body is covered in animal skin. It's known for its deep, resonant, meditative sound in Hindustani classical music.</div>
+        <span class="how-badge">Plucked</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎶</span>
+        <div class="instrument-name">Harp</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Ancient Mesopotamia / Egypt</div>
+        <div class="instrument-desc">One of the oldest instruments in the world — depictions date back to 3,000 BCE. Each string produces a different note, unlike most instruments where one string covers multiple notes. Pedals on modern harps can change tuning. Associated with angels and heavenly music in many cultures.</div>
+        <span class="how-badge">Plucked</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎼</span>
+        <div class="instrument-name">Cello (Violoncello)</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Italy, 16th Century</div>
+        <div class="instrument-desc">Held between the player's knees, the cello is the tenor/bass voice of the string family. Its four strings are much thicker than a violin's, producing lower frequencies. Widely considered one of the instruments closest in range and tone to the human voice.</div>
+        <span class="how-badge">Bowed</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ KEYBOARD INSTRUMENTS ══════════ -->
+<div id="keys" class="cat-keys">
+  <div class="section">
+    <div class="section-header reveal">
+      <div class="section-number">03</div>
+      <div class="section-info">
+        <div class="accent-line" style="background: var(--accent-violet);"></div>
+        <div class="section-tag">Keyboard Family</div>
+        <div class="section-title">Keyboard Instruments</div>
+      </div>
+    </div>
+
+    <div class="featured-card reveal">
+      <div class="featured-emoji">🎹</div>
+      <div>
+        <div class="featured-title">How Keyboard Instruments Work</div>
+        <div class="featured-desc">Keyboard instruments trigger sound through a row of levers called <strong>keys</strong>. When a key is pressed, it sets off a mechanism that causes a string to vibrate (piano), a pipe to sound (organ), or an electronic circuit to activate (synthesizer). The keyboard layout is the same across most instruments — 88 keys on a grand piano, arranged in octaves of white and black keys.</div>
+      </div>
+    </div>
+
+    <div class="instruments-grid stagger" id="keysGrid">
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎹</span>
+        <div class="instrument-name">Piano</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Italy, 1700</div>
+        <div class="instrument-desc">Invented by Bartolomeo Cristofori in Florence. When a key is pressed, a padded hammer strikes a steel string. The name comes from "pianoforte" (soft-loud) — it was the first keyboard instrument that could play both softly and loudly. A grand piano has ~230 strings!</div>
+        <span class="how-badge">Struck Strings</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">⛪</span>
+        <div class="instrument-name">Pipe Organ</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Ancient Greece, ~200 BCE</div>
+        <div class="instrument-desc">The largest musical instrument! When a key is pressed, pressurised air is sent through pipes of different lengths. Longer pipes produce lower notes. Churches often have pipes taller than a person. Some organs have thousands of pipes. Known as the "King of Instruments."</div>
+        <span class="how-badge">Air Through Pipes</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎼</span>
+        <div class="instrument-name">Harpsichord</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Europe, 14th–15th Century</div>
+        <div class="instrument-desc">The predecessor of the piano. When a key is pressed, a small leather or quill plectrum <em>plucks</em> the string (unlike the piano which strikes it). This means the harpsichord can't vary its volume — all notes sound equally loud. Popular in Baroque music (Bach era).</div>
+        <span class="how-badge">Plucked Strings</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎛️</span>
+        <div class="instrument-name">Synthesizer</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> USA, 1960s</div>
+        <div class="instrument-desc">Generates sound electronically — no physical strings or pipes. Electronic oscillators create sound waves that can be shaped, filtered, and modulated. Moog synthesizers (1965) revolutionized pop and rock music. Modern synths can imitate any instrument or create entirely new sounds.</div>
+        <span class="how-badge">Electronic</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🪗</span>
+        <div class="instrument-name">Accordion</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Germany / Austria, 1820s</div>
+        <div class="instrument-desc">A hand-held reed instrument with a keyboard. Squeezing and expanding the bellows forces air over metal reeds (like small versions of a harmonica reed). The left hand plays bass notes and chords; the right hand plays the melody. Widely used in folk music across Europe and Latin America.</div>
+        <span class="how-badge">Bellows + Reeds</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ PERCUSSION INSTRUMENTS ══════════ -->
+<div id="percussion" class="cat-percussion">
+  <div class="section">
+    <div class="section-header reveal">
+      <div class="section-number">04</div>
+      <div class="section-info">
+        <div class="accent-line" style="background: var(--accent-rose);"></div>
+        <div class="section-tag">Membranophone & Idiophone</div>
+        <div class="section-title">Percussion Instruments</div>
+      </div>
+    </div>
+
+    <div class="featured-card reveal">
+      <div class="featured-emoji">🥁</div>
+      <div>
+        <div class="featured-title">How Percussion Instruments Work</div>
+        <div class="featured-desc">Percussion instruments make sound when they are <strong>struck, shaken, or scraped</strong>. Some produce definite pitch (like xylophones and tablas), while others produce indefinite pitch (like cymbals and snare drums). Percussion is one of the oldest forms of music — humans were beating objects together before any other instrument existed.</div>
+      </div>
+    </div>
+
+    <div class="instruments-grid stagger" id="percGrid">
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🥁</span>
+        <div class="instrument-name">Tabla</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> India, 18th Century</div>
+        <div class="instrument-desc">The most famous percussion instrument of Indian classical music. A pair of hand drums — the smaller <em>dayan</em> (right, higher pitch) and larger <em>bayan</em> (left, lower pitch). The black spot (syahi) on each drum head is a tuning paste that gives the tabla its unique melodic quality. Over 500 rhythmic patterns (taals) exist.</div>
+        <span class="how-badge">Struck by Hand</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎶</span>
+        <div class="instrument-name">Mridangam</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> South India</div>
+        <div class="instrument-desc">The main percussion instrument in Carnatic (South Indian classical) music. A barrel-shaped, double-headed drum made from jackfruit wood. Like the tabla, it has paste applied to tune the drum heads. Played horizontally across the lap, using fingers and palms.</div>
+        <span class="how-badge">Struck by Hand</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🔔</span>
+        <div class="instrument-name">Xylophone</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Africa / Southeast Asia</div>
+        <div class="instrument-desc">Wooden bars of different lengths are arranged like a keyboard. Striking them with mallets causes each bar to vibrate at a specific frequency. Longer bars produce lower notes. The name means "wood sound" in Greek. Used in orchestras and African folk music.</div>
+        <span class="how-badge">Struck Wooden Bars</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🥁</span>
+        <div class="instrument-name">Dhol</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> South Asia (India/Pakistan)</div>
+        <div class="instrument-desc">A large, barrel-shaped drum worn around the neck or hung from the shoulder. One side uses a heavy stick for the bass boom, while the other side uses a thin stick for a treble beat. Central to Bhangra music and Punjabi celebrations. Also used in Afghan and South Asian folk traditions.</div>
+        <span class="how-badge">Double-Headed Drum</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎵</span>
+        <div class="instrument-name">Snare Drum</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Medieval Europe</div>
+        <div class="instrument-desc">Has metal wires (snares) stretched across the bottom drum head. When the top is struck, the snares rattle against the bottom head, creating a sharp, crisp sound. The crisp "crack" of a snare drum is essential to virtually all Western popular music and marching bands.</div>
+        <span class="how-badge">Snare Wires + Struck</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🔔</span>
+        <div class="instrument-name">Cymbals</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Turkey / Ancient Civilizations</div>
+        <div class="instrument-desc">Thin, circular metal discs that crash together or are struck with a drumstick. The alloy (usually bronze) vibrates all over its surface at multiple frequencies simultaneously — which is why cymbals have that "splashy," shimmering sound rather than a definite pitch. Zildjian (founded 1623) is the world's oldest cymbal maker.</div>
+        <span class="how-badge">Crashed / Struck Metal</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ BRASS INSTRUMENTS ══════════ -->
+<div id="brass" class="cat-brass">
+  <div class="section">
+    <div class="section-header reveal">
+      <div class="section-number">05</div>
+      <div class="section-info">
+        <div class="accent-line" style="background: var(--accent-warm);"></div>
+        <div class="section-tag">Aerophone Family</div>
+        <div class="section-title">Brass Instruments</div>
+      </div>
+    </div>
+
+    <div class="featured-card reveal">
+      <div class="featured-emoji">🎺</div>
+      <div>
+        <div class="featured-title">How Brass Instruments Work</div>
+        <div class="featured-desc">Despite the name, sound in brass instruments isn't made by the metal — it's made by the <strong>player's lips vibrating</strong> in a cup-shaped mouthpiece! The lips buzz together at high speed, and this buzzing vibration travels through the brass tubing. By pressing valves or moving a slide, players change the tube length to produce different pitches. Longer tube = lower pitch.</div>
+      </div>
+    </div>
+
+    <div class="instruments-grid stagger" id="brassGrid">
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎺</span>
+        <div class="instrument-name">Trumpet</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Ancient Egypt / Modern Europe</div>
+        <div class="instrument-desc">The highest-pitched brass instrument. Has three valves to change pitch. Ancient trumpets (without valves) date to 1,500 BCE in Egypt. The modern valve trumpet was developed around 1820. It's the lead voice of the brass section — bright, bold, and penetrating. Essential to jazz and orchestras.</div>
+        <span class="how-badge">3 Valves</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🔊</span>
+        <div class="instrument-name">French Horn</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> France / Germany, 17th Century</div>
+        <div class="instrument-desc">Has a conical bore that flares out into a wide bell. The player's right hand is inserted into the bell to modify tone. Uncoiled, the tubing would be over 3.7 metres long! Produces a warm, mellow sound compared to the trumpet's brightness.</div>
+        <span class="how-badge">Rotary Valves</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎷</span>
+        <div class="instrument-name">Trombone</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Europe, 15th Century</div>
+        <div class="instrument-desc">Unique among brass instruments — instead of valves, it uses a U-shaped <em>slide</em> that extends in and out to change pitch continuously. This allows smooth, gliding "glissando" effects. The trombone was one of the first instruments written into orchestral compositions.</div>
+        <span class="how-badge">Slide</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">📯</span>
+        <div class="instrument-name">Tuba</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Germany, 1835</div>
+        <div class="instrument-desc">The largest and lowest-pitched brass instrument. Invented by Wilhelm Wieprecht in Berlin. The enormous amount of tubing (up to 5.5 metres uncoiled) produces those deep, booming bass notes. It provides the foundation of the brass section in orchestras and marching bands.</div>
+        <span class="how-badge">Rotary / Piston Valves</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎵</span>
+        <div class="instrument-name">Bugle</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> Europe, 18th Century</div>
+        <div class="instrument-desc">The simplest brass instrument — it has NO valves at all! Players change pitch only by adjusting the tension and speed of their lips. Limited to about 5 natural notes. Used historically by armies to signal commands (charge, retreat, reveille). The Last Post is played on a bugle.</div>
+        <span class="how-badge">No Valves (Lip Only)</span>
+      </div>
+
+      <div class="instrument-card">
+        <span class="instrument-icon">🎺</span>
+        <div class="instrument-name">Shehnai / Nadaswaram</div>
+        <div class="instrument-origin"><span class="origin-dot"></span> South India</div>
+        <div class="instrument-desc">The Nadaswaram is a large, double-reed wind instrument from South India — technically a reed instrument, but often grouped with ceremonial winds like brass. It can reach over 90 decibels without amplification! Played at Hindu temple ceremonies and South Indian weddings.</div>
+        <span class="how-badge">Double Reed / Ceremonial</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════ HISTORY TIMELINE ══════════ -->
+<div id="history">
+  <div class="section">
+    <div class="section-header reveal">
+      <div class="section-number">06</div>
+      <div class="section-info">
+        <div class="accent-line" style="background: var(--accent-gold); opacity: 1;"></div>
+        <div class="section-tag">A Brief History</div>
+        <div class="section-title">Instruments Through the Ages</div>
+      </div>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-era">~40,000 BCE — Stone Age</div>
+        <div class="timeline-text">The oldest known musical instruments are flutes made from vulture bones and mammoth ivory, found in Germany. Drums and clappers (percussion) were likely the very first instruments used by early humans for ritual purposes.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-era">~3,000 BCE — Ancient Civilizations</div>
+        <div class="timeline-text">Harps and lyres were played in ancient Mesopotamia (present-day Iraq) and Egypt. Flutes, trumpets, and cymbals appeared in China and the Mediterranean. Music was used in temples, royal courts, and ceremonies.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-era">~500 BCE — Classical Antiquity</div>
+        <div class="timeline-text">Ancient Greeks developed music theory. The hydraulis (water organ) was invented, the ancestor of all pipe organs. Indian texts like the Natya Shastra catalogued instruments into four groups: strings, wind, membranes, and solid (a system still used today!).</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-era">~8th–15th Century CE — Medieval Era</div>
+        <div class="timeline-text">Lutes arrived in Europe from Arabic-Islamic culture. The violin family began developing in Italy. Church organs became grander. In India, the veena, sitar, and tabla traditions were formalized. The sitar is thought to have been developed by Amir Khusrau.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-era">16th–18th Century — Baroque & Classical Period</div>
+        <div class="timeline-text">The violin reached its current form through Italian makers like Stradivari and Guarneri. The harpsichord was king of keyboard instruments. Bartolomeo Cristofori invented the piano (~1700). Brass valves were introduced, allowing more notes. Bach and Mozart composed for these instruments.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-era">19th Century — Industrial Revolution</div>
+        <div class="timeline-text">Mass production made instruments widely available. The saxophone was patented in 1846. The modern brass valve system was perfected. The concert grand piano reached its current form. Orchestras grew larger and louder to fill new concert halls.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-era">20th–21st Century — Electronic Age</div>
+        <div class="timeline-text">Electric guitars transformed popular music (1930s–50s). Moog synthesizers launched electronic music (1964). Digital sampling allows any sound to be triggered from a keyboard. Today, apps on a phone can simulate an entire orchestra, and new hybrid instruments combine ancient design with modern electronics.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  <div style="font-family:'Playfair Display',serif; font-size:1.5rem; margin-bottom:1rem; color: var(--accent-gold);">🎵 World of Musical Instruments</div>
+  <p>Every culture on Earth has developed its own musical instruments — over <strong>1,000 different types</strong> have been documented worldwide.</p>
+  <p style="margin-top:0.5rem;">Music is a universal human language that connects us across time, geography, and culture.</p>
+  <p style="margin-top:1.5rem; font-size:0.75rem; opacity:0.4;">Created for Class 8 Music Studies · Instruments span woodwind, chordophone, membranophone, idiophone, aerophone & electrophone families</p>
+</footer>
+
+
+<!-- ══ MODAL ══ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-image-panel" id="modalImagePanel">
+      <div class="img-loader" id="imgLoader">🎵</div>
+      <img id="modalImg" src="" alt="" style="opacity:0; transition: opacity 0.5s;" />
+      <div class="modal-img-overlay"></div>
+      <div class="modal-img-credit" id="imgCredit"></div>
+    </div>
+    <div class="modal-content-panel">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-emoji" id="modalEmoji"></div>
+      <div class="modal-category-tag" id="modalTag"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-origin" id="modalOrigin"></div>
+      <div class="modal-divider"></div>
+      <div class="modal-desc-full" id="modalDesc"></div>
+      <div class="modal-facts" id="modalFacts"></div>
+      <div class="modal-fun-fact" id="modalFunFact">
+        <strong>🌟 Fun Fact</strong>
+        <span id="modalFunFactText"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── INSTRUMENT DATA ──
+  const instrumentData = {
+    "Saxophone": {
+      wikiTitle: "Saxophone",
+      
+      emoji: "🎷",
+      tag: "Reed · Woodwind",
+      origin: "📍 Belgium, invented 1846 by Adolphe Sax",
+      image: "https://images.unsplash.com/photo-1461988320302-91bde64fc8e4?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The saxophone is a woodwind instrument made of brass but played with a single-reed mouthpiece — which is why it belongs to the woodwind family, not the brass family. When you blow into the mouthpiece, the thin cane reed vibrates extremely rapidly. This vibration creates sound waves that travel through the conical metal tube. By pressing keys that open and close holes, you change the effective length of the tube, which changes the pitch of the note. Shorter tube = higher note.\n\nThe saxophone comes in many sizes: soprano, alto, tenor, and baritone. Each size covers a different range of pitch. The alto saxophone is the most commonly learned instrument for beginners.",
+      facts: [
+        { label: "Family", value: "Woodwind (Reed)" },
+        { label: "Reed Type", value: "Single Reed (Cane)" },
+        { label: "Material", value: "Brass body" },
+        { label: "Range", value: "~2.5 octaves" },
+        { label: "Used In", value: "Jazz, Classical, Pop" },
+        { label: "Invented By", value: "Adolphe Sax, 1846" }
+      ],
+      funFact: "Adolphe Sax originally invented the saxophone to bridge the gap in power between woodwinds and brass instruments in military bands. He patented 14 different sizes of saxophone on the same day in 1846!"
+    },
+    "Clarinet": {
+      wikiTitle: "Clarinet",
+      
+      emoji: "🎵",
+      tag: "Reed · Woodwind",
+      origin: "📍 Germany, developed early 1700s",
+      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The clarinet is one of the most versatile woodwind instruments. It uses a single reed attached to a mouthpiece at the top of a cylindrical tube. When air is blown between the reed and the mouthpiece, the reed vibrates to produce sound. The cylindrical bore (tube shape) of the clarinet gives it a unique, hollow quality — quite different from the conical bore of a saxophone.\n\nA remarkable feature of the clarinet is the 'register key' — pressing it causes the instrument to jump up a twelfth in pitch (not an octave like most other instruments). This wide range of over three octaves makes it incredibly expressive. It is a staple of orchestras, jazz, and klezmer (Jewish folk music).",
+      facts: [
+        { label: "Family", value: "Woodwind (Reed)" },
+        { label: "Reed Type", value: "Single Reed" },
+        { label: "Bore Shape", value: "Cylindrical" },
+        { label: "Range", value: "Over 3 octaves" },
+        { label: "Used In", value: "Orchestra, Jazz, Folk" },
+        { label: "Material", value: "Grenadilla wood / plastic" }
+      ],
+      funFact: "Mozart wrote the famous Clarinet Concerto in A major (1791) for his friend, the clarinetist Anton Stadler. Mozart considered it one of his most beloved compositions."
+    },
+    "Oboe": {
+      wikiTitle: "Oboe",
+      
+      emoji: "🎼",
+      tag: "Reed · Woodwind",
+      origin: "📍 France, 17th Century",
+      image: "https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The oboe is known as one of the most difficult woodwind instruments to play, largely because of its double reed. Two thin pieces of cane are bound together at one end and inserted directly into the instrument (no mouthpiece cup). When the player blows between them, both reeds vibrate against each other, creating the oboe's characteristic bright, penetrating tone.\n\nThe oboe's conical bore amplifies these vibrations into a clear, carrying sound that can cut through an entire orchestra. This is why the oboe gives the tuning note 'A' to the orchestra before a concert — its pitch is very stable and easy for all other instruments to hear and match.",
+      facts: [
+        { label: "Family", value: "Woodwind" },
+        { label: "Reed Type", value: "Double Reed" },
+        { label: "Bore Shape", value: "Conical" },
+        { label: "Range", value: "~2.5 octaves" },
+        { label: "Difficulty", value: "Very High" },
+        { label: "Used In", value: "Orchestra, Chamber Music" }
+      ],
+      funFact: "Oboists make their own reeds by hand — it takes many hours to craft a single reed from raw cane, and a professional oboist might go through 3–4 reeds in a week. Making good reeds is considered an art form in itself!"
+    },
+    "Bassoon": {
+      wikiTitle: "Bassoon",
+      
+      emoji: "🪗",
+      tag: "Reed · Woodwind",
+      origin: "📍 Italy/Germany, 16th Century",
+      image: "https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The bassoon is the bass voice of the woodwind family. Like the oboe, it uses a double reed, but the player blows through a curved metal tube called a bocal before the air enters the instrument. The bassoon's tube is over 2.5 metres long — but it folds back on itself so the instrument is only about 1.3 metres tall, making it manageable to hold.\n\nThe bassoon's deep, rich, sometimes comical sound is highly expressive. It can sound serious and mournful or cheerful and comic depending on how it's played. Composers like Prokofiev used it to represent the grandfather in 'Peter and the Wolf.'",
+      facts: [
+        { label: "Family", value: "Woodwind" },
+        { label: "Reed Type", value: "Double Reed" },
+        { label: "Tube Length", value: "Over 2.5 metres" },
+        { label: "Range", value: "~3.5 octaves" },
+        { label: "Role", value: "Bass voice of woodwinds" },
+        { label: "Weight", value: "~3.5 kg" }
+      ],
+      funFact: "In Prokofiev's 'Peter and the Wolf' (1936), the bassoon represents the grumpy grandfather. The instrument's deep, gruff sound perfectly captures the character's stern personality!"
+    },
+    "Shehnai (Shahnai)": {
+      wikiTitle: "Shehnai",
+      
+      emoji: "🎶",
+      tag: "Reed · Indian Classical",
+      origin: "📍 India / South Asia, ancient origins",
+      image: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The shehnai is a traditional Indian double-reed wind instrument with deep cultural roots. It has a conical wooden body that widens into a metal bell at the end, and uses a double reed made from a locally grown grass. The sound is bright, piercing, and emotionally powerful — considered auspicious in Indian culture, which is why it's played at weddings, temple ceremonies, and celebrations.\n\nUstad Bismillah Khan (1916–2006) is the most celebrated shehnai player, who brought the instrument to international fame. He played at India's first Independence Day celebrations at the Red Fort in 1947, and that recording is iconic in Indian history.",
+      facts: [
+        { label: "Family", value: "Aerophone (Wind)" },
+        { label: "Reed Type", value: "Double Reed" },
+        { label: "Classification", value: "Indian Classical" },
+        { label: "Cultural Role", value: "Auspicious / ceremonial" },
+        { label: "Famous Player", value: "Ustad Bismillah Khan" },
+        { label: "Origin", value: "South Asia" }
+      ],
+      funFact: "Ustad Bismillah Khan performed the shehnai at India's Independence Day on August 15, 1947, from the ramparts of the Red Fort in Delhi. He was awarded the Bharat Ratna — India's highest civilian honour — in 2001."
+    },
+    "Bagpipes": {
+      wikiTitle: "Bagpipes",
+      
+      emoji: "🪘",
+      tag: "Reed · Folk Wind",
+      origin: "📍 Scotland / Ancient Middle East",
+      image: "https://images.unsplash.com/photo-1548337138-e87d889cc369?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The bagpipes work on a unique principle: air is blown into an airtight bag (traditionally made from animal skin or synthetic material), which acts as an air reservoir. The player squeezes the bag with their arm to push air steadily through the pipes. This means the sound is continuous — unlike most wind instruments, the player can breathe in while the bag maintains the airflow.\n\nThere are usually three 'drone pipes' that play a constant note (like a background hum), and one 'chanter' pipe with finger holes for the melody. Both use reeds. Bagpipes are found across many cultures — Scottish, Irish, Spanish, Indian, and more — suggesting very ancient origins possibly in the Middle East.",
+      facts: [
+        { label: "Family", value: "Aerophone (Wind)" },
+        { label: "Reed Type", value: "Double Reed" },
+        { label: "Unique Feature", value: "Air-bag reservoir" },
+        { label: "Volume", value: "Up to 111 decibels!" },
+        { label: "Varieties", value: "Over 100 types worldwide" },
+        { label: "Military Use", value: "Yes — British Army" }
+      ],
+      funFact: "Bagpipes are so loud (up to 111 dB) that Scottish law once required bagpipe players to have a license to play them publicly. The Great Highland Bagpipe is the loudest non-amplified instrument in the world!"
+    },
+    "Violin": {
+      wikiTitle: "Violin",
+      
+      emoji: "🎻",
+      tag: "Stringed · Bowed",
+      origin: "📍 Northern Italy, mid-16th Century",
+      image: "https://images.unsplash.com/photo-1465821185615-20b3c2fbf41b?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The violin is the smallest and highest-pitched member of the modern string family. It has four strings tuned in fifths (G, D, A, E). The player draws a bow — a stick strung with horsehair — across the strings, causing them to vibrate. The horsehair is coated with rosin (hardened tree sap) to create friction that grips the string and keeps it vibrating continuously.\n\nThe vibrations pass through a small carved wooden piece called the bridge, then into the hollow wooden body. This body acts as an acoustic amplifier, resonating and projecting the sound outward. Pressing the fingers on the fingerboard shortens the vibrating string length, producing higher notes.",
+      facts: [
+        { label: "Family", value: "Chordophone (Strings)" },
+        { label: "Strings", value: "4 (G, D, A, E)" },
+        { label: "How Played", value: "Bowed (also plucked)" },
+        { label: "Range", value: "G3 to A7" },
+        { label: "Famous Makers", value: "Stradivari, Guarneri" },
+        { label: "Bow Material", value: "Wood + horsehair" }
+      ],
+      funFact: "A Stradivarius violin — made by Antonio Stradivari in Cremona, Italy between 1698 and 1725 — can sell for over $16 million at auction. Scientists still can't fully explain why Stradivari violins sound so extraordinary!"
+    },
+    "Sitar": {
+      wikiTitle: "Sitar",
+      
+      emoji: "🎵",
+      tag: "Stringed · Indian Classical",
+      origin: "📍 India, 13th Century",
+      image: "https://images.unsplash.com/photo-1603557929427-462e783e5344?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The sitar is one of the most iconic instruments in Indian classical music. It has a long neck attached to a large gourd resonator body. The player plucks the main strings (usually 6–7) with a metal pick called a mizrab worn on the finger. Under the main strings run 12–13 sympathetic strings — they are not plucked but vibrate in resonance, creating the sitar's shimmering, reverberant quality.\n\nThe curved, movable frets allow players to bend notes up to two and a half tones, giving the sitar its characteristic sliding, singing expressiveness. This note-bending technique is essential for playing Indian ragas (melodic frameworks).",
+      facts: [
+        { label: "Family", value: "Chordophone" },
+        { label: "Total Strings", value: "18–21 (incl. sympathetic)" },
+        { label: "Playing Style", value: "Plucked with mizrab" },
+        { label: "Music System", value: "Hindustani Classical" },
+        { label: "Famous Player", value: "Ravi Shankar" },
+        { label: "Origin", value: "Possibly Amir Khusrau" }
+      ],
+      funFact: "Ravi Shankar introduced the sitar to Western audiences when he performed at the Monterey Pop Festival (1967) and taught Beatle George Harrison to play. This sparked a wave of interest in Indian classical music in the West!"
+    },
+    "Guitar": {
+      wikiTitle: "Guitar",
+      
+      emoji: "🎸",
+      tag: "Stringed · Plucked",
+      origin: "📍 Spain, 15th–16th Century",
+      image: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The acoustic guitar has six strings stretched over a hollow wooden body with a flat soundboard (top). When you pluck or strum a string, it vibrates and these vibrations are transmitted through the bridge into the hollow body. The air inside the body resonates, and sound waves exit through the circular soundhole, amplifying the tone.\n\nPressing a string against the frets (metal strips on the neck) shortens its vibrating length, raising the pitch. Thicker, heavier strings produce lower notes. The guitar's versatility makes it the world's most popular instrument — used in classical, flamenco, rock, pop, country, folk, and jazz music.",
+      facts: [
+        { label: "Family", value: "Chordophone" },
+        { label: "Strings", value: "6 (acoustic) / 6 or 7 (electric)" },
+        { label: "Tuning", value: "E-A-D-G-B-E" },
+        { label: "Varieties", value: "Classical, steel-string, electric, bass" },
+        { label: "Most Popular", value: "World's most played instrument" },
+        { label: "Ancestor", value: "Lute, Vihuela" }
+      ],
+      funFact: "There are an estimated 50 million guitar players in the world. More guitars are sold every year than any other instrument. The electric guitar was invented in the 1930s and completely transformed popular music by enabling rock and roll in the 1950s!"
+    },
+    "Sarod": {
+      wikiTitle: "Sarod",
+      
+      emoji: "🪕",
+      tag: "Stringed · Indian Classical",
+      origin: "📍 India / Afghanistan",
+      image: "https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The sarod is a fretless string instrument used mainly in Hindustani (North Indian) classical music. Unlike the sitar, it has no frets — instead, the fingerboard is made of polished steel, and the player presses their fingernails (not fingertips) against it to produce notes. This fretless design allows an incredible range of expression: smooth glides between notes, microtonal nuances, and the ability to subtly 'voice' individual notes.\n\nThe body is covered with goatskin, which gives the sarod a distinctive warm, deep tone. It also has sympathetic strings that add resonance. The sarod evolved from the Afghan rabab when it was brought to India.",
+      facts: [
+        { label: "Family", value: "Chordophone" },
+        { label: "Frets", value: "None (fretless)" },
+        { label: "Fingerboard", value: "Polished steel" },
+        { label: "Body Skin", value: "Goatskin covering" },
+        { label: "Music Style", value: "Hindustani Classical" },
+        { label: "Famous Player", value: "Ali Akbar Khan, Amjad Ali Khan" }
+      ],
+      funFact: "Playing the sarod requires pressing the string with your fingernails instead of fingertips (since there are no frets). Sarod players grow and carefully maintain the nails of their left hand as a part of their instrument!"
+    },
+    "Harp": {
+      wikiTitle: "Harp",
+      
+      emoji: "🎶",
+      tag: "Stringed · Plucked",
+      origin: "📍 Ancient Mesopotamia, ~3,000 BCE",
+      image: "https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The harp is one of humanity's oldest instruments, with evidence of harp-like instruments dating back over 5,000 years in ancient Mesopotamia and Egypt. Unlike most string instruments, each string on a harp plays only one note — so the harp needs 47 strings to cover its full range (most instruments cover the same range with just a few strings).\n\nThe concert pedal harp has seven pedals at the base, each connected to a mechanism that can shorten all strings of one pitch class simultaneously, changing their tuning. This allows harpists to play in all 12 major and minor keys. The strings are plucked with both hands. The instrument stands nearly 1.8 metres tall and weighs about 36 kg.",
+      facts: [
+        { label: "Family", value: "Chordophone" },
+        { label: "Strings", value: "47 (concert harp)" },
+        { label: "Pedals", value: "7 (for key changes)" },
+        { label: "Height", value: "~1.8 metres" },
+        { label: "Weight", value: "~36 kg" },
+        { label: "Age", value: "Over 5,000 years old" }
+      ],
+      funFact: "The harp is the national symbol of Ireland and appears on Irish coins, passports, and government documents. The harp has been associated with Ireland since the medieval era and is one of the oldest national symbols in the world!"
+    },
+    "Cello (Violoncello)": {
+      wikiTitle: "Cello",
+      
+      emoji: "🎼",
+      tag: "Stringed · Bowed",
+      origin: "📍 Italy, 16th Century",
+      image: "https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The cello (short for violoncello) is the second-largest member of the string family, played by sitting and holding the instrument between the knees with an endpin resting on the floor. It has four strings tuned in fifths (C, G, D, A), giving it a rich, warm, resonant tone that many compare to the human voice.\n\nThe cello covers a wide range — from deep bass notes to a soprano-like register. It can play the bass line in an orchestra, carry the melody, or fill harmonies in the middle. Bowing technique is central to cello playing, with the angle and pressure of the bow dramatically affecting tone quality.",
+      facts: [
+        { label: "Family", value: "Chordophone (Strings)" },
+        { label: "Strings", value: "4 (C, G, D, A)" },
+        { label: "How Played", value: "Bowed + plucked" },
+        { label: "Playing Position", value: "Seated, between knees" },
+        { label: "Role", value: "Tenor/bass in orchestra" },
+        { label: "Famous Works", value: "Bach's Cello Suites" }
+      ],
+      funFact: "Bach's six Cello Suites (composed around 1720) are considered the pinnacle of solo cello music. They were largely forgotten for 150 years until the great cellist Pablo Casals rediscovered them at age 13 in a Barcelona music shop!"
+    },
+    "Piano": {
+      wikiTitle: "Piano",
+      
+      emoji: "🎹",
+      tag: "Keyboard · Struck Strings",
+      origin: "📍 Florence, Italy, ~1700",
+      image: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The piano is a keyboard instrument in which pressing a key causes a padded felt hammer to strike one or more steel strings. The strings vibrate, and this vibration is amplified by the large wooden soundboard. A grand piano contains over 12,000 individual parts and approximately 230 strings.\n\nThe three foot pedals control important functions: the right 'sustain' pedal lifts all the dampers so notes ring freely; the left 'soft' pedal shifts the hammers to hit fewer strings; the middle pedal sustains only selected notes. The piano's ability to play both very softly and very loudly was revolutionary — its full name 'pianoforte' means 'soft-loud' in Italian.",
+      facts: [
+        { label: "Family", value: "Chordophone / Keyboard" },
+        { label: "Keys", value: "88 (modern standard)" },
+        { label: "Strings", value: "~230" },
+        { label: "Parts", value: "Over 12,000" },
+        { label: "Inventor", value: "Bartolomeo Cristofori" },
+        { label: "Types", value: "Grand, Upright, Digital" }
+      ],
+      funFact: "The world's most expensive piano is a Crystal Piano played by Lang Lang at the 2008 Beijing Olympics Opening Ceremony, estimated at $3.2 million. The most expensive Steinway ever sold fetched $1.2 million at auction in 2013!"
+    },
+    "Pipe Organ": {
+      wikiTitle: "Pipe_organ",
+      
+      emoji: "⛪",
+      tag: "Keyboard · Wind (Pipes)",
+      origin: "📍 Ancient Greece, ~200 BCE",
+      image: "https://images.unsplash.com/photo-1552422535-c45813c61732?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The pipe organ is the largest musical instrument in the world. When a key is pressed, pressurised air (from an electric blower or hand bellows) is directed into a specific pipe. The pipe resonates, producing a sustained note for as long as the key is held down.\n\nPipes come in two types: flue pipes (where air splits over a sharp edge to create tone, like a whistle) and reed pipes (where a vibrating metal tongue creates tone). Different sized pipes produce different pitches — the longest pipes can be 10 metres tall! A large church organ can have over 10,000 pipes and five keyboards (manuals) plus a pedalboard played with the feet.",
+      facts: [
+        { label: "Family", value: "Aerophone / Keyboard" },
+        { label: "Pipe Types", value: "Flue pipes & Reed pipes" },
+        { label: "Pipe Count", value: "Hundreds to 10,000+" },
+        { label: "Keyboards", value: "Up to 5 manuals + pedals" },
+        { label: "Nickname", value: "King of Instruments" },
+        { label: "Power Source", value: "Pressurised air" }
+      ],
+      funFact: "The world's largest pipe organ is in Boardwalk Hall, Atlantic City, USA. It has 33,112 pipes, weighs 150 tons, and took 11 years to build (1929–1932). Its loudest stop can produce 130 decibels — louder than a jet engine from nearby!"
+    },
+    "Harpsichord": {
+      wikiTitle: "Harpsichord",
+      
+      emoji: "🎼",
+      tag: "Keyboard · Plucked Strings",
+      origin: "📍 Europe, 14th–15th Century",
+      image: "https://images.unsplash.com/photo-1619983081563-430f63602796?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The harpsichord is the direct ancestor of the piano and was the dominant keyboard instrument from the Renaissance through the Baroque period. When a key is pressed, a small mechanism called a 'jack' rises and a plectrum (originally a quill, now usually a piece of plastic or leather) plucks the string.\n\nUnlike the piano, the harpsichord cannot vary its volume based on how hard you press the keys — each key produces the same volume regardless. To add variety, harpsichords often have two or more sets of strings (choirs) that can be engaged or disengaged with hand stops to alter tone color.",
+      facts: [
+        { label: "Family", value: "Chordophone / Keyboard" },
+        { label: "Action", value: "Quill plucks string" },
+        { label: "Dynamic Range", value: "Fixed (no loud/soft)" },
+        { label: "Era", value: "Renaissance–Baroque" },
+        { label: "Associated With", value: "Bach, Handel, Scarlatti" },
+        { label: "Successor", value: "Piano (1700)" }
+      ],
+      funFact: "Johann Sebastian Bach composed the 'Well-Tempered Clavier' (1722 & 1742) primarily for harpsichord or clavichord. This collection of 48 preludes and fugues is considered one of the most important works in Western music history!"
+    },
+    "Synthesizer": {
+      wikiTitle: "Synthesizer",
+      
+      emoji: "🎛️",
+      tag: "Keyboard · Electronic",
+      origin: "📍 USA, 1960s (Robert Moog)",
+      image: "https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=600&q=80",
+      credit: "Unsplash",
+      desc: "A synthesizer generates sound entirely through electronic circuits rather than vibrating strings, reeds, or pipes. Electronic oscillators create basic waveforms (sine, square, sawtooth, triangle), and these are then processed by filters, amplifiers, and effects modules to shape the final tone.\n\nRobert Moog's synthesizer (1964–65) was revolutionary because it was playable like a keyboard and could create an enormous variety of sounds. Early synths used analogue circuits; modern digital synthesizers use mathematical algorithms to generate sound. Synthesizers can imitate real instruments or create sounds that have never existed in nature.",
+      facts: [
+        { label: "Family", value: "Electrophone" },
+        { label: "Sound Source", value: "Electronic oscillators" },
+        { label: "Pioneer", value: "Robert Moog (1964)" },
+        { label: "Types", value: "Analogue, Digital, Modular" },
+        { label: "Used In", value: "Pop, Electronic, Film music" },
+        { label: "Capability", value: "Infinite sounds possible" }
+      ],
+      funFact: "The first synthesizer record to reach #1 on the US pop charts was Wendy Carlos's 'Switched-On Bach' (1968), which recreated Bach's music on a Moog synthesizer. It sold over one million copies and proved synthesizers were serious musical instruments!"
+    },
+    "Accordion": {
+      wikiTitle: "Accordion",
+      
+      emoji: "🪗",
+      tag: "Keyboard · Reed (Bellows)",
+      origin: "📍 Germany / Austria, 1820s",
+      image: "https://images.unsplash.com/photo-1651867530040-8bd690afe9ce?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The accordion is a hand-held free-reed instrument. The player's right hand operates a keyboard (like a piano) or buttons for melody, while the left hand plays bass notes and pre-set chord buttons. The bellows — the folded middle section — is expanded and contracted to push air over metal reeds inside the instrument.\n\nEach reed vibrates when air flows over it, and the speed of the bellows determines how loud and articulate the sound is. The accordion can play both on the push (expanding bellows) and the pull (contracting bellows). It's central to many folk music traditions: French musette, Argentine tango, Tejano, Zydeco, and much more.",
+      facts: [
+        { label: "Family", value: "Aerophone / Keyboard" },
+        { label: "Reed Type", value: "Free reeds (metal)" },
+        { label: "Air Source", value: "Hand-operated bellows" },
+        { label: "Styles", value: "Piano accordion, Button accordion" },
+        { label: "Used In", value: "Folk, Tango, Zydeco, Tejano" },
+        { label: "Invented", value: "~1822, Berlin" }
+      ],
+      funFact: "The accordion is one of the most widely distributed instruments in the world, found in folk traditions on every continent. The word 'accordion' comes from the German 'Akkord' meaning musical chord. Some professional accordions have up to 120 bass buttons!"
+    },
+    "Tabla": {
+      wikiTitle: "Tabla",
+      
+      emoji: "🥁",
+      tag: "Percussion · Membranophone",
+      origin: "📍 India, developed 18th Century",
+      image: "https://images.unsplash.com/photo-1643747898256-e7c9571b8996?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The tabla is a pair of hand drums central to Hindustani (North Indian) classical music and many popular music forms. The smaller right drum (dayan) is made from wood and has a higher, tuneable pitch; the larger left drum (bayan) has a metal or clay body and produces bass tones. Both drumheads are made from layers of animal skin.\n\nThe distinctive black circular spot (syahi or shyahi) on each drumhead is a paste made from iron filings, flour, and other materials applied in precise layers. This unique feature loads the centre of the drumhead, allowing the tabla to produce definite musical pitches and the characteristic 'ting' tone — unlike most drums which produce indefinite pitch.",
+      facts: [
+        { label: "Family", value: "Membranophone" },
+        { label: "Drums", value: "Dayan (right) + Bayan (left)" },
+        { label: "Unique Feature", value: "Syahi (tuning paste)" },
+        { label: "Music", value: "Hindustani Classical" },
+        { label: "Rhythms", value: "500+ taals (cycles)" },
+        { label: "Famous Player", value: "Zakir Hussain" }
+      ],
+      funFact: "Tabla maestro Ustad Zakir Hussain has won multiple Grammy Awards for his tabla playing. He performed with numerous Western musicians including Mickey Hart of the Grateful Dead, helping bring tabla to a global audience through world music fusion."
+    },
+    "Mridangam": {
+      wikiTitle: "Mridangam",
+      
+      emoji: "🎶",
+      tag: "Percussion · South Indian",
+      origin: "📍 South India, ancient origins",
+      image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The mridangam is a double-headed barrel drum and the primary percussion instrument in Carnatic (South Indian classical) music. The body is carved from a single block of jackfruit wood. The two drumheads are made from layers of animal skin stretched and lashed together with leather straps.\n\nLike the tabla, the mridangam has a special tuning paste applied to both drumheads. The right head (valanthalai) is the melody side, producing tonal sounds; the left head (thoppi) produces bass tones. The mridangam is placed horizontally across the player's lap and struck with both hands using complex finger and palm techniques.",
+      facts: [
+        { label: "Family", value: "Membranophone" },
+        { label: "Shape", value: "Double-headed barrel drum" },
+        { label: "Wood", value: "Jackfruit wood" },
+        { label: "Music Style", value: "Carnatic (South Indian)" },
+        { label: "Playing", value: "Horizontal, across lap" },
+        { label: "Ancient texts", value: "Mentioned in Natya Shastra" }
+      ],
+      funFact: "The mridangam is mentioned in ancient Indian texts like the Natya Shastra (200 BCE–200 CE) — making it one of the most historically documented instruments in the world. It is considered the 'king of drums' in South Indian classical tradition."
+    },
+    "Xylophone": {
+      wikiTitle: "Xylophone",
+      
+      emoji: "🔔",
+      tag: "Percussion · Idiophone",
+      origin: "📍 Africa & Southeast Asia",
+      image: "https://images.unsplash.com/photo-1485579149621-3123dd979885?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The xylophone consists of wooden bars of different lengths, arranged like a piano keyboard. Each bar is tuned to a specific pitch — longer, thicker bars produce lower notes; shorter, thinner bars produce higher notes. The bars are suspended over tubular resonators (hollow tubes underneath each bar) that amplify the sound when the bar vibrates.\n\nXylophones are played with mallets — small hammers with rounded heads. The type of mallet (soft, hard, plastic, rubber) greatly affects the tone colour. Xylophones are found in African folk music (the balafon is an African xylophone), Southeast Asian gamelan music, and in the modern orchestra and marimba band.",
+      facts: [
+        { label: "Family", value: "Idiophone / Percussion" },
+        { label: "Material", value: "Wooden bars" },
+        { label: "How Played", value: "Struck with mallets" },
+        { label: "Name Meaning", value: "'Wood sound' (Greek)" },
+        { label: "Resonators", value: "Tubes beneath each bar" },
+        { label: "Range", value: "3.5 octaves (orchestral)" }
+      ],
+      funFact: "The largest playable xylophone in the world is in a forest in Japan — created by Japanese cellphone company NTT Docomo as an art installation. Wooden balls roll down channels through the forest, striking the xylophone bars to play Bach's 'Jesu, Joy of Man's Desiring'!"
+    },
+    "Dhol": {
+      wikiTitle: "Dhol",
+      
+      emoji: "🥁",
+      tag: "Percussion · South Asian",
+      origin: "📍 India, Pakistan, Afghanistan",
+      image: "https://images.unsplash.com/photo-1601224082503-0b7c7a0f6f8b?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The dhol is a large, double-headed cylindrical drum used across South Asia. It is typically worn around the neck with a strap and played while standing or walking — making it ideal for outdoor celebrations, processions, and festivals. Each end of the drum is played differently: the larger side (duggi or bass) is struck with a curved wooden stick for a deep, resonant 'boom'; the smaller side (thilli) is struck with a thin, flexible stick for a bright treble 'tat'.\n\nThe combination of these two sounds creates the characteristic dhol rhythm fundamental to Bhangra, Punjabi folk music, and many other South Asian traditions. The dhol is central to weddings, harvest festivals (Baisakhi), and celebrations.",
+      facts: [
+        { label: "Family", value: "Membranophone" },
+        { label: "Shape", value: "Barrel / Cylindrical" },
+        { label: "Playing Style", value: "Two different sticks, both sides" },
+        { label: "Cultural Role", value: "Weddings, festivals, Bhangra" },
+        { label: "Volume", value: "Very loud — outdoor instrument" },
+        { label: "Region", value: "Punjab, Pakistan, Afghanistan" }
+      ],
+      funFact: "In Bhangra music, the dhol player (dholi) is considered the heart of the performance. A skilled dholi can play for hours at weddings and celebrations. The sound of a dhol is so culturally significant in Punjab that there's a Punjabi saying: 'When the dhol plays, even the tired feel like dancing!'"
+    },
+    "Snare Drum": {
+      wikiTitle: "Snare_drum",
+      
+      emoji: "🥁",
+      tag: "Percussion · Membranophone",
+      origin: "📍 Medieval Europe, evolved in military",
+      image: "https://images.unsplash.com/photo-1543443258-92b04ad5ec6b?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The snare drum is a shallow, cylindrical drum with a drumhead on both the top (batter head, which is struck) and bottom (resonant head). Stretched across the bottom head are metal coiled wires called snares. When the top head is struck, it vibrates, causing the snares to rattle against the bottom head, producing the drum's characteristic sharp, crisp 'crack' sound.\n\nSnares can be turned off with a lever, making the drum sound like a regular tom-tom. Snare drums are played with wooden drumsticks and are fundamental to military music, orchestral works, jazz, and virtually all popular music. The snare is the backbeat of most Western pop and rock.",
+      facts: [
+        { label: "Family", value: "Membranophone" },
+        { label: "Key Feature", value: "Metal snare wires underneath" },
+        { label: "Sound", value: "Sharp, crisp crack" },
+        { label: "Sticks", value: "Wooden drumsticks / brushes" },
+        { label: "Used In", value: "Orchestra, Jazz, Rock, Military" },
+        { label: "Snare Count", value: "8–20 wires typically" }
+      ],
+      funFact: "The famous snare drum roll is used in many dramatic contexts — from announcing royalty to building suspense before a circus act. The 'paradiddle' (R-L-R-R / L-R-L-L) is a fundamental rudiment that all drummers learn and is the building block of complex drum patterns!"
+    },
+    "Cymbals": {
+      wikiTitle: "Cymbal",
+      
+      emoji: "🔔",
+      tag: "Percussion · Idiophone",
+      origin: "📍 Turkey / Ancient Civilizations",
+      image: "https://images.unsplash.com/photo-1524230572899-a752b3835840?w=600&q=80",
+      credit: "Unsplash",
+      desc: "Cymbals are thin, circular plates of metal alloy (usually bronze — a mix of copper and tin) that produce sound when struck together or hit with a drumstick. When a cymbal vibrates, it does so at many different frequencies simultaneously — this is why cymbals have a complex, shimmering, 'splashy' sound rather than a clear, single pitch.\n\nThere are many types of cymbals: crash cymbals (loud, explosive), ride cymbals (sustained shimmer for keeping time), hi-hats (two cymbals on a stand, played with foot pedal), and China cymbals (trashy, cutting sound). The world's oldest cymbal maker, Zildjian, was founded in Constantinople (Istanbul) in 1623.",
+      facts: [
+        { label: "Family", value: "Idiophone" },
+        { label: "Material", value: "Bronze alloy (Cu + Sn)" },
+        { label: "Sound Type", value: "Complex, multi-frequency" },
+        { label: "Oldest Maker", value: "Zildjian (est. 1623)" },
+        { label: "Types", value: "Crash, Ride, Hi-hat, China" },
+        { label: "Origin", value: "Turkey, Ancient Near East" }
+      ],
+      funFact: "The Zildjian company has been making cymbals since 1623 in Constantinople — making it one of the oldest companies in the world! The secret alloy formula has been passed down through the Zildjian family for nearly 400 years and is still a closely guarded secret!"
+    },
+    "Trumpet": {
+      wikiTitle: "Trumpet",
+      
+      emoji: "🎺",
+      tag: "Brass · Aerophone",
+      origin: "📍 Ancient Egypt; Modern Europe ~1820",
+      image: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The trumpet is the highest-pitched and most prominent brass instrument. The player buzzes their lips in a cup-shaped mouthpiece — this buzzing IS the sound source. The buzzing travels through a coiled brass tube (about 1.4 metres long when uncoiled) and exits through the bell, producing a bright, powerful tone.\n\nThree piston valves divert air through additional lengths of tubing, lowering the pitch in various combinations to produce all the notes of the scale. By changing lip tension alone (without valves), skilled players can produce different harmonics. Ancient straight trumpets (no valves) were used in Egypt, Greece, and Rome. Valves were added around 1820.",
+      facts: [
+        { label: "Family", value: "Brass / Aerophone" },
+        { label: "Valves", value: "3 piston valves" },
+        { label: "Tube Length", value: "~1.4 metres uncoiled" },
+        { label: "Sound Source", value: "Player's lip vibration" },
+        { label: "Range", value: "E3 to B♭5+" },
+        { label: "Used In", value: "Orchestra, Jazz, Military" }
+      ],
+      funFact: "A silver trumpet was found in Tutankhamun's tomb in Egypt (1922), dating to around 1323 BCE. When it was played on a BBC broadcast in 1939 — the first time in over 3,000 years — thousands of people tuned in. It is the oldest playable trumpet ever discovered!"
+    },
+    "French Horn": {
+      wikiTitle: "French_horn",
+      
+      emoji: "🔊",
+      tag: "Brass · Aerophone",
+      origin: "📍 France / Germany, 17th Century",
+      image: "https://images.unsplash.com/photo-1619602987602-a2e4a7c4be16?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The French horn has a conical bore that spirals in a distinctive circular shape and flares out into a wide bell. The player's right hand is traditionally inserted into the bell — this hand-stopping technique originated before valves existed and is still used today to modify tone and pitch.\n\nThe horn uses rotary valves (not piston valves like the trumpet) operated by the left hand. When fully uncoiled, the tubing of a French horn is about 3.7 metres long — more than twice the length of a trumpet's tube, which is why it plays much lower notes. The horn produces a warm, mellow, romantic sound that can also be loud and heroic.",
+      facts: [
+        { label: "Family", value: "Brass / Aerophone" },
+        { label: "Valves", value: "Rotary valves" },
+        { label: "Tube Length", value: "~3.7 metres uncoiled" },
+        { label: "Bell", value: "Player's hand inside bell" },
+        { label: "Sound", value: "Warm, mellow to heroic" },
+        { label: "Orchestra Role", value: "Bridge between brass & woodwind" }
+      ],
+      funFact: "The French horn is widely considered the most difficult brass instrument to play. The mouthpiece is tiny, and players must control their lip tension with extreme precision — a fraction of a millimetre change can cause notes to jump up or down by a large interval. Professional hornists practise for years to achieve reliable accuracy!"
+    },
+    "Trombone": {
+      wikiTitle: "Trombone",
+      
+      emoji: "🎷",
+      tag: "Brass · Slide",
+      origin: "📍 Europe, 15th Century",
+      image: "https://images.unsplash.com/photo-1529704193007-e8c78f0f46f9?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The trombone is unique among brass instruments — instead of using valves to change pitch, it extends a U-shaped slide to lengthen the vibrating air column. Moving the slide outward (away from the player) lengthens the tube, lowering the pitch. There are seven distinct 'positions' for the slide, each producing a different pitch.\n\nThe key advantage of the slide is that the player can move smoothly between pitches without jumping — this creates the famous 'glissando' slide effect. It also means the trombone can play microtones (pitches between standard notes) that valve instruments cannot. The trombone's sound is powerful and versatile — heroic and majestic in one moment, jazzy and bluesy the next.",
+      facts: [
+        { label: "Family", value: "Brass / Aerophone" },
+        { label: "Pitch Change", value: "Slide (7 positions)" },
+        { label: "Key Feature", value: "Continuous glissando possible" },
+        { label: "Tube Length", value: "~2.8 metres" },
+        { label: "Types", value: "Tenor, Bass, Alto trombone" },
+        { label: "Used In", value: "Orchestra, Jazz, Brass bands" }
+      ],
+      funFact: "The trombone is one of the oldest brass instruments and has changed remarkably little in 500 years. Medieval paintings show trombones nearly identical to modern ones! It was originally called the 'sackbut' in English — from the French 'sacquer' (pull) and 'bouter' (push)."
+    },
+    "Tuba": {
+      wikiTitle: "Tuba",
+      
+      emoji: "📯",
+      tag: "Brass · Low Aerophone",
+      origin: "📍 Berlin, Germany, 1835",
+      image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The tuba is the largest and lowest-pitched brass instrument in the orchestra. It was invented by Wilhelm Wieprecht and Johann Gottfried Moritz in Berlin in 1835 to provide brass orchestras with a proper bass voice. When uncoiled, the tuba's tubing can stretch up to 5.5 metres.\n\nThe tuba uses three to six valves to change pitch. It sits upright in the player's lap (for orchestra) or is worn over the shoulder (for marching bands — in this sousaphone form, invented by John Philip Sousa). The tuba provides the harmonic foundation of the brass section, giving weight and depth to the entire ensemble.",
+      facts: [
+        { label: "Family", value: "Brass / Aerophone" },
+        { label: "Valves", value: "3–6 (rotary or piston)" },
+        { label: "Tube Length", value: "Up to 5.5 metres" },
+        { label: "Invented", value: "1835, Berlin" },
+        { label: "Role", value: "Bass foundation of brass" },
+        { label: "Marching Form", value: "Sousaphone" }
+      ],
+      funFact: "The largest tuba in the world — the 'Disneyland tuba' — is nearly 2 metres tall and was built in 1999. It takes two people to carry it! Professional tubists must develop extraordinary lung capacity; a single phrase can require a huge amount of air."
+    },
+    "Bugle": {
+      wikiTitle: "Bugle",
+      
+      emoji: "🎵",
+      tag: "Brass · Natural (No Valves)",
+      origin: "📍 Europe, 18th Century",
+      image: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The bugle is the simplest brass instrument — it has no valves, keys, or slides at all. All pitch changes are made entirely by the player adjusting their lip tension and air pressure to access different harmonics of a single tube. This limits the bugle to about 5–6 naturally occurring notes (the harmonic series).\n\nDespite this limitation, the bugle has played an enormously important historical role. In military contexts, specific bugle calls signalled commands to soldiers — 'Reveille' (wake up), 'Charge,' 'Retreat,' 'Taps' (lights out/funeral). These calls could be heard over the noise of battle without any electronic amplification.",
+      facts: [
+        { label: "Family", value: "Brass / Aerophone" },
+        { label: "Valves", value: "None" },
+        { label: "Notes Available", value: "~5–6 (harmonics only)" },
+        { label: "Primary Use", value: "Military signals" },
+        { label: "Famous Calls", value: "Reveille, Charge, Taps" },
+        { label: "Material", value: "Brass or copper" }
+      ],
+      funFact: "'Taps' — the haunting bugle call played at military funerals and the end of the day — was composed during the American Civil War in 1862 by Union General Daniel Butterfield. Its 24 notes are among the most emotionally powerful sounds in military tradition."
+    },
+    "Shehnai / Nadaswaram": {
+      wikiTitle: "Nadaswaram",
+      
+      emoji: "🎺",
+      tag: "Reed Wind · South Indian",
+      origin: "📍 South India",
+      image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80",
+      credit: "Unsplash",
+      desc: "The Nadaswaram (also called Nagaswaram) is a large, double-reed wind instrument from South India and is one of the loudest non-amplified acoustic instruments in the world. It can reach over 90–100 decibels. The instrument has a conical wooden body that widens dramatically into a large metal bell at the end.\n\nIt uses a double reed made from a type of grass and is played continuously using circular breathing — a technique where the player breathes in through the nose while simultaneously pushing air out of the mouth using cheek muscles, allowing unbroken, sustained sound. The Nadaswaram is considered sacred in South India and is played exclusively at Hindu temple ceremonies and auspicious events.",
+      facts: [
+        { label: "Family", value: "Aerophone / Reed Wind" },
+        { label: "Reed Type", value: "Double Reed" },
+        { label: "Volume", value: "90–100 decibels" },
+        { label: "Technique", value: "Circular breathing" },
+        { label: "Cultural Role", value: "Temple & wedding music" },
+        { label: "Region", value: "Tamil Nadu, South India" }
+      ],
+      funFact: "Nadaswaram players use 'circular breathing' — a technique where air is pushed out of the mouth continuously while breathing in through the nose simultaneously. This allows a single long note to be held for minutes without pause. It takes years of practice to master this technique!"
+    }
+  };
+
+  // ── FLOATING NOTES ──
+  const noteContainer = document.getElementById('notesContainer');
+  const musicNotes = ['♩','♪','♫','♬','𝄞','𝄢','🎵','🎶'];
+
+  function spawnNote() {
+    const n = document.createElement('span');
+    n.className = 'note';
+    n.textContent = musicNotes[Math.floor(Math.random() * musicNotes.length)];
+    n.style.left = Math.random() * 100 + 'vw';
+    n.style.animationDuration = (6 + Math.random() * 8) + 's';
+    n.style.animationDelay = (Math.random() * 2) + 's';
+    n.style.fontSize = (0.8 + Math.random() * 1.5) + 'rem';
+    n.style.color = ['#e8b86d','#9b7fe8','#5bbfb5','#d4687a','#e87d4a'][Math.floor(Math.random()*5)];
+    noteContainer.appendChild(n);
+    setTimeout(() => n.remove(), 16000);
+  }
+
+  setInterval(spawnNote, 700);
+  for(let i = 0; i < 8; i++) setTimeout(spawnNote, i * 200);
+
+  // ── SCROLL REVEAL ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
+
+  // ── ACTIVE NAV ──
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.style.color = '');
+        const active = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (active) {
+          active.style.color = 'var(--text)';
+          active.style.background = 'rgba(255,255,255,0.05)';
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => navObserver.observe(s));
+
+  // ── ADD CLICK HINTS & CURSOR TO CARDS ──
+  document.querySelectorAll('.instrument-card').forEach(card => {
+    const hint = document.createElement('span');
+    hint.className = 'click-hint';
+    hint.textContent = '↗ Tap to explore';
+    card.appendChild(hint);
+  });
+
+  // ── MODAL SYSTEM ──
+  const overlay   = document.getElementById('modalOverlay');
+  const modalImg  = document.getElementById('modalImg');
+  const imgLoader = document.getElementById('imgLoader');
+  const imgCredit = document.getElementById('imgCredit');
+
+  function openModal(name) {
+    const d = instrumentData[name];
+    if (!d) return;
+
+    // Populate content
+    document.getElementById('modalEmoji').textContent   = d.emoji;
+    document.getElementById('modalTag').textContent     = d.tag;
+    document.getElementById('modalTitle').textContent   = name;
+    document.getElementById('modalOrigin').textContent  = d.origin;
+    document.getElementById('modalDesc').textContent    = d.desc;
+    document.getElementById('modalFunFactText').textContent = d.funFact;
+    imgCredit.textContent = '📷 ' + d.credit;
+
+    // Facts grid
+    const factsEl = document.getElementById('modalFacts');
+    factsEl.innerHTML = d.facts.map(f =>
+      `<div class="modal-fact">
+        <div class="modal-fact-label">${f.label}</div>
+        <div class="modal-fact-value">${f.value}</div>
+      </div>`
+    ).join('');
+
+    // Image — fetch from Wikipedia REST API (hotlink-safe, always correct)
+    imgLoader.style.opacity = '1';
+    imgLoader.style.display = 'flex';
+    imgLoader.textContent = d.emoji;
+    modalImg.style.opacity = '0';
+    modalImg.src = '';
+
+    function showEmojiPlaceholder() {
+      imgLoader.innerHTML = '<div style="text-align:center"><div style="font-size:4rem">' + d.emoji + '</div><div style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem;letter-spacing:0.1em">Image unavailable</div></div>';
+      imgLoader.style.opacity = '1';
+      imgLoader.style.display = 'flex';
+    }
+
+    const wikiTitle = encodeURIComponent(d.wikiTitle || name.replace(/ /g, '_'));
+    fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + wikiTitle)
+      .then(r => r.json())
+      .then(data => {
+        const url = (data && data.thumbnail && data.thumbnail.source) || (data && data.originalimage && data.originalimage.source);
+        if (url) {
+          const bigUrl = url.replace(/\/\d+px-/, '/800px-');
+          const tempImg = new Image();
+          tempImg.onload = () => {
+            modalImg.src = bigUrl;
+            modalImg.alt = name;
+            imgCredit.textContent = '📷 Wikipedia / Wikimedia Commons';
+            modalImg.style.opacity = '1';
+            imgLoader.style.opacity = '0';
+            setTimeout(() => { imgLoader.style.display = 'none'; }, 400);
+          };
+          tempImg.onerror = () => {
+            const t2 = new Image();
+            t2.onload = () => {
+              modalImg.src = url;
+              modalImg.alt = name;
+              imgCredit.textContent = '📷 Wikipedia / Wikimedia Commons';
+              modalImg.style.opacity = '1';
+              imgLoader.style.opacity = '0';
+              setTimeout(() => { imgLoader.style.display = 'none'; }, 400);
+            };
+            t2.onerror = showEmojiPlaceholder;
+            t2.src = url;
+          };
+          tempImg.src = bigUrl;
+        } else { showEmojiPlaceholder(); }
+      })
+      .catch(showEmojiPlaceholder);
+
+    // Accent color for modal title
+    const accentMap = {
+      'Reed': 'var(--accent-teal)',
+      'String': 'var(--accent-gold)',
+      'Keyboard': 'var(--accent-violet)',
+      'Percussion': 'var(--accent-rose)',
+      'Brass': 'var(--accent-warm)',
+    };
+    const titleEl = document.getElementById('modalTitle');
+    const match = Object.keys(accentMap).find(k => d.tag.toLowerCase().includes(k.toLowerCase()));
+    titleEl.style.color = match ? accentMap[match] : 'var(--text)';
+
+    // Show
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    setTimeout(() => { modalImg.src = ''; }, 400);
+  }
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // ── CARD CLICK → OPEN MODAL ──
+  document.querySelectorAll('.instrument-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      // ripple
+      const ripple = document.createElement('span');
+      const rect = card.getBoundingClientRect();
+      ripple.style.cssText = `
+        position:absolute; border-radius:50%; pointer-events:none;
+        width:10px; height:10px;
+        left:${e.clientX - rect.left - 5}px; top:${e.clientY - rect.top - 5}px;
+        background:rgba(255,255,255,0.15);
+        animation: rippleAnim 0.6s ease forwards;
+        z-index:5;
+      `;
+      card.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 700);
+
+      // get name from card
+      const name = card.querySelector('.instrument-name')?.textContent?.trim();
+      if (name) setTimeout(() => openModal(name), 80);
+    });
+  });
+
+  // inject ripple keyframe
+  const style = document.createElement('style');
+  style.textContent = `@keyframes rippleAnim { to { transform:scale(25); opacity:0; } }`;
+  document.head.appendChild(style);
+</script>
 </body>
 </html>
