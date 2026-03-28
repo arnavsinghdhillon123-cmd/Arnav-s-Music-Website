@@ -805,9 +805,9 @@
   <div class="hero-bg"></div>
   <div class="notes-container" id="notesContainer"></div>
 
-  <p class="hero-eyebrow">A Journey Through Sound</p>
-  <h1>World of<em>Music</em></h1>
-  <p class="hero-sub">Explore the incredible variety of musical instruments — from ancient reed pipes to grand pianos — discover how they work, where they come from, and the cultures they shaped.</p>
+  <p class="hero-eyebrow">Inside The Instrument Family</p>
+  <h1>World of<em>Instruments</em></h1>
+  <p class="hero-sub">Explore reed, string, percussion, brass, and keyboard instruments through their sound, structure, origins, and cultural role from traditions around the world.</p>
 
   <div class="hero-scroll">
     <div class="scroll-line"></div>
@@ -1310,6 +1310,8 @@
   // ── INSTRUMENT DATA ──
   const instrumentData = {
     "Saxophone": {
+      wikiTitle: "Saxophone",
+      
       emoji: "🎷",
       tag: "Reed · Woodwind",
       origin: "📍 Belgium, invented 1846 by Adolphe Sax",
@@ -1327,6 +1329,8 @@
       funFact: "Adolphe Sax originally invented the saxophone to bridge the gap in power between woodwinds and brass instruments in military bands. He patented 14 different sizes of saxophone on the same day in 1846!"
     },
     "Clarinet": {
+      wikiTitle: "Clarinet",
+      
       emoji: "🎵",
       tag: "Reed · Woodwind",
       origin: "📍 Germany, developed early 1700s",
@@ -1344,6 +1348,8 @@
       funFact: "Mozart wrote the famous Clarinet Concerto in A major (1791) for his friend, the clarinetist Anton Stadler. Mozart considered it one of his most beloved compositions."
     },
     "Oboe": {
+      wikiTitle: "Oboe",
+      
       emoji: "🎼",
       tag: "Reed · Woodwind",
       origin: "📍 France, 17th Century",
@@ -1361,6 +1367,8 @@
       funFact: "Oboists make their own reeds by hand — it takes many hours to craft a single reed from raw cane, and a professional oboist might go through 3–4 reeds in a week. Making good reeds is considered an art form in itself!"
     },
     "Bassoon": {
+      wikiTitle: "Bassoon",
+      
       emoji: "🪗",
       tag: "Reed · Woodwind",
       origin: "📍 Italy/Germany, 16th Century",
@@ -1378,6 +1386,8 @@
       funFact: "In Prokofiev's 'Peter and the Wolf' (1936), the bassoon represents the grumpy grandfather. The instrument's deep, gruff sound perfectly captures the character's stern personality!"
     },
     "Shehnai (Shahnai)": {
+      wikiTitle: "Shehnai",
+      
       emoji: "🎶",
       tag: "Reed · Indian Classical",
       origin: "📍 India / South Asia, ancient origins",
@@ -1395,6 +1405,8 @@
       funFact: "Ustad Bismillah Khan performed the shehnai at India's Independence Day on August 15, 1947, from the ramparts of the Red Fort in Delhi. He was awarded the Bharat Ratna — India's highest civilian honour — in 2001."
     },
     "Bagpipes": {
+      wikiTitle: "Bagpipes",
+      
       emoji: "🪘",
       tag: "Reed · Folk Wind",
       origin: "📍 Scotland / Ancient Middle East",
@@ -1412,6 +1424,8 @@
       funFact: "Bagpipes are so loud (up to 111 dB) that Scottish law once required bagpipe players to have a license to play them publicly. The Great Highland Bagpipe is the loudest non-amplified instrument in the world!"
     },
     "Violin": {
+      wikiTitle: "Violin",
+      
       emoji: "🎻",
       tag: "Stringed · Bowed",
       origin: "📍 Northern Italy, mid-16th Century",
@@ -1429,6 +1443,8 @@
       funFact: "A Stradivarius violin — made by Antonio Stradivari in Cremona, Italy between 1698 and 1725 — can sell for over $16 million at auction. Scientists still can't fully explain why Stradivari violins sound so extraordinary!"
     },
     "Sitar": {
+      wikiTitle: "Sitar",
+      
       emoji: "🎵",
       tag: "Stringed · Indian Classical",
       origin: "📍 India, 13th Century",
@@ -1446,6 +1462,8 @@
       funFact: "Ravi Shankar introduced the sitar to Western audiences when he performed at the Monterey Pop Festival (1967) and taught Beatle George Harrison to play. This sparked a wave of interest in Indian classical music in the West!"
     },
     "Guitar": {
+      wikiTitle: "Guitar",
+      
       emoji: "🎸",
       tag: "Stringed · Plucked",
       origin: "📍 Spain, 15th–16th Century",
@@ -1463,6 +1481,8 @@
       funFact: "There are an estimated 50 million guitar players in the world. More guitars are sold every year than any other instrument. The electric guitar was invented in the 1930s and completely transformed popular music by enabling rock and roll in the 1950s!"
     },
     "Sarod": {
+      wikiTitle: "Sarod",
+      
       emoji: "🪕",
       tag: "Stringed · Indian Classical",
       origin: "📍 India / Afghanistan",
@@ -1480,6 +1500,8 @@
       funFact: "Playing the sarod requires pressing the string with your fingernails instead of fingertips (since there are no frets). Sarod players grow and carefully maintain the nails of their left hand as a part of their instrument!"
     },
     "Harp": {
+      wikiTitle: "Harp",
+      
       emoji: "🎶",
       tag: "Stringed · Plucked",
       origin: "📍 Ancient Mesopotamia, ~3,000 BCE",
@@ -1497,6 +1519,8 @@
       funFact: "The harp is the national symbol of Ireland and appears on Irish coins, passports, and government documents. The harp has been associated with Ireland since the medieval era and is one of the oldest national symbols in the world!"
     },
     "Cello (Violoncello)": {
+      wikiTitle: "Cello",
+      
       emoji: "🎼",
       tag: "Stringed · Bowed",
       origin: "📍 Italy, 16th Century",
@@ -1514,6 +1538,8 @@
       funFact: "Bach's six Cello Suites (composed around 1720) are considered the pinnacle of solo cello music. They were largely forgotten for 150 years until the great cellist Pablo Casals rediscovered them at age 13 in a Barcelona music shop!"
     },
     "Piano": {
+      wikiTitle: "Piano",
+      
       emoji: "🎹",
       tag: "Keyboard · Struck Strings",
       origin: "📍 Florence, Italy, ~1700",
@@ -1531,6 +1557,8 @@
       funFact: "The world's most expensive piano is a Crystal Piano played by Lang Lang at the 2008 Beijing Olympics Opening Ceremony, estimated at $3.2 million. The most expensive Steinway ever sold fetched $1.2 million at auction in 2013!"
     },
     "Pipe Organ": {
+      wikiTitle: "Pipe_organ",
+      
       emoji: "⛪",
       tag: "Keyboard · Wind (Pipes)",
       origin: "📍 Ancient Greece, ~200 BCE",
@@ -1548,6 +1576,8 @@
       funFact: "The world's largest pipe organ is in Boardwalk Hall, Atlantic City, USA. It has 33,112 pipes, weighs 150 tons, and took 11 years to build (1929–1932). Its loudest stop can produce 130 decibels — louder than a jet engine from nearby!"
     },
     "Harpsichord": {
+      wikiTitle: "Harpsichord",
+      
       emoji: "🎼",
       tag: "Keyboard · Plucked Strings",
       origin: "📍 Europe, 14th–15th Century",
@@ -1565,6 +1595,8 @@
       funFact: "Johann Sebastian Bach composed the 'Well-Tempered Clavier' (1722 & 1742) primarily for harpsichord or clavichord. This collection of 48 preludes and fugues is considered one of the most important works in Western music history!"
     },
     "Synthesizer": {
+      wikiTitle: "Synthesizer",
+      
       emoji: "🎛️",
       tag: "Keyboard · Electronic",
       origin: "📍 USA, 1960s (Robert Moog)",
@@ -1582,6 +1614,8 @@
       funFact: "The first synthesizer record to reach #1 on the US pop charts was Wendy Carlos's 'Switched-On Bach' (1968), which recreated Bach's music on a Moog synthesizer. It sold over one million copies and proved synthesizers were serious musical instruments!"
     },
     "Accordion": {
+      wikiTitle: "Accordion",
+      
       emoji: "🪗",
       tag: "Keyboard · Reed (Bellows)",
       origin: "📍 Germany / Austria, 1820s",
@@ -1599,6 +1633,8 @@
       funFact: "The accordion is one of the most widely distributed instruments in the world, found in folk traditions on every continent. The word 'accordion' comes from the German 'Akkord' meaning musical chord. Some professional accordions have up to 120 bass buttons!"
     },
     "Tabla": {
+      wikiTitle: "Tabla",
+      
       emoji: "🥁",
       tag: "Percussion · Membranophone",
       origin: "📍 India, developed 18th Century",
@@ -1616,6 +1652,8 @@
       funFact: "Tabla maestro Ustad Zakir Hussain has won multiple Grammy Awards for his tabla playing. He performed with numerous Western musicians including Mickey Hart of the Grateful Dead, helping bring tabla to a global audience through world music fusion."
     },
     "Mridangam": {
+      wikiTitle: "Mridangam",
+      
       emoji: "🎶",
       tag: "Percussion · South Indian",
       origin: "📍 South India, ancient origins",
@@ -1633,6 +1671,8 @@
       funFact: "The mridangam is mentioned in ancient Indian texts like the Natya Shastra (200 BCE–200 CE) — making it one of the most historically documented instruments in the world. It is considered the 'king of drums' in South Indian classical tradition."
     },
     "Xylophone": {
+      wikiTitle: "Xylophone",
+      
       emoji: "🔔",
       tag: "Percussion · Idiophone",
       origin: "📍 Africa & Southeast Asia",
@@ -1650,6 +1690,8 @@
       funFact: "The largest playable xylophone in the world is in a forest in Japan — created by Japanese cellphone company NTT Docomo as an art installation. Wooden balls roll down channels through the forest, striking the xylophone bars to play Bach's 'Jesu, Joy of Man's Desiring'!"
     },
     "Dhol": {
+      wikiTitle: "Dhol",
+      
       emoji: "🥁",
       tag: "Percussion · South Asian",
       origin: "📍 India, Pakistan, Afghanistan",
@@ -1667,6 +1709,8 @@
       funFact: "In Bhangra music, the dhol player (dholi) is considered the heart of the performance. A skilled dholi can play for hours at weddings and celebrations. The sound of a dhol is so culturally significant in Punjab that there's a Punjabi saying: 'When the dhol plays, even the tired feel like dancing!'"
     },
     "Snare Drum": {
+      wikiTitle: "Snare_drum",
+      
       emoji: "🥁",
       tag: "Percussion · Membranophone",
       origin: "📍 Medieval Europe, evolved in military",
@@ -1684,6 +1728,8 @@
       funFact: "The famous snare drum roll is used in many dramatic contexts — from announcing royalty to building suspense before a circus act. The 'paradiddle' (R-L-R-R / L-R-L-L) is a fundamental rudiment that all drummers learn and is the building block of complex drum patterns!"
     },
     "Cymbals": {
+      wikiTitle: "Cymbal",
+      
       emoji: "🔔",
       tag: "Percussion · Idiophone",
       origin: "📍 Turkey / Ancient Civilizations",
@@ -1701,6 +1747,8 @@
       funFact: "The Zildjian company has been making cymbals since 1623 in Constantinople — making it one of the oldest companies in the world! The secret alloy formula has been passed down through the Zildjian family for nearly 400 years and is still a closely guarded secret!"
     },
     "Trumpet": {
+      wikiTitle: "Trumpet",
+      
       emoji: "🎺",
       tag: "Brass · Aerophone",
       origin: "📍 Ancient Egypt; Modern Europe ~1820",
@@ -1718,6 +1766,8 @@
       funFact: "A silver trumpet was found in Tutankhamun's tomb in Egypt (1922), dating to around 1323 BCE. When it was played on a BBC broadcast in 1939 — the first time in over 3,000 years — thousands of people tuned in. It is the oldest playable trumpet ever discovered!"
     },
     "French Horn": {
+      wikiTitle: "French_horn",
+      
       emoji: "🔊",
       tag: "Brass · Aerophone",
       origin: "📍 France / Germany, 17th Century",
@@ -1735,6 +1785,8 @@
       funFact: "The French horn is widely considered the most difficult brass instrument to play. The mouthpiece is tiny, and players must control their lip tension with extreme precision — a fraction of a millimetre change can cause notes to jump up or down by a large interval. Professional hornists practise for years to achieve reliable accuracy!"
     },
     "Trombone": {
+      wikiTitle: "Trombone",
+      
       emoji: "🎷",
       tag: "Brass · Slide",
       origin: "📍 Europe, 15th Century",
@@ -1752,6 +1804,8 @@
       funFact: "The trombone is one of the oldest brass instruments and has changed remarkably little in 500 years. Medieval paintings show trombones nearly identical to modern ones! It was originally called the 'sackbut' in English — from the French 'sacquer' (pull) and 'bouter' (push)."
     },
     "Tuba": {
+      wikiTitle: "Tuba",
+      
       emoji: "📯",
       tag: "Brass · Low Aerophone",
       origin: "📍 Berlin, Germany, 1835",
@@ -1769,6 +1823,8 @@
       funFact: "The largest tuba in the world — the 'Disneyland tuba' — is nearly 2 metres tall and was built in 1999. It takes two people to carry it! Professional tubists must develop extraordinary lung capacity; a single phrase can require a huge amount of air."
     },
     "Bugle": {
+      wikiTitle: "Bugle",
+      
       emoji: "🎵",
       tag: "Brass · Natural (No Valves)",
       origin: "📍 Europe, 18th Century",
@@ -1786,6 +1842,8 @@
       funFact: "'Taps' — the haunting bugle call played at military funerals and the end of the day — was composed during the American Civil War in 1862 by Union General Daniel Butterfield. Its 24 notes are among the most emotionally powerful sounds in military tradition."
     },
     "Shehnai / Nadaswaram": {
+      wikiTitle: "Nadaswaram",
+      
       emoji: "🎺",
       tag: "Reed Wind · South Indian",
       origin: "📍 South India",
@@ -1891,25 +1949,52 @@
       </div>`
     ).join('');
 
-    // Image
+    // Image — fetch from Wikipedia REST API (hotlink-safe, always correct)
     imgLoader.style.opacity = '1';
     imgLoader.style.display = 'flex';
+    imgLoader.textContent = d.emoji;
     modalImg.style.opacity = '0';
     modalImg.src = '';
-    const tempImg = new Image();
-    tempImg.onload = () => {
-      modalImg.src = d.image;
-      modalImg.alt = name;
-      modalImg.style.opacity = '1';
-      imgLoader.style.opacity = '0';
-      setTimeout(() => { imgLoader.style.display = 'none'; }, 400);
-    };
-    tempImg.onerror = () => {
-      imgLoader.innerHTML = `<div style="text-align:center"><div style="font-size:4rem">${d.emoji}</div><div style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem;letter-spacing:0.1em">Image unavailable</div></div>`;
+
+    function showEmojiPlaceholder() {
+      imgLoader.innerHTML = '<div style="text-align:center"><div style="font-size:4rem">' + d.emoji + '</div><div style="font-size:0.75rem;color:var(--muted);margin-top:0.5rem;letter-spacing:0.1em">Image unavailable</div></div>';
       imgLoader.style.opacity = '1';
       imgLoader.style.display = 'flex';
-    };
-    tempImg.src = d.image;
+    }
+
+    const wikiTitle = encodeURIComponent(d.wikiTitle || name.replace(/ /g, '_'));
+    fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + wikiTitle)
+      .then(r => r.json())
+      .then(data => {
+        const url = (data && data.thumbnail && data.thumbnail.source) || (data && data.originalimage && data.originalimage.source);
+        if (url) {
+          const bigUrl = url.replace(/\/\d+px-/, '/800px-');
+          const tempImg = new Image();
+          tempImg.onload = () => {
+            modalImg.src = bigUrl;
+            modalImg.alt = name;
+            imgCredit.textContent = '📷 Wikipedia / Wikimedia Commons';
+            modalImg.style.opacity = '1';
+            imgLoader.style.opacity = '0';
+            setTimeout(() => { imgLoader.style.display = 'none'; }, 400);
+          };
+          tempImg.onerror = () => {
+            const t2 = new Image();
+            t2.onload = () => {
+              modalImg.src = url;
+              modalImg.alt = name;
+              imgCredit.textContent = '📷 Wikipedia / Wikimedia Commons';
+              modalImg.style.opacity = '1';
+              imgLoader.style.opacity = '0';
+              setTimeout(() => { imgLoader.style.display = 'none'; }, 400);
+            };
+            t2.onerror = showEmojiPlaceholder;
+            t2.src = url;
+          };
+          tempImg.src = bigUrl;
+        } else { showEmojiPlaceholder(); }
+      })
+      .catch(showEmojiPlaceholder);
 
     // Accent color for modal title
     const accentMap = {
