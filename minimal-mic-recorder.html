@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minimal Mic Recorder</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #0d1117;
+    color: #f5f7fa;
+  }
+
+  .card {
+    width: min(420px, 100%);
+    padding: 24px;
+    border-radius: 18px;
+    background: #161b22;
+    border: 1px solid #2d333b;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #aab4be;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  button {
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 10px;
+    background: #238636;
+    color: white;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  #stopBtn {
+    background: #da3633;
+  }
+
+  #status {
+    font-size: 0.92rem;
+    color: #7ee787;
+    margin-bottom: 14px;
+    min-height: 20px;
+  }
+
+  audio {
+    width: 100%;
+  }
+
+  .note {
+    margin-top: 14px;
+    font-size: 0.82rem;
+    color: #8b949e;
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <h1>Mic Recorder</h1>
+    <p>Allow microphone access, start recording, stop recording, then play back your voice.</p>
+
+    <div class="buttons">
+      <button id="enableBtn">Enable Mic</button>
+      <button id="startBtn" disabled>Start Recording</button>
+      <button id="stopBtn" disabled>Stop Recording</button>
+    </div>
+
+    <div id="status">Microphone not enabled.</div>
+    <audio id="player" controls></audio>
+    <div class="note">This works on <strong>localhost</strong> or <strong>HTTPS</strong>.</div>
+  </main>
+
+<script>
+  const enableBtn = document.getElementById("enableBtn");
+  const startBtn = document.getElementById("startBtn");
+  const stopBtn = document.getElementById("stopBtn");
+  const statusText = document.getElementById("status");
+  const player = document.getElementById("player");
+
+  let stream = null;
+  let mediaRecorder = null;
+  let chunks = [];
+  let mimeType = "";
+
+  function setStatus(message, isError = false) {
+    statusText.textContent = message;
+    statusText.style.color = isError ? "#ff7b72" : "#7ee787";
+  }
+
+  function getSupportedMimeType() {
+    const candidates = [
+      "audio/webm;codecs=opus",
+      "audio/webm",
+      "audio/mp4",
+      ""
+    ];
+
+    return candidates.find((type) => !type || MediaRecorder.isTypeSupported(type)) || "";
+  }
+
+  enableBtn.addEventListener("click", async () => {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mimeType = getSupportedMimeType();
+      mediaRecorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+
+      mediaRecorder.addEventListener("dataavailable", (event) => {
+        if (event.data.size > 0) {
+          chunks.push(event.data);
+        }
+      });
+
+      mediaRecorder.addEventListener("stop", () => {
+        if (!chunks.length) {
+          setStatus("No audio was captured.", true);
+          return;
+        }
+
+        const blob = new Blob(chunks, { type: mimeType || "audio/webm" });
+        const audioURL = URL.createObjectURL(blob);
+        player.src = audioURL;
+        chunks = [];
+        setStatus("Recording ready. Press play to listen.");
+      });
+
+      enableBtn.disabled = true;
+      startBtn.disabled = false;
+      setStatus("Microphone enabled.");
+    } catch (error) {
+      setStatus("Microphone permission denied or unavailable.", true);
+    }
+  });
+
+  startBtn.addEventListener("click", () => {
+    if (!mediaRecorder || mediaRecorder.state !== "inactive") {
+      return;
+    }
+
+    chunks = [];
+    player.removeAttribute("src");
+    player.load();
+    mediaRecorder.start();
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+    setStatus("Recording...");
+  });
+
+  stopBtn.addEventListener("click", () => {
+    if (!mediaRecorder || mediaRecorder.state !== "recording") {
+      return;
+    }
+
+    mediaRecorder.requestData();
+    mediaRecorder.stop();
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+    setStatus("Stopping recording...");
+  });
+
+  window.addEventListener("beforeunload", () => {
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+    }
+  });
+</script>
+</body>
+</html>

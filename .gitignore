@@ -1,0 +1,5 @@
+.DS_Store
+.stem-jobs/
+.venv/
+.venv-stems/
+__pycache__/
