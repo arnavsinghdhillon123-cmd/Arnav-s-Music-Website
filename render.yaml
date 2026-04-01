@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: waveforge-stems
+    env: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /api/stem-health
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: HOST
+        value: 0.0.0.0
+      - key: STEM_RUNTIME_PYTHON
+        value: /usr/local/bin/python
+      - key: DEMUCS_DEVICE
+        value: cpu
+      - key: DEMUCS_MODEL
+        value: mdx_extra_q

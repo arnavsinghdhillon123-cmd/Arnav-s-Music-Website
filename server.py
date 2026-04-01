@@ -354,8 +354,9 @@ class StemHandler(SimpleHTTPRequestHandler):
 
 def main():
     port = int(os.environ.get("PORT", "8000"))
-    server = ThreadingHTTPServer(("127.0.0.1", port), StemHandler)
-    print(f"Online DAW server running at http://127.0.0.1:{port}")
+    host = os.environ.get("HOST", "0.0.0.0")
+    server = ThreadingHTTPServer((host, port), StemHandler)
+    print(f"WaveForge server running at http://{host}:{port}")
     print(f"Stem runtime python: {stem_runtime_python()}")
     print("Static app and /api/split-stems are served from this process.")
     server.serve_forever()
