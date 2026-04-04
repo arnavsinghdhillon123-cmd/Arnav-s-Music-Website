@@ -4739,7 +4739,7 @@
     statusText.textContent = message;
   }
 
-  const STEM_SPLIT_STATS_KEY = "online-daw-stem-split-stats-v1";
+  const STEM_SPLIT_STATS_KEY = "online-daw-stem-split-stats-v2";
 
   function formatTimer(seconds) {
     if (!Number.isFinite(seconds) || seconds < 0) return "--";
@@ -4764,21 +4764,25 @@
     } catch (error) {}
   }
 
-  function estimateStemSplitSeconds(audioDurationSeconds, engine = "demucs") {
-    const duration = Math.max(1, Number(audioDurationSeconds) || 0);
-    const stats = getStemSplitStats();
-    const key = String(engine || "demucs").toLowerCase();
-    const observed = stats?.[key]?.avgSecondsPerSecond;
-    const avgSecondsPerSecond = Number.isFinite(observed) && observed > 0.1 ? observed : 6.0;
-    const overhead = 18;
-    return Math.max(30, duration * avgSecondsPerSecond + overhead);
+  function getStemSplitStatsKey(engine = "demucs", model = DEFAULT_STEM_MODEL) {
+    return `${String(engine || "demucs").toLowerCase()}::${String(model || DEFAULT_STEM_MODEL).toLowerCase()}`;
   }
 
-  function recordStemSplitTiming(engine, audioDurationSeconds, elapsedSeconds) {
+  function estimateStemSplitSeconds(audioDurationSeconds, engine = "demucs", model = DEFAULT_STEM_MODEL) {
+    const duration = Math.max(1, Number(audioDurationSeconds) || 0);
+    const stats = getStemSplitStats();
+    const key = getStemSplitStatsKey(engine, model);
+    const observed = stats?.[key]?.avgSecondsPerSecond;
+    const avgSecondsPerSecond = Number.isFinite(observed) && observed > 0.05 ? observed : 1.35;
+    const overhead = 8;
+    return Math.max(12, duration * avgSecondsPerSecond + overhead);
+  }
+
+  function recordStemSplitTiming(engine, model, audioDurationSeconds, elapsedSeconds) {
     const duration = Math.max(1, Number(audioDurationSeconds) || 0);
     const elapsed = Math.max(1, Number(elapsedSeconds) || 0);
     const next = getStemSplitStats();
-    const key = String(engine || "demucs").toLowerCase();
+    const key = getStemSplitStatsKey(engine, model);
     const entry = next[key] && typeof next[key] === "object" ? next[key] : { samples: 0, avgSecondsPerSecond: 0 };
     const samples = Math.max(0, Number(entry.samples) || 0);
     const prevAvg = Math.max(0, Number(entry.avgSecondsPerSecond) || 0);
@@ -7782,7 +7786,7 @@
     setStatus(`Splitting ${clip.name} into stems. This can take a while.`);
     const stemEngine = state.stemSplitterEngine || "demucs";
     const clipDurationSeconds = Number(clip.sourceDuration || clip.audioBuffer?.duration || beatsToSeconds(clip.beatDuration, clip.sourceTempo || state.tempo)) || 0;
-    const estimatedTotalSeconds = estimateStemSplitSeconds(clipDurationSeconds, stemEngine);
+    const estimatedTotalSeconds = estimateStemSplitSeconds(clipDurationSeconds, stemEngine, DEFAULT_STEM_MODEL);
     const startedAt = performance.now();
     let progressTimer = null;
     openStemSplitOverlay(clip.name, stemEngine, estimatedTotalSeconds);
@@ -7831,7 +7835,7 @@
         updateProjectStats();
       }
       setStatus(`${clip.name} split into ${payload.stems.length} stem tracks.`);
-      recordStemSplitTiming(stemEngine, clipDurationSeconds, (performance.now() - startedAt) / 1000);
+      recordStemSplitTiming(stemEngine, payload?.model || DEFAULT_STEM_MODEL, clipDurationSeconds, (performance.now() - startedAt) / 1000);
     } catch (error) {
       const message = String(error?.message || error);
       if (message === "Failed to fetch") {
