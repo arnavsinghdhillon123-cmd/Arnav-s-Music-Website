@@ -15,4 +15,4 @@ services:
       - key: DEMUCS_DEVICE
         value: cpu
       - key: DEMUCS_MODEL
-        value: mdx_extra_q
+        value: mdx_q

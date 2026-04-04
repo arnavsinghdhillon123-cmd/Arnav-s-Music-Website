@@ -11,13 +11,14 @@ RUN apt-get update \
 
 COPY requirements-stems.txt /app/requirements-stems.txt
 RUN python -m pip install --upgrade pip \
-    && python -m pip install -r /app/requirements-stems.txt
+    && python -m pip install -r /app/requirements-stems.txt \
+    && python -m pip install torchcodec
 
 COPY . /app
 
 ENV STEM_RUNTIME_PYTHON=/usr/local/bin/python
 ENV DEMUCS_DEVICE=cpu
-ENV DEMUCS_MODEL=mdx_extra_q
+ENV DEMUCS_MODEL=mdx_q
 
 EXPOSE 8000
 

@@ -86,5 +86,7 @@ Use this when you want a public site:
 ## Notes
 
 - Stem splitting is synchronous in this first version, so large files can take a while.
+- The default model is set to `mdx_q` for faster turnaround than `mdx_extra_q`.
+- Repeat splits of the same clip and model are cached on the backend and should return much faster.
 - Generated stem files are stored temporarily in `.stem-jobs/`.
 - If no supported stem engine is installed, the DAW will show a setup error when you try to split a clip.

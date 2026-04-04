@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import cgi
+import hashlib
 import json
 import mimetypes
 import os
@@ -16,7 +17,9 @@ from urllib.parse import unquote, urlparse
 ROOT = Path(__file__).resolve().parent
 STEM_JOBS_DIR = ROOT / ".stem-jobs"
 STEM_JOBS_DIR.mkdir(exist_ok=True)
-DEFAULT_MODEL = "demucs:mdx_extra_q"
+STEM_CACHE_DIR = STEM_JOBS_DIR / "cache"
+STEM_CACHE_DIR.mkdir(exist_ok=True)
+DEFAULT_MODEL = "demucs:mdx_q"
 STEM_LABELS = {
     "vocals": "Vocals",
     "drums": "Drums",
@@ -102,7 +105,7 @@ def demucs_model(requested_model):
         return configured
     if requested_model.startswith("demucs:"):
         return requested_model.split(":", 1)[1]
-    return "mdx_extra_q"
+    return "mdx_q"
 
 
 def available_stem_engine():
@@ -127,11 +130,67 @@ def collect_stem_files(output_dir):
     return sorted(stem_files, key=lambda path: STEM_ORDER.get(path.stem.lower(), 999))
 
 
+def hash_file(path, chunk_size=1024 * 1024):
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        while True:
+            chunk = source.read(chunk_size)
+            if not chunk:
+                break
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def cache_key_for(engine, model, file_hash):
+    safe_model = "".join(char if char.isalnum() or char in {"-", "_"} else "_" for char in str(model))
+    return STEM_CACHE_DIR / engine / safe_model / file_hash
+
+
+def ensure_parent(path):
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+
+def build_stem_payload(job_root, stem_files):
+    stems = []
+    for stem_file in stem_files:
+        stem_key = stem_file.stem.lower()
+        relative = stem_file.relative_to(STEM_JOBS_DIR).as_posix()
+        stems.append(
+            {
+                "stem": stem_key,
+                "label": STEM_LABELS.get(stem_key, stem_key.title()),
+                "url": f"/api/stems/{relative}",
+            }
+        )
+    return stems
+
+
+def copy_cached_stems(cache_dir, job_output_dir):
+    job_output_dir.mkdir(parents=True, exist_ok=True)
+    copied_files = []
+    for stem_file in collect_stem_files(cache_dir):
+        destination = job_output_dir / stem_file.name
+        ensure_parent(destination)
+        shutil.copy2(stem_file, destination)
+        copied_files.append(destination)
+    return copied_files
+
+
+def populate_cache(cache_dir, stem_files):
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    for stem_file in stem_files:
+        destination = cache_dir / stem_file.name
+        ensure_parent(destination)
+        shutil.copy2(stem_file, destination)
+
+
 def cleanup_old_jobs(max_age_seconds=24 * 60 * 60):
     cutoff = time.time() - max_age_seconds
     for job_dir in STEM_JOBS_DIR.iterdir():
         try:
             if not job_dir.is_dir():
+                continue
+            if job_dir == STEM_CACHE_DIR:
                 continue
             if job_dir.stat().st_mtime >= cutoff:
                 continue
@@ -262,9 +321,22 @@ class StemHandler(SimpleHTTPRequestHandler):
         with input_path.open("wb") as destination:
             shutil.copyfileobj(upload.file, destination)
 
+        file_hash = hash_file(input_path)
+
         if engine == "demucs":
             model = demucs_model(requested_model)
             device = demucs_device()
+            cache_dir = cache_key_for(engine, model, file_hash)
+            if cache_dir.exists():
+                cached_files = copy_cached_stems(cache_dir, output_dir)
+                stems = build_stem_payload(job_dir, cached_files)
+                if stems:
+                    try:
+                        input_path.unlink()
+                    except FileNotFoundError:
+                        pass
+                    self.send_json({"jobId": job_id, "engine": engine, "model": model, "cached": True, "stems": stems})
+                    return
             command = [
                 stem_runtime_python(),
                 "-m",
@@ -282,6 +354,17 @@ class StemHandler(SimpleHTTPRequestHandler):
             if model not in {"spleeter:4stems", "spleeter:5stems"}:
                 self.send_json({"error": "Unsupported Spleeter model requested."}, status=400)
                 return
+            cache_dir = cache_key_for(engine, model, file_hash)
+            if cache_dir.exists():
+                cached_files = copy_cached_stems(cache_dir, output_dir)
+                stems = build_stem_payload(job_dir, cached_files)
+                if stems:
+                    try:
+                        input_path.unlink()
+                    except FileNotFoundError:
+                        pass
+                    self.send_json({"jobId": job_id, "engine": engine, "model": model, "cached": True, "stems": stems})
+                    return
             command = [
                 stem_runtime_python(),
                 "-m",
@@ -328,17 +411,8 @@ class StemHandler(SimpleHTTPRequestHandler):
             )
             return
 
-        stems = []
-        for stem_file in stem_files:
-            stem_key = stem_file.stem.lower()
-            relative = stem_file.relative_to(STEM_JOBS_DIR).as_posix()
-            stems.append(
-                {
-                    "stem": stem_key,
-                    "label": STEM_LABELS.get(stem_key, stem_key.title()),
-                    "url": f"/api/stems/{relative}",
-                }
-            )
+        populate_cache(cache_dir, stem_files)
+        stems = build_stem_payload(job_dir, stem_files)
 
         if not stems:
             self.send_json({"error": "No supported audio stems were produced."}, status=500)
