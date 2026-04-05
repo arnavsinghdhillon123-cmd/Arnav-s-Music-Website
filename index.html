@@ -719,7 +719,7 @@
   .track-headers {
     position: sticky;
     left: 0;
-    z-index: 20;
+    z-index: 40;
     align-self: start;
     min-height: 100%;
     border-right: 1px solid var(--border);
@@ -1312,11 +1312,6 @@
     fill: #ffffff;
   }
 
-  .clip-waveform-line {
-    stroke: #ffffff;
-    stroke-width: 0.9;
-  }
-
   .clip-waveform-placeholder {
     position: absolute;
     inset: 50% 0 auto;
@@ -1445,8 +1440,8 @@
     padding-bottom: 16px;
   }
 
-  .effects-panel.sampler-active .composer-header {
-    display: none;
+  .composer.sampler-active .composer-header {
+    display: none !important;
   }
 
   .effects-rack-list {
@@ -2046,6 +2041,53 @@
     margin: 0;
   }
 
+  .sampler-controls-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .sampler-pitch-stack {
+    display: grid;
+    justify-items: center;
+    gap: 4px;
+  }
+
+  .sampler-pitch-dial {
+    --pitch-angle: 0deg;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .sampler-pitch-dial:active,
+  .sampler-pitch-dial.dragging {
+    cursor: grabbing;
+  }
+
+  .sampler-pitch-dial .pan-visual::after {
+    transform: translateX(-50%) rotate(var(--pitch-angle));
+  }
+
+  .sampler-pitch-dial:focus-visible .pan-visual,
+  .sampler-pitch-dial.dragging .pan-visual {
+    border-color: rgba(255,255,255,0.16);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 0 4px rgba(255,255,255,0.05);
+  }
+
+  .sampler-pitch-readout {
+    min-width: 36px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.72rem;
+    line-height: 1;
+  }
+
   .sampler-toggle {
     min-height: 40px;
     padding: 0 14px;
@@ -2128,6 +2170,7 @@
   .sampler-wave-grid {
     position: absolute;
     inset: 0;
+    --sampler-bar-width: 25%;
     background:
       linear-gradient(180deg, rgba(255,255,255,0.03), transparent 60%),
       repeating-linear-gradient(
@@ -2135,9 +2178,46 @@
         rgba(255,255,255,0.06) 0,
         rgba(255,255,255,0.06) 1px,
         transparent 1px,
-        transparent 54px
+        transparent var(--sampler-bar-width)
       );
     pointer-events: none;
+  }
+
+  .sampler-playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), var(--accent));
+    box-shadow: 0 0 14px rgba(255, 181, 31, 0.4);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+
+  .sampler-playhead.visible {
+    opacity: 1;
+  }
+
+  .sampler-playhead::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 18px rgba(255, 181, 31, 0.3);
+  }
+
+  .sampler-wave-content {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
   }
 
   .sampler-wave-svg {
@@ -2164,7 +2244,7 @@
   .sampler-shell.rack-sampler .sampler-top {
     height: 100%;
     min-height: 0;
-    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-columns: 240px minmax(0, 1fr);
   }
 
   .sampler-rack-layout {
@@ -2172,7 +2252,7 @@
     min-height: 0;
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
-    gap: 14px;
+    gap: 8px;
   }
 
   .sampler-rack-head {
@@ -2180,7 +2260,7 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: 16px;
-    padding: 2px 2px 0;
+    padding: 0 2px;
   }
 
   .sampler-rack-head p {
@@ -2194,9 +2274,48 @@
     min-height: 0;
   }
 
+  .sampler-shell.rack-sampler .sampler-sidebar {
+    padding: 15px 18px 12px;
+    gap: 10px;
+  }
+
+  .sampler-shell.rack-sampler .sampler-main {
+    padding: 14px 18px 18px;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .sampler-shell.rack-sampler .sampler-control {
+    gap: 7px;
+  }
+
+  .sampler-shell.rack-sampler .sampler-controls-row {
+    gap: 10px;
+  }
+
+  .sampler-shell.rack-sampler .sampler-toggle {
+    min-height: 36px;
+    margin-top: 0;
+    align-self: start;
+  }
+
+  .sampler-shell.rack-sampler .sampler-preview-header {
+    padding: 0;
+  }
+
+  .sampler-shell.rack-sampler .sampler-key-strip {
+    display: none;
+  }
+
   .sampler-shell.rack-sampler .sampler-wave-panel {
     min-height: 0;
     height: 100%;
+    border-radius: 18px;
+  }
+
+  .sampler-shell.rack-sampler .sampler-wave-content {
+    inset: 30px 0;
+    height: auto;
   }
 
   .sampler-shell.rack-sampler .sampler-wave-grid {
@@ -2207,12 +2326,25 @@
         rgba(255,255,255,0.065) 0,
         rgba(255,255,255,0.065) 1px,
         transparent 1px,
-        transparent 54px
+        transparent var(--sampler-bar-width)
       );
   }
 
   .sampler-shell.rack-sampler .sampler-wave-fill {
-    fill: #f7af3c;
+    fill: #ffffff;
+  }
+
+  .sampler-shell.rack-sampler .sampler-wave-line {
+    stroke: rgba(255, 255, 255, 0.92);
+    stroke-width: 0.8;
+  }
+
+  .sampler-shell.rack-sampler .sampler-preview-header strong {
+    font-size: 0.98rem;
+  }
+
+  .sampler-shell.rack-sampler .sampler-preview-header span {
+    font-size: 0.78rem;
   }
 
   .sampler-empty {
@@ -2742,14 +2874,26 @@
           <div class="sampler-sidebar">
             <div id="samplerTrackBadge" class="sampler-track-pill">No clip selected</div>
             <div class="sampler-copy">Use pitch to transpose the clip without changing the project tempo. Reverse flips the sample playback direction.</div>
-            <div class="sampler-control">
-              <div class="sampler-control-head">
-                <strong>Pitch</strong>
-                <span id="samplerPitchValue">0 st</span>
+            <div class="sampler-controls-row">
+              <div class="sampler-pitch-stack">
+                <button
+                  id="samplerPitchDial"
+                  class="sampler-pitch-dial"
+                  type="button"
+                  data-action="sampler-pitch-dial"
+                  aria-label="Pitch"
+                  aria-valuemin="-12"
+                  aria-valuemax="12"
+                  aria-valuenow="0"
+                  aria-valuetext="0 st"
+                  style="--pitch-angle:0deg;">
+                  <span class="pan-visual"></span>
+                </button>
+                <span id="samplerPitchValue" class="sampler-pitch-readout">0 st</span>
               </div>
-              <input id="samplerPitchSlider" class="sampler-slider" type="range" min="-12" max="12" step="1" value="0">
+              <input id="samplerPitchSlider" class="sampler-slider" type="range" min="-12" max="12" step="1" value="0" hidden>
+              <button id="samplerReverseBtn" class="sampler-toggle" type="button">Reverse</button>
             </div>
-            <button id="samplerReverseBtn" class="sampler-toggle" type="button">Reverse</button>
           </div>
           <div class="sampler-main">
             <div class="sampler-preview-header">
@@ -2759,6 +2903,7 @@
             <div class="sampler-key-strip" aria-hidden="true"></div>
             <div id="samplerWavePanel" class="sampler-wave-panel">
               <div class="sampler-wave-grid"></div>
+              <div id="samplerPlayhead" class="sampler-playhead" aria-hidden="true"></div>
               <div id="samplerWaveContent" class="sampler-empty">Click the top strip of an audio clip to open its sampler.</div>
             </div>
           </div>
@@ -2941,10 +3086,11 @@
   const PROJECT_STORAGE_KEY = "online-daw-project-v1";
   const AUDIO_DB_NAME = "online-daw-audio-v1";
   const AUDIO_STORE_NAME = "clips";
-  const WAVEFORM_VERSION = 4;
+  const WAVEFORM_VERSION = 5;
   const DEFAULT_COMPOSER_HEIGHT = 126;
   const MIN_COMPOSER_HEIGHT = 106;
-  const MAX_COMPOSER_HEIGHT = 220;
+  const MIN_SAMPLER_COMPOSER_HEIGHT = 360;
+  const MAX_COMPOSER_HEIGHT = 420;
   const BASS_SAMPLE_URL = "assets/bass-note-csharp2.mp3";
   const BASS_SAMPLE_ROOT_MIDI = 37;
   const GUITAR_SAMPLE_URL = "assets/guitar-note-c4.mp3";
@@ -2960,12 +3106,12 @@
     other: { label: "Other", color: "#b21cff" }
   };
   const EQ_FREQUENCIES = [10, 30, 50, 75, 100, 125, 1000, 2000, 4000, 10000, 16000, 20000];
-  const DEFAULT_STEM_MODEL = "demucs:mdx_q";
+  const DEFAULT_STEM_MODEL = "demucs:htdemucs";
   const REVERB_DEFAULTS = {
     size: 48,
     decay: 2.6
   };
-  const CHORD_NAMES = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"];
+  const CHORD_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
   const CHORD_TEMPLATE_LIBRARY = [
     { suffix: "maj9", intervals: [0, 4, 7, 11, 2], required: [0, 4, 7, 11], optional: [2], priority: 1.2 },
     { suffix: "m9", intervals: [0, 3, 7, 10, 2], required: [0, 3, 7, 10], optional: [2], priority: 1.18 },
@@ -3131,6 +3277,8 @@
   const state = {
     audioContext: null,
     masterGain: null,
+    audioWatchersBound: false,
+    audioRecoveryTimer: null,
     outputVolume: 72,
     tempo: 120,
     currentInstrument: "keyboard",
@@ -3140,6 +3288,7 @@
     selectedTrackId: null,
     playing: false,
     recording: false,
+    playbackGeneration: 0,
     playStartTime: 0,
     transportPositionBeats: 0,
     animationFrame: null,
@@ -3174,6 +3323,8 @@
     stemSplitterOnline: false,
     stemSplitterReady: false,
     stemSplitterEngine: "",
+    stemSplitterDefaultModel: DEFAULT_STEM_MODEL,
+    clipProcessorReady: false,
     stemApiBase: "",
     stemSplitterMessage: "Stem splitter backend status is unknown.",
     trackCounter: 0,
@@ -3194,7 +3345,15 @@
     panDragTrackId: null,
     panDragStartX: 0,
     panDragStartY: 0,
-    panDragStartPan: 0
+    panDragStartPan: 0,
+    samplerPitchDragPointerId: null,
+    samplerPitchDragStartX: 0,
+    samplerPitchDragStartY: 0,
+    samplerPitchDragStartValue: 0,
+    timelineFollowSuspendedUntil: 0,
+    lastSamplerClick: null
+    ,clipPreviewMode: false
+    ,clipPreviewTimer: null
   };
 
   const ruler = document.getElementById("ruler");
@@ -3221,6 +3380,8 @@
   const samplerTrackBadge = document.getElementById("samplerTrackBadge");
   const samplerClipTitle = document.getElementById("samplerClipTitle");
   const samplerClipMeta = document.getElementById("samplerClipMeta");
+  const samplerWavePanel = document.getElementById("samplerWavePanel");
+  const samplerPlayhead = document.getElementById("samplerPlayhead");
   const samplerPitchSlider = document.getElementById("samplerPitchSlider");
   const samplerPitchValue = document.getElementById("samplerPitchValue");
   const samplerReverseBtn = document.getElementById("samplerReverseBtn");
@@ -3324,8 +3485,21 @@
       return null;
     }
     const normalized = peaks
-      .map((peak) => Math.max(0, Math.min(100, Number(peak) || 0)))
-      .filter((peak) => Number.isFinite(peak));
+      .map((peak) => {
+        if (Array.isArray(peak) && peak.length >= 2) {
+          const min = Math.max(-100, Math.min(0, Number(peak[0]) || 0));
+          const max = Math.max(0, Math.min(100, Number(peak[1]) || 0));
+          return Number.isFinite(min) && Number.isFinite(max) ? { min, max } : null;
+        }
+        if (peak && typeof peak === "object" && ("min" in peak || "max" in peak)) {
+          const min = Math.max(-100, Math.min(0, Number(peak.min) || 0));
+          const max = Math.max(0, Math.min(100, Number(peak.max) || 0));
+          return Number.isFinite(min) && Number.isFinite(max) ? { min, max } : null;
+        }
+        const value = Math.max(0, Math.min(100, Number(peak) || 0));
+        return Number.isFinite(value) ? { min: -value, max: value } : null;
+      })
+      .filter(Boolean);
     return normalized.length ? normalized : null;
   }
 
@@ -3334,95 +3508,125 @@
       return null;
     }
     const resolvedSampleCount = Math.max(
-      320,
-      Math.min(1800, Number(sampleCount) || Math.round(audioBuffer.duration * 14))
+      720,
+      Math.min(5200, Number(sampleCount) || Math.round(audioBuffer.duration * 42))
     );
     const channelCount = audioBuffer.numberOfChannels;
     const channelData = Array.from({ length: channelCount }, (_, index) => audioBuffer.getChannelData(index));
     const blockSize = Math.max(1, Math.floor(audioBuffer.length / resolvedSampleCount));
-    const rawPeaks = [];
+    const rawBlocks = [];
     for (let index = 0; index < resolvedSampleCount; index += 1) {
       const start = index * blockSize;
       const end = Math.min(audioBuffer.length, start + blockSize);
-      let peak = 0;
-      let sumSquares = 0;
-      let sumAbs = 0;
-      let sampleTotal = 0;
+      let blockMin = 1;
+      let blockMax = -1;
       for (let sampleIndex = start; sampleIndex < end; sampleIndex += 1) {
-        let framePeak = 0;
+        let frameValue = 0;
         for (let channelIndex = 0; channelIndex < channelCount; channelIndex += 1) {
-          const value = Math.abs(channelData[channelIndex][sampleIndex] || 0);
-          if (value > framePeak) {
-            framePeak = value;
-          }
+          frameValue += channelData[channelIndex][sampleIndex] || 0;
         }
-        sumSquares += framePeak * framePeak;
-        sumAbs += framePeak;
-        sampleTotal += 1;
-        if (framePeak > peak) {
-          peak = framePeak;
+        frameValue /= channelCount;
+        if (frameValue < blockMin) {
+          blockMin = frameValue;
+        }
+        if (frameValue > blockMax) {
+          blockMax = frameValue;
         }
       }
-      const rms = sampleTotal ? Math.sqrt(sumSquares / sampleTotal) : 0;
-      const average = sampleTotal ? sumAbs / sampleTotal : 0;
-      rawPeaks.push(Math.max(peak, rms * 1.12, average * 1.2));
+      rawBlocks.push({
+        min: Math.min(0, blockMin),
+        max: Math.max(0, blockMax)
+      });
     }
 
-    const positivePeaks = rawPeaks.filter((peak) => peak > 0).sort((left, right) => left - right);
-    if (!positivePeaks.length) {
-      return rawPeaks.map(() => 0);
+    const magnitudes = rawBlocks
+      .flatMap((block) => [Math.abs(block.min), Math.abs(block.max)])
+      .filter((value) => value > 0)
+      .sort((left, right) => left - right);
+    if (!magnitudes.length) {
+      return rawBlocks.map(() => ({ min: 0, max: 0 }));
     }
 
     const percentileValue = (fraction) => {
       const index = Math.min(
-        positivePeaks.length - 1,
-        Math.max(0, Math.floor((positivePeaks.length - 1) * fraction))
+        magnitudes.length - 1,
+        Math.max(0, Math.floor((magnitudes.length - 1) * fraction))
       );
-      return positivePeaks[index] || 0;
+      return magnitudes[index] || 0;
     };
 
-    const noiseFloor = percentileValue(0.18);
-    const referencePeak = Math.max(percentileValue(0.995), positivePeaks[positivePeaks.length - 1] || 0);
-    const gatedFloor = noiseFloor * 1.5;
-    const usableRange = Math.max(referencePeak - gatedFloor, referencePeak * 0.12, 1e-6);
+    const noiseFloor = percentileValue(0.08);
+    const referencePeak = Math.max(percentileValue(0.992), magnitudes[magnitudes.length - 1] || 0, 1e-6);
+    const gatedFloor = noiseFloor * 0.42;
+    const usableRange = Math.max((referencePeak - gatedFloor) * 0.5, referencePeak * 0.04, 1e-6);
 
-    return rawPeaks.map((peak) => {
-      const gated = Math.max(0, peak - gatedFloor);
-      const normalized = Math.max(0, Math.min(1, gated / usableRange));
-      if (normalized <= 0.0015) {
-        return 0;
-      }
-      const shaped = Math.pow(normalized, 0.86);
-      return Math.round(Math.max(0, Math.min(100, shaped * 100)));
+    return rawBlocks.map((block) => {
+      const normalizeEdge = (value) => {
+        const magnitude = Math.max(0, Math.abs(value) - gatedFloor);
+        const normalized = Math.max(0, Math.min(1, magnitude / usableRange));
+        if (normalized <= 0.0004) {
+          return 0;
+        }
+        const boosted = Math.min(1, normalized * 1.35);
+        return Math.round(Math.max(0, Math.min(100, Math.pow(boosted, 0.72) * 100)));
+      };
+      const min = -normalizeEdge(block.min);
+      const max = normalizeEdge(block.max);
+      return { min, max };
     });
   }
 
-  function waveformPathFromPeaks(peaks) {
+  function waveformPathFromPeaks(peaks, amplitudeScale = 0.46) {
     const normalizedPeaks = normalizeWaveformPeaks(peaks);
     if (!normalizedPeaks?.length) {
       return "";
     }
     const points = normalizedPeaks.length;
+    const clampedScale = Math.max(0.05, Math.min(0.49, Number(amplitudeScale) || 0.46));
     const topPath = normalizedPeaks.map((peak, index) => {
       const x = points === 1 ? 0 : (index / (points - 1)) * 100;
-      const y = 50 - (peak / 100) * 46;
+      const y = 50 - ((peak.max || 0) / 100) * (clampedScale * 100);
       return `${x.toFixed(2)} ${y.toFixed(2)}`;
     });
     const bottomPath = normalizedPeaks.slice().reverse().map((peak, reverseIndex) => {
       const index = points - 1 - reverseIndex;
       const x = points === 1 ? 0 : (index / (points - 1)) * 100;
-      const y = 50 + (peak / 100) * 46;
+      const y = 50 + (Math.abs(peak.min || 0) / 100) * (clampedScale * 100);
       return `${x.toFixed(2)} ${y.toFixed(2)}`;
     });
     return `M ${topPath[0]} L ${topPath.slice(1).join(" L ")} L ${bottomPath.join(" L ")} Z`;
   }
 
-  function reversedWaveformPathFromPeaks(peaks) {
+  function reversedWaveformPathFromPeaks(peaks, amplitudeScale = 0.46) {
     const normalizedPeaks = normalizeWaveformPeaks(peaks);
     if (!normalizedPeaks?.length) {
       return "";
     }
-    return waveformPathFromPeaks(normalizedPeaks.slice().reverse());
+    return waveformPathFromPeaks(normalizedPeaks.slice().reverse(), amplitudeScale);
+  }
+
+  function softenWaveformPeaksForSampler(peaks) {
+    const normalizedPeaks = normalizeWaveformPeaks(peaks);
+    if (!normalizedPeaks?.length) {
+      return normalizedPeaks;
+    }
+    return normalizedPeaks.map((peak, index) => {
+      const previous = normalizedPeaks[index - 1] || peak;
+      const next = normalizedPeaks[index + 1] || peak;
+      const smoothEdge = (valueKey) => {
+        const currentMagnitude = Math.abs(peak[valueKey] || 0);
+        const previousMagnitude = Math.abs(previous[valueKey] || 0);
+        const nextMagnitude = Math.abs(next[valueKey] || 0);
+        const neighborhoodAverage = (previousMagnitude + currentMagnitude + nextMagnitude) / 3;
+        const softened = Math.min(100, neighborhoodAverage * 0.72 + currentMagnitude * 0.18);
+        const curved = Math.pow(Math.max(0, softened) / 100, 1.18) * 100;
+        return Math.min(96, curved);
+      };
+      return {
+        min: -smoothEdge("min"),
+        max: smoothEdge("max")
+      };
+    });
   }
 
   async function ensureClipWaveformPeaks(clip, options = {}) {
@@ -3493,22 +3697,73 @@
     return clip.reversedAudioBuffer;
   }
 
+  async function ensureClipProcessedPlaybackBuffer(clip, playbackRate = 1, pitchRate = 1) {
+    const baseBuffer = await ensureClipPlaybackBuffer(clip);
+    if (!baseBuffer) {
+      return null;
+    }
+    const safePlaybackRate = Math.max(0.25, Math.min(8, Number(playbackRate) || 1));
+    const safePitchRate = Math.max(0.5, Math.min(2, Number(pitchRate) || 1));
+    const cacheKey = `${clip.reversed ? "rev" : "fwd"}:${safePlaybackRate.toFixed(4)}:${safePitchRate.toFixed(4)}`;
+    if (!clip.processedPlaybackCache) {
+      clip.processedPlaybackCache = new Map();
+    }
+    const cached = clip.processedPlaybackCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+    if (!clip.processedPlaybackPromises) {
+      clip.processedPlaybackPromises = new Map();
+    }
+    const inFlight = clip.processedPlaybackPromises.get(cacheKey);
+    if (inFlight) {
+      return inFlight;
+    }
+    const promise = Promise.resolve().then(() => {
+      if (Math.abs(safePlaybackRate - 1) < 0.02 && Math.abs(safePitchRate - 1) < 0.02) {
+        return baseBuffer;
+      }
+      return requestProcessedClipBuffer(clip, safePlaybackRate, safePitchRate, baseBuffer);
+    }).then((processedBuffer) => {
+      clip.processedPlaybackCache.set(cacheKey, processedBuffer);
+      if (clip.processedPlaybackCache.size > 6) {
+        const firstKey = clip.processedPlaybackCache.keys().next().value;
+        if (firstKey) {
+          clip.processedPlaybackCache.delete(firstKey);
+        }
+      }
+      clip.processedPlaybackPromises.delete(cacheKey);
+      return processedBuffer;
+    }).catch((error) => {
+      clip.processedPlaybackPromises.delete(cacheKey);
+      throw error;
+    });
+    clip.processedPlaybackPromises.set(cacheKey, promise);
+    return promise;
+  }
+
   function invalidateClipDerivedBuffers(clip) {
     if (!clip) {
       return;
     }
     clip.reversedAudioBuffer = null;
+    clip.processedPlaybackCache = null;
+    clip.processedPlaybackPromises = null;
   }
 
   function renderSamplerWaveform(clip) {
     if (!clip?.waveformPeaks?.length) {
       samplerWaveContent.className = "sampler-empty";
       samplerWaveContent.textContent = "This clip does not have a waveform preview yet.";
+      samplerWavePanel?.style.removeProperty("--sampler-bar-width");
+      samplerPlayhead?.classList.remove("visible");
       return;
     }
+    const samplerWaveAmplitude = 0.26;
+    const samplerPeaks = softenWaveformPeaksForSampler(clip.waveformPeaks);
     const waveformPath = clip.reversed
-      ? reversedWaveformPathFromPeaks(clip.waveformPeaks)
-      : waveformPathFromPeaks(clip.waveformPeaks);
+      ? reversedWaveformPathFromPeaks(samplerPeaks, samplerWaveAmplitude)
+      : waveformPathFromPeaks(samplerPeaks, samplerWaveAmplitude);
     samplerWaveContent.className = "";
     samplerWaveContent.innerHTML = `
       <svg class="sampler-wave-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -3516,15 +3771,46 @@
         <path class="sampler-wave-fill" d="${waveformPath}"></path>
       </svg>
     `;
+    const clipBeatDuration = Math.max(0.0001, Number(clip.beatDuration) || 0);
+    const barWidthPercent = Math.max(0.5, Math.min(100, (BEATS_PER_MEASURE / clipBeatDuration) * 100));
+    samplerWavePanel?.style.setProperty("--sampler-bar-width", `${barWidthPercent}%`);
+    updateSamplerPlayheadPosition();
+  }
+
+  function updateSamplerPlayheadPosition() {
+    const { clip } = getSamplerClip();
+    const rackPlayhead = effectsRackBody.querySelector('[data-sampler-rack-playhead]');
+    if (!clip || clip.type !== "audio") {
+      samplerPlayhead?.classList.remove("visible");
+      rackPlayhead?.classList.remove("visible");
+      return;
+    }
+    const clipStart = Number(clip.beatStart) || 0;
+    const clipDuration = Math.max(0.0001, Number(clip.beatDuration) || 0);
+    const transportBeat = Number(state.transportPositionBeats) || 0;
+    const relative = (transportBeat - clipStart) / clipDuration;
+    const normalized = Math.max(0, Math.min(1, relative));
+    const isVisible = transportBeat >= clipStart && transportBeat <= clipStart + clipDuration;
+    [samplerPlayhead, rackPlayhead].forEach((node) => {
+      if (!node) {
+        return;
+      }
+      node.style.left = `${normalized * 100}%`;
+      node.classList.toggle("visible", isVisible);
+    });
   }
 
   function getSamplerRackMarkup(track, clip) {
     if (!track || !clip || clip.type !== "audio") {
       return `<div class="effects-placeholder">Click the top strip of an audio clip to open its sampler.</div>`;
     }
+    const clipBeatDuration = Math.max(0.0001, Number(clip.beatDuration) || 0);
+    const barWidthPercent = Math.max(0.5, Math.min(100, (BEATS_PER_MEASURE / clipBeatDuration) * 100));
+    const samplerWaveAmplitude = 0.26;
+    const samplerPeaks = softenWaveformPeaksForSampler(clip.waveformPeaks);
     const waveformPath = clip.reversed
-      ? reversedWaveformPathFromPeaks(clip.waveformPeaks)
-      : waveformPathFromPeaks(clip.waveformPeaks);
+      ? reversedWaveformPathFromPeaks(samplerPeaks, samplerWaveAmplitude)
+      : waveformPathFromPeaks(samplerPeaks, samplerWaveAmplitude);
     const waveMarkup = clip?.waveformPeaks?.length
       ? `
         <svg class="sampler-wave-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
@@ -3547,10 +3833,21 @@
             <div class="sampler-sidebar">
               <div class="sampler-track-pill">${track.name}</div>
               <div class="sampler-copy">Use pitch to transpose the clip without changing the project tempo. Reverse flips the sample playback direction.</div>
-              <div class="sampler-control">
-                <div class="sampler-control-head">
-                  <strong>Pitch</strong>
-                  <span data-sampler-readout="pitch">${formatPitchShiftLabel(clip.pitchSemitones || 0)}</span>
+              <div class="sampler-controls-row">
+                <div class="sampler-pitch-stack">
+                  <button
+                    class="sampler-pitch-dial"
+                    type="button"
+                    data-action="sampler-pitch-dial"
+                    aria-label="Pitch"
+                    aria-valuemin="-12"
+                    aria-valuemax="12"
+                    aria-valuenow="${Math.round(clip.pitchSemitones || 0)}"
+                    aria-valuetext="${formatPitchShiftLabel(clip.pitchSemitones || 0)}"
+                    style="--pitch-angle:${getSamplerPitchAngle(clip.pitchSemitones || 0)};">
+                    <span class="pan-visual"></span>
+                  </button>
+                  <span class="sampler-pitch-readout" data-sampler-readout="pitch">${formatPitchShiftLabel(clip.pitchSemitones || 0)}</span>
                 </div>
                 <input
                   class="sampler-slider"
@@ -3560,9 +3857,9 @@
                   step="1"
                   value="${Math.round(clip.pitchSemitones || 0)}"
                   data-action="sampler-pitch"
-                  style="--range-progress:${(((Math.round(clip.pitchSemitones || 0)) + 12) / 24) * 100}%;">
+                  style="--range-progress:${(((Math.round(clip.pitchSemitones || 0)) + 12) / 24) * 100}%;" hidden>
+                <button class="sampler-toggle ${clip.reversed ? "active" : ""}" data-action="sampler-reverse" type="button">Reverse</button>
               </div>
-              <button class="sampler-toggle ${clip.reversed ? "active" : ""}" data-action="sampler-reverse" type="button">Reverse</button>
             </div>
             <div class="sampler-main">
               <div class="sampler-preview-header">
@@ -3571,7 +3868,8 @@
               </div>
               <div class="sampler-key-strip" aria-hidden="true"></div>
               <div class="sampler-wave-panel">
-                <div class="sampler-wave-grid"></div>
+                <div class="sampler-wave-grid" style="--sampler-bar-width:${barWidthPercent}%"></div>
+                <div class="sampler-playhead" data-sampler-rack-playhead aria-hidden="true"></div>
                 <div class="sampler-wave-content">${waveMarkup}</div>
               </div>
             </div>
@@ -3589,6 +3887,7 @@
       samplerClipMeta.textContent = "Audio clip";
       samplerPitchSlider.value = "0";
       samplerPitchValue.textContent = "0 st";
+      updateSamplerPitchDialUi(0);
       samplerReverseBtn.classList.remove("active");
       samplerWindowCopy.textContent = "Shape the selected audio clip without changing the project tempo.";
       samplerWaveContent.className = "sampler-empty";
@@ -3601,6 +3900,7 @@
     samplerPitchSlider.value = String(Math.round(clip.pitchSemitones || 0));
     updateRangeVisual(samplerPitchSlider);
     samplerPitchValue.textContent = formatPitchShiftLabel(clip.pitchSemitones || 0);
+    updateSamplerPitchDialUi(clip.pitchSemitones || 0);
     samplerReverseBtn.classList.toggle("active", Boolean(clip.reversed));
     samplerWindowCopy.textContent = `Editing ${clip.name} on ${track.name}. Pitch changes the note, reverse flips playback direction.`;
     renderSamplerWaveform(clip);
@@ -3611,6 +3911,7 @@
     state.samplerClipId = clipId;
     state.composerPanelMode = "sampler";
     renderComposerPanel();
+    updateSamplerPlayheadPosition();
     setStatus("Clip sampler opened in the bottom panel.");
   }
 
@@ -3619,6 +3920,7 @@
     state.samplerClipId = "";
     state.composerPanelMode = "effects";
     renderComposerPanel();
+    updateSamplerPlayheadPosition();
   }
 
   function updateSamplerClipSetting(field, value) {
@@ -3628,6 +3930,7 @@
     }
     if (field === "pitch") {
       clip.pitchSemitones = Math.max(-12, Math.min(12, Math.round(Number(value) || 0)));
+      updateSamplerPitchDialUi(clip.pitchSemitones);
     }
     if (field === "reverse") {
       clip.reversed = Boolean(value);
@@ -3637,6 +3940,10 @@
     renderComposerPanel();
     scheduleProjectSave();
     if (state.playing) {
+      if (field === "pitch") {
+        beginClipLivePreview();
+        return;
+      }
       reschedulePlayback();
     }
   }
@@ -4017,6 +4324,59 @@
     return blob;
   }
 
+  async function requestProcessedClipBuffer(clip, playbackRate, pitchRate, baseBuffer = null) {
+    const hasMeaningfulTransform =
+      Math.abs((Number(playbackRate) || 1) - 1) >= 0.02 ||
+      Math.abs((Number(pitchRate) || 1) - 1) >= 0.02 ||
+      Boolean(clip?.reversed);
+    if (!hasMeaningfulTransform) {
+      return baseBuffer || ensureClipPlaybackBuffer(clip);
+    }
+
+    if (!state.clipProcessorReady || !state.stemApiBase) {
+      const stretchFactor = pitchRate / playbackRate;
+      let processed = baseBuffer || await ensureClipPlaybackBuffer(clip);
+      if (!processed) {
+        return null;
+      }
+      if (Math.abs(stretchFactor - 1) >= 0.02) {
+        processed = stretchAudioBufferSola(processed, stretchFactor);
+      }
+      if (Math.abs(pitchRate - 1) >= 0.02) {
+        processed = resampleAudioBuffer(processed, pitchRate);
+      }
+      return processed;
+    }
+
+    const blob = await loadClipAudioBlob(clip);
+    if (!blob) {
+      return baseBuffer || ensureClipPlaybackBuffer(clip);
+    }
+
+    const formData = new FormData();
+    formData.append("audio", blob, `${clip.name || "clip"}.wav`);
+    formData.append("tempoRatio", String(playbackRate));
+    formData.append("pitchSemitones", String(Math.round(Math.log2(pitchRate) * 12 * 1000) / 1000));
+    formData.append("reverse", clip.reversed ? "1" : "0");
+
+    const response = await fetch(resolveStemApiUrl("/api/process-audio-clip"), {
+      method: "POST",
+      body: formData
+    });
+    if (!response.ok) {
+      const payload = await response.json().catch(() => null);
+      throw new Error(payload?.error || "Clip processing failed.");
+    }
+    const payload = await response.json();
+    const processedUrl = resolveStemApiUrl(payload.url);
+    const processedResponse = await fetch(processedUrl);
+    if (!processedResponse.ok) {
+      throw new Error("Could not load processed audio.");
+    }
+    const processedBlob = await processedResponse.blob();
+    return decodeAudioFile(processedBlob);
+  }
+
   async function deleteAudioAsset(clipId) {
     const db = await openAudioAssetDb();
     await new Promise((resolve, reject) => {
@@ -4104,6 +4464,38 @@
 
   function getPanAngle(pan) {
     return `${pan * 120}deg`;
+  }
+
+  function getSamplerPitchAngle(semitones) {
+    const normalized = Math.max(-12, Math.min(12, Number(semitones) || 0)) / 12;
+    return `${normalized * 120}deg`;
+  }
+
+  function updateSamplerPitchDialUi(value) {
+    const normalizedValue = Math.max(-12, Math.min(12, Math.round(Number(value) || 0)));
+    const readout = formatPitchShiftLabel(normalizedValue);
+    const dial = effectsRackBody.querySelector('[data-action="sampler-pitch-dial"]') || document.getElementById("samplerPitchDial");
+    const readoutNode = effectsRackBody.querySelector('[data-sampler-readout="pitch"]') || samplerPitchValue;
+    if (dial) {
+      dial.style.setProperty("--pitch-angle", getSamplerPitchAngle(normalizedValue));
+      dial.setAttribute("aria-valuenow", String(normalizedValue));
+      dial.setAttribute("aria-valuetext", readout);
+    }
+    if (readoutNode) {
+      readoutNode.textContent = readout;
+    }
+  }
+
+  function stopSamplerPitchDialDrag() {
+    if (!state.samplerPitchDragPointerId) {
+      return;
+    }
+    const dial = effectsRackBody.querySelector('[data-action="sampler-pitch-dial"]') || document.getElementById("samplerPitchDial");
+    dial?.classList.remove("dragging");
+    state.samplerPitchDragPointerId = null;
+    state.samplerPitchDragStartX = 0;
+    state.samplerPitchDragStartY = 0;
+    state.samplerPitchDragStartValue = 0;
   }
 
   function normalizeTrackMonitorState(track, preferredMode = "solo") {
@@ -4418,17 +4810,78 @@
     }
   }
 
+  function bindAudioEngineWatchers() {
+    if (state.audioWatchersBound) {
+      return;
+    }
+    state.audioWatchersBound = true;
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        recoverAudioEngine("visibility");
+      }
+    });
+    window.addEventListener("focus", () => recoverAudioEngine("focus"));
+    window.addEventListener("pageshow", () => recoverAudioEngine("pageshow"));
+    if (navigator.mediaDevices?.addEventListener) {
+      navigator.mediaDevices.addEventListener("devicechange", () => recoverAudioEngine("devicechange"));
+    }
+  }
+
+  function createFreshAudioContext() {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    state.audioContext = new AudioCtx();
+    state.masterGain = state.audioContext.createGain();
+    state.masterGain.gain.value = state.outputVolume / 100;
+    state.masterGain.connect(state.audioContext.destination);
+    bindAudioEngineWatchers();
+    refreshTrackOutputStates();
+  }
+
   function ensureAudioContext() {
-    if (!state.audioContext) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      state.audioContext = new AudioCtx();
-      state.masterGain = state.audioContext.createGain();
-      state.masterGain.gain.value = state.outputVolume / 100;
-      state.masterGain.connect(state.audioContext.destination);
+    if (!state.audioContext || state.audioContext.state === "closed") {
+      createFreshAudioContext();
     }
     if (state.audioContext.state === "suspended") {
-      state.audioContext.resume();
+      state.audioContext.resume().catch(() => {});
     }
+  }
+
+  function recoverAudioEngine(reason = "recovery") {
+    clearTimeout(state.audioRecoveryTimer);
+    state.audioRecoveryTimer = window.setTimeout(async () => {
+      try {
+        if (!state.audioContext || state.audioContext.state === "closed") {
+          createFreshAudioContext();
+          if (state.playing) {
+            reschedulePlayback();
+          }
+          return;
+        }
+        if (state.audioContext.state === "suspended") {
+          await state.audioContext.resume();
+        }
+        if (state.masterGain) {
+          try {
+            state.masterGain.disconnect();
+          } catch (error) {
+            // no-op
+          }
+          state.masterGain.connect(state.audioContext.destination);
+        }
+        refreshTrackOutputStates();
+      } catch (error) {
+        if (!state.audioContext || state.audioContext.state === "closed") {
+          try {
+            createFreshAudioContext();
+            if (state.playing) {
+              reschedulePlayback();
+            }
+          } catch (innerError) {
+            return;
+          }
+        }
+      }
+    }, reason === "devicechange" ? 180 : 40);
   }
 
   function midiToFrequency(midi) {
@@ -4458,6 +4911,138 @@
       context.close().catch(() => {});
     }
     return buffer;
+  }
+
+  function getMonoBufferReference(audioBuffer) {
+    if (!audioBuffer?.length || !audioBuffer.numberOfChannels) {
+      return null;
+    }
+    const mono = new Float32Array(audioBuffer.length);
+    for (let sample = 0; sample < audioBuffer.length; sample += 1) {
+      let value = 0;
+      for (let channel = 0; channel < audioBuffer.numberOfChannels; channel += 1) {
+        value += audioBuffer.getChannelData(channel)[sample] || 0;
+      }
+      mono[sample] = value / audioBuffer.numberOfChannels;
+    }
+    return mono;
+  }
+
+  function resampleAudioBuffer(audioBuffer, rate = 1) {
+    const safeRate = Math.max(0.25, Math.min(4, Number(rate) || 1));
+    if (!audioBuffer?.length || Math.abs(safeRate - 1) < 0.001) {
+      return audioBuffer;
+    }
+    const outputLength = Math.max(1, Math.floor(audioBuffer.length / safeRate));
+    const outputBuffer = createAudioBufferLike(audioBuffer, outputLength);
+    for (let channel = 0; channel < audioBuffer.numberOfChannels; channel += 1) {
+      const input = audioBuffer.getChannelData(channel);
+      const output = outputBuffer.getChannelData(channel);
+      for (let index = 0; index < outputLength; index += 1) {
+        const sourcePosition = index * safeRate;
+        const leftIndex = Math.max(0, Math.min(input.length - 1, Math.floor(sourcePosition)));
+        const rightIndex = Math.max(0, Math.min(input.length - 1, leftIndex + 1));
+        const mix = sourcePosition - leftIndex;
+        output[index] = input[leftIndex] * (1 - mix) + input[rightIndex] * mix;
+      }
+    }
+    return outputBuffer;
+  }
+
+  function stretchAudioBufferSola(audioBuffer, stretchFactor = 1) {
+    const safeStretch = Math.max(0.25, Math.min(4, Number(stretchFactor) || 1));
+    if (!audioBuffer?.length || Math.abs(safeStretch - 1) < 0.001) {
+      return audioBuffer;
+    }
+
+    const frameSize = 4096;
+    const overlapSize = 2048;
+    const synthesisHop = frameSize - overlapSize;
+    const analysisHop = Math.max(128, Math.round(synthesisHop / safeStretch));
+    const searchRadius = 768;
+    const outputLength = Math.max(frameSize, Math.ceil(audioBuffer.length * safeStretch) + frameSize);
+    const outputBuffer = createAudioBufferLike(audioBuffer, outputLength);
+    const outputMono = new Float32Array(outputLength);
+    const outputWeights = new Float32Array(outputLength);
+    const monoReference = getMonoBufferReference(audioBuffer);
+    if (!monoReference) {
+      return audioBuffer;
+    }
+
+    const window = new Float32Array(overlapSize);
+    for (let index = 0; index < overlapSize; index += 1) {
+      window[index] = 0.5 - 0.5 * Math.cos((2 * Math.PI * index) / Math.max(1, overlapSize - 1));
+    }
+
+    const copyFrame = (inputStart, outputStart, blendOverlap) => {
+      const frameLength = Math.max(0, Math.min(frameSize, audioBuffer.length - inputStart, outputLength - outputStart));
+      if (!frameLength) {
+        return;
+      }
+      for (let index = 0; index < frameLength; index += 1) {
+        const writeIndex = outputStart + index;
+        const weight = blendOverlap
+          ? (index < overlapSize ? window[index] : 1)
+          : 1;
+        outputWeights[writeIndex] += weight;
+      }
+      for (let channel = 0; channel < audioBuffer.numberOfChannels; channel += 1) {
+        const input = audioBuffer.getChannelData(channel);
+        const output = outputBuffer.getChannelData(channel);
+        for (let index = 0; index < frameLength; index += 1) {
+          const sample = input[inputStart + index] || 0;
+          const writeIndex = outputStart + index;
+          const weight = blendOverlap
+            ? (index < overlapSize ? window[index] : 1)
+            : 1;
+          output[writeIndex] += sample * weight;
+        }
+      }
+      for (let index = 0; index < frameLength; index += 1) {
+        const sample = monoReference[inputStart + index] || 0;
+        const writeIndex = outputStart + index;
+        const weight = blendOverlap
+          ? (index < overlapSize ? window[index] : 1)
+          : 1;
+        outputMono[writeIndex] += sample * weight;
+      }
+    };
+
+    copyFrame(0, 0, false);
+    let inputPosition = analysisHop;
+    let outputPosition = synthesisHop;
+
+    while (inputPosition < audioBuffer.length - overlapSize && outputPosition < outputLength - frameSize) {
+      let bestInput = Math.max(0, Math.min(audioBuffer.length - frameSize, inputPosition));
+      let bestScore = -Infinity;
+      const searchStart = Math.max(0, bestInput - searchRadius);
+      const searchEnd = Math.min(audioBuffer.length - frameSize, bestInput + searchRadius);
+      for (let candidate = searchStart; candidate <= searchEnd; candidate += 64) {
+        let score = 0;
+        for (let index = 0; index < overlapSize; index += 1) {
+          score += outputMono[outputPosition + index] * monoReference[candidate + index];
+        }
+        if (score > bestScore) {
+          bestScore = score;
+          bestInput = candidate;
+        }
+      }
+      copyFrame(bestInput, outputPosition, true);
+      inputPosition = bestInput + analysisHop;
+      outputPosition += synthesisHop;
+    }
+
+    const finalLength = Math.max(1, Math.min(outputLength, outputPosition + frameSize));
+    const trimmedBuffer = createAudioBufferLike(outputBuffer, finalLength);
+    for (let channel = 0; channel < outputBuffer.numberOfChannels; channel += 1) {
+      const source = outputBuffer.getChannelData(channel);
+      const target = trimmedBuffer.getChannelData(channel);
+      for (let index = 0; index < finalLength; index += 1) {
+        const weight = Math.max(outputWeights[index], 1e-6);
+        target[index] = source[index] / weight;
+      }
+    }
+    return trimmedBuffer;
   }
 
   function sliceAudioBuffer(audioBuffer, startSample, endSample) {
@@ -4739,6 +5324,24 @@
     statusText.textContent = message;
   }
 
+  function beginClipLivePreview(settleMs = 420) {
+    state.clipPreviewMode = true;
+    if (state.clipPreviewTimer) {
+      window.clearTimeout(state.clipPreviewTimer);
+      state.clipPreviewTimer = null;
+    }
+    if (state.playing) {
+      reschedulePlayback();
+    }
+    state.clipPreviewTimer = window.setTimeout(() => {
+      state.clipPreviewTimer = null;
+      state.clipPreviewMode = false;
+      if (state.playing) {
+        reschedulePlayback();
+      }
+    }, Math.max(120, settleMs));
+  }
+
   const STEM_SPLIT_STATS_KEY = "online-daw-stem-split-stats-v2";
 
   function formatTimer(seconds) {
@@ -4773,8 +5376,9 @@
     const stats = getStemSplitStats();
     const key = getStemSplitStatsKey(engine, model);
     const observed = stats?.[key]?.avgSecondsPerSecond;
-    const avgSecondsPerSecond = Number.isFinite(observed) && observed > 0.05 ? observed : 1.35;
-    const overhead = 8;
+    const isAudioShake = String(engine || "").toLowerCase() === "audioshake";
+    const avgSecondsPerSecond = Number.isFinite(observed) && observed > 0.05 ? observed : (isAudioShake ? 0.45 : 1.35);
+    const overhead = isAudioShake ? 4 : 8;
     return Math.max(12, duration * avgSecondsPerSecond + overhead);
   }
 
@@ -4820,10 +5424,15 @@
   function updateStemSplitOverlayProgress(elapsedSeconds, estimatedTotalSeconds) {
     const elapsed = Math.max(0, Number(elapsedSeconds) || 0);
     const total = Math.max(1, Number(estimatedTotalSeconds) || 1);
-    const progress = Math.min(0.98, Math.max(0.02, elapsed / total));
+    const overrun = elapsed > total;
+    const progress = overrun
+      ? 0.985
+      : Math.min(0.98, Math.max(0.02, elapsed / total));
     stemSplitProgressBar.style.width = `${Math.round(progress * 1000) / 10}%`;
     stemSplitElapsedValue.textContent = formatTimer(elapsed);
-    stemSplitRemainingValue.textContent = formatTimer(Math.max(0, total - elapsed));
+    stemSplitRemainingValue.textContent = overrun
+      ? `>${formatTimer(elapsed - total)} over`
+      : formatTimer(Math.max(0, total - elapsed));
   }
 
   function getStemApiCandidates() {
@@ -4880,7 +5489,9 @@
         localStorage.setItem(STEM_API_BASE_STORAGE_KEY, candidate);
         state.stemSplitterOnline = true;
         state.stemSplitterEngine = String(payload?.engine || "").trim();
+        state.stemSplitterDefaultModel = String(payload?.defaultModel || DEFAULT_STEM_MODEL).trim() || DEFAULT_STEM_MODEL;
         state.stemSplitterReady = Boolean(payload?.ready);
+        state.clipProcessorReady = Boolean(payload?.clipProcessorReady);
         state.stemSplitterMessage = state.stemSplitterReady
           ? `${state.stemSplitterEngine ? `${state.stemSplitterEngine[0].toUpperCase()}${state.stemSplitterEngine.slice(1)} ` : ""}stem splitter is ready.`
           : "Stem splitter backend is running, but no stem engine is installed yet.";
@@ -4893,6 +5504,8 @@
     state.stemSplitterOnline = false;
     state.stemSplitterReady = false;
     state.stemSplitterEngine = "";
+    state.stemSplitterDefaultModel = DEFAULT_STEM_MODEL;
+    state.clipProcessorReady = false;
     state.stemSplitterMessage = "Stem splitter backend is offline. Start the local server to enable it.";
   }
 
@@ -5187,6 +5800,9 @@
     composer.classList.toggle("sampler-active", samplerActive);
     composerPanelTitle.textContent = "Add Effects";
     addEffectBtn.hidden = samplerActive;
+    if (samplerActive && state.composerHeight < MIN_SAMPLER_COMPOSER_HEIGHT) {
+      applyComposerHeight(MIN_SAMPLER_COMPOSER_HEIGHT);
+    }
     if (samplerActive) {
       const { track, clip } = getSamplerClip();
       effectsRackBody.classList.remove("has-effect");
@@ -5606,7 +6222,7 @@
     return seconds / (60 / tempo);
   }
 
-  function setProjectTempo(nextTempo) {
+  function setProjectTempo(nextTempo, options = {}) {
     const clampedTempo = Math.max(60, Math.min(500, Number(nextTempo) || 120));
     const previousTempo = state.tempo;
     state.tempo = clampedTempo;
@@ -5618,6 +6234,9 @@
       renderTracks();
       setTransportPosition(state.transportPositionBeats);
       reschedulePlayback();
+      if (options.livePreview) {
+        beginClipLivePreview();
+      }
       scheduleProjectSave();
     }
     return clampedTempo;
@@ -5786,13 +6405,17 @@
     ensureAudioContext();
     const context = state.audioContext;
     const destination = ensureTrackOutput(track);
-    const grainDuration = 0.14;
-    const outputHop = 0.06;
+    const grainDuration = 0.18;
+    const outputHop = 0.024;
     const sourceHop = outputHop * playbackRate;
     const pitchRate = Math.max(0.5, Math.min(2, Number(options.pitchRate) || 1));
-    const schedulerLookahead = 0.35;
-    const schedulerIntervalMs = 120;
+    const schedulerLookahead = 0.42;
+    const schedulerIntervalMs = 45;
     const endOffset = Math.max(audioBuffer.duration, 0);
+    const grainWindow = new Float32Array(96);
+    for (let index = 0; index < grainWindow.length; index += 1) {
+      grainWindow[index] = Math.sin((Math.PI * index) / (grainWindow.length - 1));
+    }
 
     let nextOutputTime = context.currentTime + 0.01;
     let nextSourceOffset = Math.max(0, offsetSeconds);
@@ -5837,17 +6460,13 @@
           break;
         }
         const outputDuration = sliceDuration / pitchRate;
-        const fadeDuration = Math.min(0.03, outputDuration * 0.5);
         const sourceNode = context.createBufferSource();
         const gainNode = context.createGain();
         sourceNode.buffer = audioBuffer;
         sourceNode.playbackRate.setValueAtTime(pitchRate, nextOutputTime);
         sourceNode.connect(gainNode);
         gainNode.connect(destination);
-        gainNode.gain.setValueAtTime(0.0001, nextOutputTime);
-        gainNode.gain.linearRampToValueAtTime(1, nextOutputTime + fadeDuration);
-        gainNode.gain.setValueAtTime(1, nextOutputTime + Math.max(outputDuration - fadeDuration, fadeDuration));
-        gainNode.gain.linearRampToValueAtTime(0.0001, nextOutputTime + outputDuration);
+        gainNode.gain.setValueCurveAtTime(grainWindow, nextOutputTime, outputDuration);
         sourceNode.start(nextOutputTime, nextSourceOffset, sliceDuration);
         sourceNode.stop(nextOutputTime + outputDuration + 0.01);
         const scheduledNode = { sourceNode, gainNode };
@@ -6097,7 +6716,6 @@
               ${waveformPath
                 ? `
                   <svg class="clip-waveform-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <line class="clip-waveform-line" x1="0" y1="50" x2="100" y2="50"></line>
                     <path class="clip-waveform-fill" d="${waveformPath}"></path>
                   </svg>
                 `
@@ -7165,6 +7783,7 @@
   }
 
   function scheduleClipPlayback(clip, track, baseTime) {
+    const playbackGeneration = state.playbackGeneration;
     if (clip.type === "instrument") {
       clip.events.forEach((event) => {
         const eventBeat = clip.beatStart + (event.beatOffset || 0);
@@ -7172,7 +7791,7 @@
           return;
         }
         const timeout = setTimeout(() => {
-          if (!state.playing) {
+          if (!state.playing || playbackGeneration !== state.playbackGeneration) {
             return;
           }
           const destination = ensureTrackOutput(track);
@@ -7197,25 +7816,29 @@
     if (clip.type === "audio" && clip.audioSrc) {
       const playbackRate = Math.max(0.25, Math.min(8, state.tempo / (clip.sourceTempo || state.tempo)));
       const pitchRate = Math.pow(2, (Number(clip.pitchSemitones) || 0) / 12);
+      const useLivePreview = state.clipPreviewMode && (Math.abs(playbackRate - 1) >= 0.02 || Math.abs(pitchRate - 1) >= 0.02);
       const offsetBeats = Math.max(baseTime - clip.beatStart, 0);
       const clipEndBeat = clip.beatStart + clip.beatDuration;
       if (baseTime >= clipEndBeat) {
         return;
       }
       const timeout = setTimeout(async () => {
-        if (!state.playing) {
+        if (!state.playing || playbackGeneration !== state.playbackGeneration) {
           return;
         }
-        const audioBuffer = await ensureClipPlaybackBuffer(clip);
-        if (!audioBuffer || !state.playing) {
+        const audioBuffer = useLivePreview
+          ? await ensureClipPlaybackBuffer(clip)
+          : await ensureClipProcessedPlaybackBuffer(clip, playbackRate, pitchRate);
+        if (!audioBuffer || !state.playing || playbackGeneration !== state.playbackGeneration) {
           return;
         }
-        const offsetSeconds = Math.max(0, beatsToSeconds(offsetBeats, clip.sourceTempo || state.tempo));
-        if (Math.abs(playbackRate - 1) < 0.02 && Math.abs(pitchRate - 1) < 0.02) {
-          startBufferedClipPlayback(clip, track, audioBuffer, offsetSeconds);
+        if (useLivePreview) {
+          const offsetSeconds = Math.max(0, beatsToSeconds(offsetBeats, clip.sourceTempo || state.tempo));
+          startGranularClipPlayback(clip, track, audioBuffer, offsetSeconds, playbackRate, { pitchRate });
           return;
         }
-        startGranularClipPlayback(clip, track, audioBuffer, offsetSeconds, playbackRate, { pitchRate });
+        const offsetSeconds = Math.max(0, beatsToSeconds(offsetBeats, state.tempo));
+        startBufferedClipPlayback(clip, track, audioBuffer, offsetSeconds);
       }, Math.max(beatsToSeconds(Math.max(clip.beatStart - baseTime, 0)) * 1000, 0));
       state.scheduledTimeouts.push(timeout);
     }
@@ -7226,7 +7849,11 @@
     const playheadX = state.transportPositionBeats * PIXELS_PER_BEAT;
     playhead.style.left = `${playheadX}px`;
     timeDisplay.textContent = formatTime(beatsToSeconds(state.transportPositionBeats));
+    updateSamplerPlayheadPosition();
     if (state.playing && timelineArea) {
+      if (performance.now() < state.timelineFollowSuspendedUntil) {
+        return;
+      }
       const viewportStart = timelineArea.scrollLeft;
       const headerWidth = Math.max(0, trackHeaders?.offsetWidth || 0);
       const timelineViewportWidth = Math.max(1, timelineArea.clientWidth - headerWidth);
@@ -7256,6 +7883,10 @@
     }
   }
 
+  function suspendTimelineFollow(durationMs = 2200) {
+    state.timelineFollowSuspendedUntil = performance.now() + Math.max(0, Number(durationMs) || 0);
+  }
+
   function animationLoop() {
     if (!state.playing) {
       return;
@@ -7279,6 +7910,7 @@
     }
     ensureAudioContext();
     stopAllScheduledAudio();
+    state.playbackGeneration += 1;
     state.playing = true;
     state.playStartTime = state.audioContext.currentTime - beatsToSeconds(state.transportPositionBeats);
     state.tracks.forEach((track) => {
@@ -7295,6 +7927,7 @@
     }
     ensureAudioContext();
     stopAllScheduledAudio();
+    state.playbackGeneration += 1;
     state.playStartTime = state.audioContext.currentTime - beatsToSeconds(state.transportPositionBeats);
     state.tracks.forEach((track) => {
       track.clips.forEach((clip) => scheduleClipPlayback(clip, track, state.transportPositionBeats));
@@ -7306,6 +7939,7 @@
       return;
     }
     const pausedBeat = secondsToBeats(state.audioContext.currentTime - state.playStartTime);
+    state.playbackGeneration += 1;
     state.playing = false;
     cancelAnimationFrame(state.animationFrame);
     state.animationFrame = null;
@@ -7316,6 +7950,7 @@
   }
 
   function stopPlayback() {
+    state.playbackGeneration += 1;
     state.playing = false;
     cancelAnimationFrame(state.animationFrame);
     state.animationFrame = null;
@@ -7751,12 +8386,6 @@
   }
 
   async function splitAudioClipToStems(trackId, clipId) {
-    await refreshStemSplitterHealth();
-    if (!state.stemSplitterReady) {
-      setStatus(state.stemSplitterMessage);
-      closeContextMenu();
-      return;
-    }
     const track = state.tracks.find((item) => item.id === trackId);
     const clip = track?.clips.find((item) => item.id === clipId);
     if (!clip || clip.type !== "audio") {
@@ -7775,19 +8404,14 @@
       setStatus("That region is already being split into stems in the background.");
       return;
     }
-    const blob = await loadClipAudioBlob(clip);
-    if (!blob) {
-      setStatus("Could not load the selected audio region for stem splitting.");
-      return;
-    }
-
-    state.activeStemSplitClipIds.add(clipId);
     closeContextMenu();
-    setStatus(`Splitting ${clip.name} into stems. This can take a while.`);
-    const stemEngine = state.stemSplitterEngine || "demucs";
+    state.activeStemSplitClipIds.add(clipId);
+    setStatus(`Preparing ${clip.name} for stem splitting...`);
     const clipDurationSeconds = Number(clip.sourceDuration || clip.audioBuffer?.duration || beatsToSeconds(clip.beatDuration, clip.sourceTempo || state.tempo)) || 0;
-    const estimatedTotalSeconds = estimateStemSplitSeconds(clipDurationSeconds, stemEngine, DEFAULT_STEM_MODEL);
+    const requestedStemModel = state.stemSplitterDefaultModel || DEFAULT_STEM_MODEL;
+    const estimatedTotalSeconds = estimateStemSplitSeconds(clipDurationSeconds, state.stemSplitterEngine || "demucs", requestedStemModel);
     const startedAt = performance.now();
+    let stemEngine = state.stemSplitterEngine || "demucs";
     let progressTimer = null;
     openStemSplitOverlay(clip.name, stemEngine, estimatedTotalSeconds);
     state.visibleStemSplitClipId = clipId;
@@ -7806,10 +8430,24 @@
       }
     }, 450);
     try {
+      await refreshStemSplitterHealth();
+      if (!state.stemSplitterReady) {
+        throw new Error(state.stemSplitterMessage || "Stem splitter backend is unavailable.");
+      }
+      stemEngine = state.stemSplitterEngine || stemEngine;
+      activeSession.stemEngine = stemEngine;
+      openStemSplitOverlay(clip.name, stemEngine, estimatedTotalSeconds, {
+        elapsedSeconds: (performance.now() - startedAt) / 1000
+      });
+      const blob = await loadClipAudioBlob(clip);
+      if (!blob) {
+        throw new Error("Could not load the selected audio region for stem splitting.");
+      }
+      setStatus(`Splitting ${clip.name} into stems. This can take a while.`);
       const formData = new FormData();
       formData.append("audio", blob, `${sanitizeStemFilename(clip.name)}.${fileExtensionForBlob(blob)}`);
       formData.append("clip_name", clip.name);
-      formData.append("model", DEFAULT_STEM_MODEL);
+      formData.append("model", requestedStemModel);
       const response = await fetch(resolveStemApiUrl("/api/split-stems"), {
         method: "POST",
         body: formData
@@ -7835,7 +8473,7 @@
         updateProjectStats();
       }
       setStatus(`${clip.name} split into ${payload.stems.length} stem tracks.`);
-      recordStemSplitTiming(stemEngine, payload?.model || DEFAULT_STEM_MODEL, clipDurationSeconds, (performance.now() - startedAt) / 1000);
+      recordStemSplitTiming(stemEngine, payload?.model || requestedStemModel, clipDurationSeconds, (performance.now() - startedAt) / 1000);
     } catch (error) {
       const message = String(error?.message || error);
       if (message === "Failed to fetch") {
@@ -7864,6 +8502,9 @@
       stopPlayback();
     });
     document.getElementById("recordBtn").addEventListener("click", toggleRecording);
+    document.getElementById("tempoInput").addEventListener("input", (event) => {
+      setProjectTempo(event.target.value, { livePreview: true });
+    });
     document.getElementById("tempoInput").addEventListener("change", (event) => {
       setProjectTempo(event.target.value);
       setStatus(`Tempo changed to ${state.tempo} BPM.`);
@@ -7989,6 +8630,11 @@
     };
     const handleEqContainerInput = (event) => {
       const action = event.target.dataset.action;
+      if (action === "sampler-pitch") {
+        updateRangeVisual(event.target);
+        updateSamplerClipSetting("pitch", event.target.value);
+        return;
+      }
       const track = state.tracks.find((item) => item.id === event.target.dataset.trackId);
       if (!track) {
         return;
@@ -8004,11 +8650,6 @@
         updateEqControlDisplays(track.id, frequency, band.gain, event.target);
         ensureTrackOutput(track);
         scheduleProjectSave();
-        return;
-      }
-      if (action === "sampler-pitch") {
-        updateRangeVisual(event.target);
-        updateSamplerClipSetting("pitch", event.target.value);
         return;
       }
       if (action === "reverb-size" || action === "reverb-decay") {
@@ -8031,6 +8672,61 @@
     effectsRackBody.addEventListener("click", handleEqContainerClick);
     effectsWindowList.addEventListener("input", handleEqContainerInput);
     effectsRackBody.addEventListener("input", handleEqContainerInput);
+    effectsRackBody.addEventListener("pointerdown", (event) => {
+      const pitchDial = event.target.closest('[data-action="sampler-pitch-dial"]');
+      if (!pitchDial) {
+        return;
+      }
+      const { clip } = getSamplerClip();
+      if (!clip || clip.type !== "audio") {
+        return;
+      }
+      event.preventDefault();
+      state.samplerPitchDragPointerId = event.pointerId;
+      state.samplerPitchDragStartX = event.clientX;
+      state.samplerPitchDragStartY = event.clientY;
+      state.samplerPitchDragStartValue = Math.round(Number(clip.pitchSemitones) || 0);
+      pitchDial.classList.add("dragging");
+      pitchDial.setPointerCapture?.(event.pointerId);
+    });
+    effectsRackBody.addEventListener("dblclick", (event) => {
+      const pitchDial = event.target.closest('[data-action="sampler-pitch-dial"]');
+      if (!pitchDial) {
+        return;
+      }
+      event.preventDefault();
+      updateSamplerClipSetting("pitch", 0);
+    });
+    effectsRackBody.addEventListener("keydown", (event) => {
+      const pitchDial = event.target.closest('[data-action="sampler-pitch-dial"]');
+      if (!pitchDial) {
+        return;
+      }
+      const { clip } = getSamplerClip();
+      if (!clip || clip.type !== "audio") {
+        return;
+      }
+      if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
+        event.preventDefault();
+        updateSamplerClipSetting("pitch", (clip.pitchSemitones || 0) - 1);
+      }
+      if (event.key === "ArrowRight" || event.key === "ArrowUp") {
+        event.preventDefault();
+        updateSamplerClipSetting("pitch", (clip.pitchSemitones || 0) + 1);
+      }
+      if (event.key === "Home") {
+        event.preventDefault();
+        updateSamplerClipSetting("pitch", -12);
+      }
+      if (event.key === "End") {
+        event.preventDefault();
+        updateSamplerClipSetting("pitch", 12);
+      }
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        updateSamplerClipSetting("pitch", 0);
+      }
+    });
     closeKeyboardWindowBtn.addEventListener("click", () => {
       closeKeyboardWindow();
     });
@@ -8288,6 +8984,16 @@
       event.preventDefault();
       timelineArea.classList.add("dragover");
     });
+    timelineArea.addEventListener("wheel", () => {
+      if (state.playing) {
+        suspendTimelineFollow(2600);
+      }
+    }, { passive: true });
+    timelineArea.addEventListener("pointerdown", () => {
+      if (state.playing) {
+        suspendTimelineFollow(2600);
+      }
+    });
     timelineArea.addEventListener("dragleave", () => timelineArea.classList.remove("dragover"));
     timelineArea.addEventListener("drop", (event) => {
       event.preventDefault();
@@ -8311,14 +9017,33 @@
       if (clipEl) {
         const track = state.tracks.find((item) => item.id === clipEl.dataset.trackId);
         const clip = track?.clips.find((item) => item.id === clipEl.dataset.clipId);
+        const samplerHit = clip?.type === "audio" && event.target.closest('[data-action="open-sampler"]');
         if (track) {
           selectTrack(track.id);
         }
-        if (clip?.type === "audio" && event.target.closest('[data-action="open-sampler"]')) {
-          openSamplerWindow(track.id, clip.id);
+        if (samplerHit && track && clip) {
+          const now = performance.now();
+          const lastClick = state.lastSamplerClick;
+          const isSecondClick = lastClick
+            && lastClick.trackId === track.id
+            && lastClick.clipId === clip.id
+            && (now - lastClick.timestamp) <= 360;
+          state.lastSamplerClick = isSecondClick
+            ? null
+            : {
+                trackId: track.id,
+                clipId: clip.id,
+                timestamp: now
+              };
+          if (isSecondClick) {
+            openSamplerWindow(track.id, clip.id);
+          }
+        } else {
+          state.lastSamplerClick = null;
         }
         return;
       }
+      state.lastSamplerClick = null;
       seekTransportToBeat(timelineBeatFromClientX(event.clientX, timelineContent));
     });
     timelineArea.addEventListener("scroll", () => {
@@ -8404,16 +9129,27 @@
       const nextPan = state.panDragStartPan + (deltaX * 0.0038) + (deltaY * 0.0055);
       setTrackPan(track, nextPan, { persist: false });
     });
+    window.addEventListener("pointermove", (event) => {
+      if (state.samplerPitchDragPointerId !== event.pointerId) {
+        return;
+      }
+      const deltaX = event.clientX - state.samplerPitchDragStartX;
+      const deltaY = state.samplerPitchDragStartY - event.clientY;
+      const nextPitch = state.samplerPitchDragStartValue + (deltaX * 0.05) + (deltaY * 0.035);
+      updateSamplerClipSetting("pitch", nextPitch);
+    });
     window.addEventListener("pointerup", (event) => {
       const noteId = state.activePointerNotes.get(event.pointerId);
       if (noteId) {
         state.activePointerNotes.delete(event.pointerId);
         releasePerformanceNote(noteId);
       }
-      if (state.panDragPointerId !== event.pointerId) {
-        return;
+      if (state.panDragPointerId === event.pointerId) {
+        stopPanDialDrag(true);
       }
-      stopPanDialDrag(true);
+      if (state.samplerPitchDragPointerId === event.pointerId) {
+        stopSamplerPitchDialDrag();
+      }
     });
     window.addEventListener("pointercancel", (event) => {
       const noteId = state.activePointerNotes.get(event.pointerId);
@@ -8421,10 +9157,12 @@
         state.activePointerNotes.delete(event.pointerId);
         releasePerformanceNote(noteId);
       }
-      if (state.panDragPointerId !== event.pointerId) {
-        return;
+      if (state.panDragPointerId === event.pointerId) {
+        stopPanDialDrag(true);
       }
-      stopPanDialDrag(true);
+      if (state.samplerPitchDragPointerId === event.pointerId) {
+        stopSamplerPitchDialDrag();
+      }
     });
     window.addEventListener("scroll", closeContextMenu, true);
     window.addEventListener("resize", closeContextMenu);
@@ -8455,6 +9193,12 @@
     });
     window.addEventListener("blur", () => {
       stopPanDialDrag(true);
+      stopSamplerPitchDialDrag();
+    });
+    window.addEventListener("blur", () => {
+      if (state.audioContext?.state === "interrupted" || state.audioContext?.state === "suspended") {
+        recoverAudioEngine("blur");
+      }
     });
   }
 
@@ -8465,6 +9209,7 @@
   async function init() {
     await restorePersistedProject();
     await refreshStemSplitterHealth();
+    bindAudioEngineWatchers();
     applyComposerHeight(state.composerHeight);
     document.getElementById("tempoInput").value = String(state.tempo);
     document.getElementById("masterVolume").value = String(state.outputVolume);

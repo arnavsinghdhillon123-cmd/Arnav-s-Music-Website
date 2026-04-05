@@ -7,12 +7,31 @@ This DAW now includes a `Split to Stems` action for audio clips.
 - Right-click an audio region in the timeline.
 - Choose `Split to Stems`.
 - The app uploads that region to the local backend.
-- The backend runs Demucs.
+- The backend runs AudioShake if `AUDIOSHAKE_API_KEY` is configured.
+- Otherwise it falls back to a local engine like Demucs.
 - The returned stems are added as new audio tracks:
   - `Vocals`
   - `Drums`
   - `Bass`
   - `Other`
+
+## Fastest hosted option: AudioShake
+
+If you want much faster and more predictable stem splitting, set an AudioShake API key:
+
+```bash
+export AUDIOSHAKE_API_KEY=your_api_key_here
+```
+
+With that present, `/api/stem-health` will report `engine: "audioshake"` and the DAW will use the hosted API instead of local Demucs.
+
+AudioShake Tasks are asynchronous and can return stems like:
+
+- `Vocals`
+- `Drums`
+- `Bass`
+- `Keys`
+- `Other`
 
 ## Install the local stem backend
 
@@ -21,7 +40,6 @@ Create the dedicated stem environment and install the dependencies:
 ```bash
 /opt/homebrew/bin/python3.10 -m venv .venv-stems
 .venv-stems/bin/python -m pip install -r requirements-stems.txt
-.venv-stems/bin/python -m pip install torchcodec
 ```
 
 `ffmpeg` must also be available on your system PATH.
@@ -68,6 +86,7 @@ Use this when you want a public site:
 2. Deploy backend on Render:
    - In Render, create a new service from your GitHub repo.
    - Render will detect `render.yaml`.
+   - Add `AUDIOSHAKE_API_KEY` in the Render environment if you want the hosted splitter.
    - Wait for deploy to finish.
    - Open `https://<your-render-service>.onrender.com/api/stem-health`.
    - Confirm it returns JSON with `"ready": true`.
@@ -86,7 +105,8 @@ Use this when you want a public site:
 ## Notes
 
 - Stem splitting is synchronous in this first version, so large files can take a while.
-- The default model is set to `mdx_q` for faster turnaround than `mdx_extra_q`.
+- If `AUDIOSHAKE_API_KEY` is set, AudioShake is preferred over local engines.
+- The local Demucs fallback model is set to `htdemucs` to avoid the extra `diffq` dependency required by quantized `mdx_q`.
 - Repeat splits of the same clip and model are cached on the backend and should return much faster.
 - Generated stem files are stored temporarily in `.stem-jobs/`.
 - If no supported stem engine is installed, the DAW will show a setup error when you try to split a clip.

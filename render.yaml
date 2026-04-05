@@ -15,4 +15,6 @@ services:
       - key: DEMUCS_DEVICE
         value: cpu
       - key: DEMUCS_MODEL
-        value: mdx_q
+        value: htdemucs
+      - key: AUDIOSHAKE_API_KEY
+        sync: false
