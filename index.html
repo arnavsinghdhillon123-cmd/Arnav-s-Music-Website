@@ -367,6 +367,26 @@
     flex: 0 0 auto;
   }
 
+  .track-plugin-btn {
+    min-width: 30px;
+    min-height: 30px;
+    padding: 0 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(123, 82, 255, 0.26);
+    background: rgba(123, 82, 255, 0.12);
+    color: #c4b5fd;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: 140ms ease;
+  }
+
+  .track-plugin-btn:hover {
+    border-color: rgba(123, 82, 255, 0.45);
+    background: rgba(123, 82, 255, 0.2);
+    color: #ede9fe;
+  }
+
   .track-solo-btn,
   .track-mute-btn {
     flex: 0 0 auto;
@@ -1222,6 +1242,121 @@
     background: rgba(255, 181, 31, 0.08);
   }
 
+  .track-header-row.plugin-instrument .track-card {
+    background: linear-gradient(180deg, rgba(123, 82, 255, 0.08), rgba(123, 82, 255, 0.02)), #14181d;
+  }
+
+  .track-header-row.plugin-instrument .track-main strong::before {
+    content: "◆ ";
+    color: #7b52ff;
+  }
+
+  .plugin-drop-zone {
+    position: absolute;
+    inset: 4px;
+    border: 2px dashed rgba(123, 82, 255, 0.35);
+    border-radius: 14px;
+    background: rgba(123, 82, 255, 0.06);
+    display: none;
+    place-items: center;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.82rem;
+    text-align: center;
+    padding: 8px;
+    z-index: 10;
+  }
+
+  .plugin-drop-zone.visible {
+    display: grid;
+  }
+
+  .plugin-drop-zone.drag-over {
+    border-color: rgba(123, 82, 255, 0.7);
+    background: rgba(123, 82, 255, 0.12);
+  }
+
+  .plugin-editor-panel {
+    position: fixed;
+    top: 100px;
+    right: 24px;
+    width: min(380px, calc(100vw - 48px));
+    height: auto;
+    min-height: 140px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: linear-gradient(180deg, #1a1f26, #12161b);
+    box-shadow: 0 28px 90px rgba(0,0,0,0.55);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1350;
+    user-select: none;
+  }
+
+  .plugin-editor-panel.visible {
+    display: flex;
+  }
+
+  .plugin-editor-panel.dragging {
+    opacity: 0.92;
+    cursor: grabbing;
+  }
+
+  .plugin-editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 48px;
+    padding: 0 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    cursor: grab;
+  }
+
+  .plugin-editor-header:active {
+    cursor: grabbing;
+  }
+
+  .plugin-editor-header strong {
+    font-size: 0.92rem;
+    letter-spacing: -0.02em;
+    pointer-events: none;
+  }
+
+  .plugin-editor-header .plugin-badge {
+    min-height: 24px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: rgba(123, 82, 255, 0.18);
+    color: #a78bfa;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  .plugin-editor-body {
+    padding: 16px;
+    flex: 1;
+  }
+
+  .plugin-editor-placeholder {
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: center;
+    line-height: 1.5;
+    padding: 8px 0;
+  }
+
+  .track-lane.plugin-drop-target.drag-over {
+    background: rgba(123, 82, 255, 0.08);
+    box-shadow: inset 0 0 0 2px rgba(123, 82, 255, 0.35);
+  }
+
   .clip {
     position: absolute;
     top: calc((100% - 34px - 58px) / 2);
@@ -1576,6 +1711,89 @@
     min-width: 0;
   }
 
+  .effect-picker-toolbar {
+    display: grid;
+    gap: 12px;
+  }
+
+  .effect-picker-toolbar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .effect-picker-search {
+    width: min(340px, 100%);
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: 14px;
+    border: 0.5px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    font-size: 0.84rem;
+    outline: none;
+  }
+
+  .effect-picker-search:focus {
+    border-color: rgba(74, 164, 255, 0.34);
+    box-shadow: 0 0 0 3px rgba(74, 164, 255, 0.08);
+  }
+
+  .effect-picker-search::placeholder {
+    color: rgba(255,255,255,0.34);
+  }
+
+  .effect-picker-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .effect-picker-utility-btn,
+  .plugin-panel-btn {
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 0.5px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    font-size: 0.76rem;
+    font-weight: 700;
+    transition: 140ms ease;
+  }
+
+  .effect-picker-utility-btn:hover,
+  .plugin-panel-btn:hover {
+    border-color: rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.08);
+  }
+
+  .effect-picker-utility-btn:disabled,
+  .plugin-panel-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .effect-picker-status {
+    min-height: 42px;
+    padding: 10px 14px;
+    border-radius: 16px;
+    border: 0.5px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .effect-picker-status.error {
+    border-color: rgba(255, 116, 84, 0.26);
+    background: rgba(255, 116, 84, 0.08);
+    color: #ffb8aa;
+  }
+
   .effect-picker-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -1604,6 +1822,10 @@
   .effect-picker-card.added {
     border-color: rgba(74, 164, 255, 0.22);
     background: linear-gradient(180deg, rgba(74, 164, 255, 0.12), rgba(255,255,255,0.03));
+  }
+
+  .effect-picker-card.external {
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
   }
 
   .effect-picker-card strong {
@@ -1665,6 +1887,124 @@
     border: 0.5px solid rgba(255,255,255,0.08);
     background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
     padding: 18px 18px 20px;
+  }
+
+  .external-plugin-panel {
+    border-radius: 20px;
+    border: 0.5px solid rgba(255,255,255,0.08);
+    background: linear-gradient(180deg, rgba(74, 164, 255, 0.09), rgba(255,255,255,0.03));
+    padding: 18px 18px 20px;
+    display: grid;
+    gap: 16px;
+    min-height: 100%;
+  }
+
+  .external-plugin-panel.rack-effect {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .plugin-panel-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .plugin-panel-title {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .plugin-panel-title strong {
+    font-size: 0.94rem;
+    letter-spacing: -0.02em;
+    word-break: break-word;
+  }
+
+  .external-plugin-panel.rack-effect .plugin-panel-title strong {
+    font-size: 0.78rem;
+  }
+
+  .plugin-panel-copy {
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .external-plugin-panel.rack-effect .plugin-panel-copy {
+    font-size: 0.66rem;
+  }
+
+  .plugin-panel-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .plugin-format-chip,
+  .plugin-host-chip {
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .plugin-format-chip {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.86);
+  }
+
+  .plugin-host-chip {
+    background: rgba(74, 164, 255, 0.14);
+    color: #7bc6ff;
+  }
+
+  .external-plugin-panel.rack-effect .plugin-format-chip,
+  .external-plugin-panel.rack-effect .plugin-host-chip,
+  .external-plugin-panel.rack-effect .plugin-panel-btn {
+    min-height: 24px;
+    padding: 0 8px;
+    font-size: 0.62rem;
+  }
+
+  .plugin-panel-body {
+    display: grid;
+    gap: 12px;
+  }
+
+  .plugin-panel-note {
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 0.5px solid rgba(255,255,255,0.08);
+    background: rgba(8, 11, 16, 0.26);
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+
+  .external-plugin-panel.rack-effect .plugin-panel-note {
+    padding: 10px 12px;
+    font-size: 0.66rem;
+  }
+
+  .plugin-panel-path {
+    font-family: "SFMono-Regular", ui-monospace, monospace;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.46);
+    word-break: break-all;
+  }
+
+  .plugin-panel-path strong {
+    font-family: inherit;
+    font-size: inherit;
+    color: rgba(255,255,255,0.64);
   }
 
   .eq-panel.rack-effect {
@@ -2847,6 +3187,21 @@
       <div class="keyboard-area" id="performanceArea"></div>
     </div>
   </div>
+  <div id="pluginEditorPanel" class="plugin-editor-panel" aria-hidden="true">
+    <div class="plugin-editor-header">
+      <div>
+        <strong id="pluginEditorTitle">Plugin Editor</strong>
+        <span class="plugin-badge" id="pluginEditorFormat">VST3</span>
+      </div>
+      <button id="closePluginEditorBtn" class="keyboard-window-close" type="button" aria-label="Close plugin editor">✕</button>
+    </div>
+    <div class="plugin-editor-body">
+      <div class="plugin-editor-placeholder" id="pluginEditorPlaceholder">
+        Plugin editor window opens externally.<br>
+        Click the track header to reopen or focus the editor.
+      </div>
+    </div>
+  </div>
   <div id="effectsWindowOverlay" class="chooser-overlay effects-window-overlay">
     <div class="chooser-modal effects-window-modal">
       <div class="chooser-head">
@@ -2924,12 +3279,33 @@
         <div class="effect-picker-sidebar">
           <strong>Tags</strong>
           <div class="effect-picker-tags">
-            <button class="effect-picker-tag active" type="button">All</button>
-            <button class="effect-picker-tag" type="button">EQ</button>
+            <button class="effect-picker-tag active" type="button" data-effect-filter="all">All</button>
+            <button class="effect-picker-tag" type="button" data-effect-filter="built-in">Built-In</button>
+            <button class="effect-picker-tag" type="button" data-effect-filter="external">External</button>
+            <button class="effect-picker-tag" type="button" data-effect-filter="eq">EQ</button>
+            <button class="effect-picker-tag" type="button" data-effect-filter="reverb">Reverb</button>
+            <button class="effect-picker-tag" type="button" data-effect-filter="vst">VST</button>
+            <button class="effect-picker-tag" type="button" data-effect-filter="vst3">VST3</button>
           </div>
         </div>
         <div class="effect-picker-main">
-          <div id="effectPickerTrackBadge" class="effects-track-badge">No track selected</div>
+          <div class="effect-picker-toolbar">
+            <div class="effect-picker-toolbar-row">
+              <div id="effectPickerTrackBadge" class="effects-track-badge">No track selected</div>
+              <div class="effect-picker-actions">
+                <button id="rescanPluginsBtn" class="effect-picker-utility-btn" type="button">Rescan Plugins</button>
+              </div>
+            </div>
+            <div class="effect-picker-toolbar-row">
+              <input
+                id="effectPickerSearch"
+                class="effect-picker-search"
+                type="search"
+                placeholder="Search effects and plugins"
+                aria-label="Search effects and plugins">
+            </div>
+            <div id="effectPickerStatus" class="effect-picker-status">Built-in effects are always available.</div>
+          </div>
           <div id="effectPickerList" class="effect-picker-list"></div>
         </div>
       </div>
@@ -3107,10 +3483,27 @@
   };
   const EQ_FREQUENCIES = [10, 30, 50, 75, 100, 125, 1000, 2000, 4000, 10000, 16000, 20000];
   const DEFAULT_STEM_MODEL = "demucs:htdemucs";
+  const PLUGIN_FILE_EXTENSIONS = [".vst3", ".vst", ".component"];
   const REVERB_DEFAULTS = {
     size: 48,
     decay: 2.6
   };
+  const BUILT_IN_EFFECT_LIBRARY = [
+    {
+      type: "eq",
+      name: "EQ",
+      family: "built-in",
+      format: "Built-In",
+      description: "12-band tone shaping with vertical sliders from low bass on the left to air on the right."
+    },
+    {
+      type: "reverb",
+      name: "Reverb",
+      family: "built-in",
+      format: "Built-In",
+      description: "Shape the room size and tail length for a wider, more spacious sound."
+    }
+  ];
   const CHORD_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
   const CHORD_TEMPLATE_LIBRARY = [
     { suffix: "maj9", intervals: [0, 4, 7, 11, 2], required: [0, 4, 7, 11], optional: [2], priority: 1.2 },
@@ -3327,6 +3720,16 @@
     clipProcessorReady: false,
     stemApiBase: "",
     stemSplitterMessage: "Stem splitter backend status is unknown.",
+    pluginLibrary: [],
+    pluginScanStatus: window.waveforgeDesktop?.scanPlugins ? "idle" : "unsupported",
+    pluginScanMessage: window.waveforgeDesktop?.scanPlugins
+      ? "WaveForge can scan this desktop system for installed VST and VST3 plugins."
+      : "External plugin scanning is available in the WaveForge desktop app.",
+    pluginScanMeta: null,
+    effectPickerTag: "all",
+    effectPickerQuery: "",
+    openingPluginEditors: new Set(),
+    draggedPluginPayload: null,
     trackCounter: 0,
     clipCounter: 1,
     tracks: [],
@@ -3341,6 +3744,9 @@
     keyboardWindowDragPointerId: null,
     keyboardWindowDragOffsetX: 0,
     keyboardWindowDragOffsetY: 0,
+    pluginEditorDragPointerId: null,
+    pluginEditorDragOffsetX: 0,
+    pluginEditorDragOffsetY: 0,
     panDragPointerId: null,
     panDragTrackId: null,
     panDragStartX: 0,
@@ -3390,13 +3796,21 @@
   const effectPickerOverlay = document.getElementById("effectPickerOverlay");
   const effectPickerCopy = document.getElementById("effectPickerCopy");
   const effectPickerTrackBadge = document.getElementById("effectPickerTrackBadge");
+  const effectPickerSearch = document.getElementById("effectPickerSearch");
+  const effectPickerStatus = document.getElementById("effectPickerStatus");
   const effectPickerList = document.getElementById("effectPickerList");
+  const rescanPluginsBtn = document.getElementById("rescanPluginsBtn");
   const closeEffectPickerBtn = document.getElementById("closeEffectPickerBtn");
   const keyboardWindow = document.getElementById("keyboardWindow");
   const keyboardWindowHeader = document.getElementById("keyboardWindowHeader");
   const keyboardWindowTitle = document.getElementById("keyboardWindowTitle");
   const closeKeyboardWindowBtn = document.getElementById("closeKeyboardWindowBtn");
   const performanceArea = document.getElementById("performanceArea");
+  const pluginEditorPanel = document.getElementById("pluginEditorPanel");
+  const pluginEditorTitle = document.getElementById("pluginEditorTitle");
+  const pluginEditorFormat = document.getElementById("pluginEditorFormat");
+  const closePluginEditorBtn = document.getElementById("closePluginEditorBtn");
+  const pluginEditorPlaceholder = document.getElementById("pluginEditorPlaceholder");
   const composer = document.querySelector(".composer");
   const composerResizeHandle = document.getElementById("composerResizeHandle");
   const timeDisplay = document.getElementById("timeDisplay");
@@ -3478,6 +3892,143 @@
       return "0 st";
     }
     return `${rounded > 0 ? "+" : ""}${rounded} st`;
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  function createEffectInstanceId(prefix = "fx") {
+    return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
+  }
+
+  function supportsDesktopPluginFeatures() {
+    return Boolean(window.waveforgeDesktop?.scanPlugins && window.waveforgeDesktop?.openPluginUi);
+  }
+
+  function normalizeDiscoveredPlugin(plugin) {
+    if (!plugin?.path) {
+      return null;
+    }
+    const format = String(plugin.format || "Plugin").toUpperCase();
+    const safeName = String(plugin.name || plugin.id || "External Plugin").trim() || "External Plugin";
+    return {
+      id: String(plugin.id || `${format}:${plugin.path}`),
+      name: safeName,
+      format,
+      path: String(plugin.path),
+      source: String(plugin.source || "desktop-scan"),
+      family: "external",
+      isExternal: true
+    };
+  }
+
+  function normalizeExternalPluginEffect(effect) {
+    if (!effect?.pluginPath) {
+      return null;
+    }
+    return {
+      type: "external-plugin",
+      effectId: String(effect.effectId || createEffectInstanceId("plugin")),
+      pluginId: String(effect.pluginId || `${effect.format || "PLUGIN"}:${effect.pluginPath}`),
+      pluginPath: String(effect.pluginPath),
+      name: String(effect.name || "External Plugin").trim() || "External Plugin",
+      format: String(effect.format || "Plugin").toUpperCase(),
+      source: String(effect.source || "desktop-scan"),
+      status: String(effect.status || "ready"),
+      lastError: effect.lastError ? String(effect.lastError) : ""
+    };
+  }
+
+  function hydrateExternalPluginEffect(effect) {
+    const normalized = normalizeExternalPluginEffect(effect);
+    if (!normalized || !effect || typeof effect !== "object") {
+      return normalized;
+    }
+    Object.assign(effect, normalized);
+    return effect;
+  }
+
+  function isExternalPluginEffect(effect) {
+    return effect?.type === "external-plugin";
+  }
+
+  function isPluginFilePath(filePath) {
+    const ext = pathExtname(filePath);
+    return PLUGIN_FILE_EXTENSIONS.includes(ext);
+  }
+
+  function pathExtname(filePath) {
+    const value = String(filePath || "");
+    const lastDot = value.lastIndexOf(".");
+    if (lastDot === -1) {
+      return "";
+    }
+    return value.slice(lastDot).toLowerCase();
+  }
+
+  function normalizePluginInstrumentDescriptor(plugin) {
+    if (!plugin?.path) {
+      return null;
+    }
+    const normalized = normalizeDiscoveredPlugin(plugin);
+    if (!normalized) {
+      return null;
+    }
+    return {
+      id: String(plugin.id || normalized.id),
+      name: normalized.name,
+      format: normalized.format,
+      path: normalized.path,
+      source: String(plugin.source || normalized.source || "plugin-track")
+    };
+  }
+
+  function isPluginInstrumentTrack(track) {
+    return track?.instrument === "plugin-instrument" && Boolean(track?.pluginInstrument?.path);
+  }
+
+  function findDiscoveredPlugin(pluginId, pluginPath = "") {
+    return state.pluginLibrary.find((plugin) => {
+      if (pluginPath && plugin.path === pluginPath) {
+        return true;
+      }
+      if (pluginId && plugin.id === pluginId) {
+        return true;
+      }
+      return false;
+    }) || null;
+  }
+
+  function describeExternalPluginAvailability(effect) {
+    const registryMatch = findDiscoveredPlugin(effect?.pluginId, effect?.pluginPath);
+    if (registryMatch) {
+      return {
+        state: "ready",
+        message: "Scanned on this computer and ready to open in a native host."
+      };
+    }
+    if (!supportsDesktopPluginFeatures()) {
+      return {
+        state: "desktop-required",
+        message: "Open this project in the WaveForge desktop app to scan and reopen native plugin editors."
+      };
+    }
+    return {
+      state: "missing",
+      message: "This plugin is saved with the project, but it was not found in the latest scan."
+    };
+  }
+
+  function getExternalPluginCount(track) {
+    return Array.isArray(track?.effects)
+      ? track.effects.filter(isExternalPluginEffect).length
+      : 0;
   }
 
   function normalizeWaveformPeaks(peaks) {
@@ -4154,6 +4705,24 @@
     };
   }
 
+  function createExternalPluginEffect(pluginLike) {
+    const normalizedPlugin = normalizeDiscoveredPlugin(pluginLike);
+    if (!normalizedPlugin) {
+      return null;
+    }
+    return {
+      type: "external-plugin",
+      effectId: createEffectInstanceId("plugin"),
+      pluginId: normalizedPlugin.id,
+      pluginPath: normalizedPlugin.path,
+      name: normalizedPlugin.name,
+      format: normalizedPlugin.format,
+      source: normalizedPlugin.source,
+      status: "ready",
+      lastError: ""
+    };
+  }
+
   function normalizeEqEffect(effect) {
     const bandMap = new Map(
       Array.isArray(effect?.bands)
@@ -4197,6 +4766,13 @@
       if (effect?.type === "reverb" && !reverbSeen) {
         normalizedEffects.push(normalizeReverbEffect(effect));
         reverbSeen = true;
+        return;
+      }
+      if (effect?.type === "external-plugin") {
+        const normalizedExternal = normalizeExternalPluginEffect(effect);
+        if (normalizedExternal) {
+          normalizedEffects.push(normalizedExternal);
+        }
       }
     });
     return normalizedEffects;
@@ -4404,6 +4980,7 @@
         id: track.id,
         name: track.name,
         instrument: track.instrument,
+        pluginInstrument: normalizePluginInstrumentDescriptor(track.pluginInstrument),
         color: track.color,
         gain: track.gain,
         muted: Boolean(track.muted),
@@ -4754,6 +5331,7 @@
           id: track.id,
           name: normalizeTrackName(track.name, track.instrument),
           instrument: track.instrument,
+          pluginInstrument: normalizePluginInstrumentDescriptor(track.pluginInstrument),
           color: track.color,
           gain: Number(track.gain) || 0.8,
           muted: Boolean(track.muted),
@@ -5302,7 +5880,7 @@
   }
 
   function isKeyboardPlayableInstrument(instrument = state.currentInstrument) {
-    return ["keyboard", "guitar", "bass", "pads"].includes(instrument);
+    return ["keyboard", "guitar", "bass", "pads", "plugin-instrument"].includes(instrument);
   }
 
   function getCurrentTransportBeat() {
@@ -5314,6 +5892,504 @@
 
   function isSustainActive() {
     return state.sustainEnabled || state.shiftSustainActive;
+  }
+
+  function updateExternalPluginEffectStatuses() {
+    state.tracks.forEach((track) => {
+      if (!Array.isArray(track.effects)) {
+        return;
+      }
+      track.effects.forEach((effect) => {
+        if (!isExternalPluginEffect(effect)) {
+          return;
+        }
+        const availability = describeExternalPluginAvailability(effect);
+        effect.status = availability.state === "ready" ? "ready" : availability.state;
+        if (availability.state === "ready") {
+          effect.lastError = "";
+        }
+      });
+    });
+  }
+
+  function getEffectPickerCatalog(track) {
+    const builtInCards = BUILT_IN_EFFECT_LIBRARY.map((definition) => {
+      const isAdded = definition.type === "eq"
+        ? Boolean(getTrackEqEffect(track))
+        : Boolean(getTrackReverbEffect(track));
+      return {
+        id: definition.type,
+        type: definition.type,
+        family: "built-in",
+        name: definition.name,
+        format: definition.format,
+        description: definition.description,
+        actionLabel: isAdded ? `Open ${definition.name}` : `Add ${definition.name}`,
+        statusLabel: isAdded ? "Already added" : "Available now",
+        added: isAdded
+      };
+    });
+    const externalCards = state.pluginLibrary.map((plugin) => ({
+      id: plugin.id,
+      type: "external-plugin",
+      family: "external",
+      name: plugin.name,
+      format: plugin.format,
+      description: `${plugin.format} plugin discovered on this computer.`,
+      actionLabel: "Load Plugin",
+      statusLabel: "Scanned plugin",
+      added: false,
+      plugin
+    }));
+    return [...builtInCards, ...externalCards];
+  }
+
+  function getFilteredEffectPickerCatalog(track) {
+    const tag = state.effectPickerTag || "all";
+    const query = state.effectPickerQuery.trim().toLowerCase();
+    return getEffectPickerCatalog(track).filter((item) => {
+      const matchesTag = (() => {
+        if (tag === "all") return true;
+        if (tag === "built-in") return item.family === "built-in";
+        if (tag === "external") return item.family === "external";
+        if (tag === "vst") return item.format === "VST";
+        if (tag === "vst3") return item.format === "VST3";
+        return item.type === tag;
+      })();
+      if (!matchesTag) {
+        return false;
+      }
+      if (!query) {
+        return true;
+      }
+      return [item.name, item.format, item.description]
+        .filter(Boolean)
+        .some((value) => String(value).toLowerCase().includes(query));
+    });
+  }
+
+  function renderEffectPickerStatus() {
+    if (!effectPickerStatus) {
+      return;
+    }
+    if (rescanPluginsBtn && state.pluginScanStatus !== "scanning") {
+      rescanPluginsBtn.disabled = !supportsDesktopPluginFeatures();
+    }
+    effectPickerStatus.classList.toggle("error", state.pluginScanStatus === "error");
+    if (state.pluginScanStatus === "scanning") {
+      effectPickerStatus.textContent = "Scanning standard plugin folders on this computer. Built-in effects remain available while the scan runs.";
+      return;
+    }
+    if (state.pluginScanStatus === "error") {
+      effectPickerStatus.textContent = state.pluginScanMessage || "The plugin scan failed. Built-in effects are still available.";
+      return;
+    }
+    if (state.pluginScanStatus === "unsupported") {
+      effectPickerStatus.textContent = state.pluginScanMessage;
+      return;
+    }
+    const pluginCount = state.pluginLibrary.length;
+    const scanMetaBits = [];
+    if (state.pluginScanMeta?.usedCache) {
+      scanMetaBits.push("cached");
+    }
+    if (state.pluginScanMeta?.timedOut) {
+      scanMetaBits.push("scan hit time limit");
+    }
+    const suffix = scanMetaBits.length ? ` (${scanMetaBits.join(" • ")})` : "";
+    effectPickerStatus.textContent = pluginCount
+      ? `${pluginCount} external plugin${pluginCount === 1 ? "" : "s"} available${suffix}. Built-in effects still load directly in WaveForge.`
+      : `No external plugins were found in the standard plugin folders${suffix}. Built-in effects are still ready to use.`;
+  }
+
+  async function refreshDesktopPluginLibrary(options = {}) {
+    if (!supportsDesktopPluginFeatures()) {
+      state.pluginScanStatus = "unsupported";
+      state.pluginScanMessage = "External plugin scanning is available in the WaveForge desktop app.";
+      state.pluginLibrary = [];
+      renderEffectPickerStatus();
+      return [];
+    }
+    const forceRescan = Boolean(options.force);
+    state.pluginScanStatus = "scanning";
+    state.pluginScanMessage = forceRescan ? "Rescanning plugins..." : "Scanning plugins...";
+    renderEffectPickerStatus();
+    if (rescanPluginsBtn) {
+      rescanPluginsBtn.disabled = true;
+      rescanPluginsBtn.textContent = forceRescan ? "Rescanning..." : "Scanning...";
+    }
+    try {
+      const payload = await window.waveforgeDesktop.scanPlugins({ force: forceRescan });
+      state.pluginLibrary = Array.isArray(payload?.plugins)
+        ? payload.plugins.map(normalizeDiscoveredPlugin).filter(Boolean)
+        : [];
+      state.pluginScanStatus = "ready";
+      state.pluginScanMeta = payload || null;
+      state.pluginScanMessage = "";
+      updateExternalPluginEffectStatuses();
+      renderEffectPickerStatus();
+      renderComposerPanel();
+      if (effectsWindowOverlay.classList.contains("active")) {
+        renderEffectsWindow();
+      }
+      if (effectPickerOverlay.classList.contains("active")) {
+        renderEffectPicker();
+      }
+      if (options.announce) {
+        const pluginCount = state.pluginLibrary.length;
+        setStatus(pluginCount
+          ? `${pluginCount} external plugin${pluginCount === 1 ? "" : "s"} ${forceRescan ? "rescanned" : "scanned"} successfully.`
+          : `No external plugins were found during the ${forceRescan ? "rescan" : "scan"}.`);
+      }
+      return state.pluginLibrary;
+    } catch (error) {
+      state.pluginLibrary = [];
+      state.pluginScanStatus = "error";
+      state.pluginScanMessage = String(error?.message || error || "Plugin scan failed.");
+      renderEffectPickerStatus();
+      if (effectPickerOverlay.classList.contains("active")) {
+        renderEffectPicker();
+      }
+      if (options.announce) {
+        setStatus(`Plugin scan failed: ${state.pluginScanMessage}`);
+      }
+      return [];
+    } finally {
+      if (rescanPluginsBtn) {
+        rescanPluginsBtn.disabled = !supportsDesktopPluginFeatures();
+        rescanPluginsBtn.textContent = "Rescan Plugins";
+      }
+    }
+  }
+
+  async function ensurePluginInstrumentTrackReady(track, options = {}) {
+    if (!isPluginInstrumentTrack(track)) {
+      return null;
+    }
+    if (!window.waveforgeDesktop?.ensurePluginInstrument) {
+      if (options.announce !== false) {
+        setStatus("Plugin instrument tracks are available only in the WaveForge desktop app on macOS.");
+      }
+      return null;
+    }
+    try {
+      return await window.waveforgeDesktop.ensurePluginInstrument({
+        trackId: track.id,
+        pluginPath: track.pluginInstrument.path,
+        pluginName: track.pluginInstrument.name,
+        autoOpen: Boolean(options.autoOpen)
+      });
+    } catch (error) {
+      if (options.announce !== false) {
+        setStatus(String(error?.message || error || "Could not start the plugin instrument host."));
+      }
+      return null;
+    }
+  }
+
+  async function openPluginInstrumentEditor(track) {
+    if (!isPluginInstrumentTrack(track)) {
+      return;
+    }
+    const ready = await ensurePluginInstrumentTrackReady(track, { autoOpen: false, announce: true });
+    if (!ready) {
+      return;
+    }
+    try {
+      const result = await window.waveforgeDesktop.openPluginInstrumentEditor(track.id);
+      setStatus(`${track.pluginInstrument.name} editor opened for ${track.name}.`);
+      return result;
+    } catch (error) {
+      setStatus(String(error?.message || error || "Could not open the plugin editor."));
+    }
+  }
+
+  async function focusPluginInstrumentEditor(track) {
+    if (!isPluginInstrumentTrack(track) || !window.waveforgeDesktop?.focusPluginInstrumentEditor) {
+      return;
+    }
+    try {
+      await window.waveforgeDesktop.focusPluginInstrumentEditor(track.id);
+    } catch (error) {
+      // Silently fail - the window might not be open
+    }
+  }
+
+  async function assignPluginInstrumentToTrack(track, pluginPayload, options = {}) {
+    if (!track) {
+      setStatus("Select or drop onto a track before loading a plugin instrument.");
+      return false;
+    }
+    if (track.instrument === "audio") {
+      setStatus("Plugin instruments can only be loaded onto instrument tracks.");
+      return false;
+    }
+    const pluginInstrument = normalizePluginInstrumentDescriptor(pluginPayload);
+    if (!pluginInstrument) {
+      setStatus("WaveForge could not understand that plugin file.");
+      return false;
+    }
+    const previousPluginPath = track.pluginInstrument?.path || "";
+    track.instrument = "plugin-instrument";
+    track.pluginInstrument = pluginInstrument;
+    if (!track.name || /^Keyboard|Guitar|Bass|Pads|Drum kits|Plugin Instrument/i.test(track.name)) {
+      track.name = pluginInstrument.name;
+    }
+    if (window.waveforgeDesktop?.destroyPluginInstrument && previousPluginPath && previousPluginPath !== pluginInstrument.path) {
+      window.waveforgeDesktop.destroyPluginInstrument(track.id).catch(() => {});
+    }
+    const ready = await ensurePluginInstrumentTrackReady(track, {
+      autoOpen: false,
+      announce: true
+    });
+    if (!ready) {
+      return false;
+    }
+    renderTracks();
+    renderPerformanceArea();
+    scheduleProjectSave();
+    if (options.autoOpen !== false) {
+      await focusOrOpenPluginEditorPanel(track);
+    }
+    setStatus(`${pluginInstrument.name} loaded into ${track.name}. Play it from the typing keyboard and record it like any other instrument track.`);
+    return true;
+  }
+
+  function getDroppedPluginPayload(event) {
+    const customPluginPayload = event.dataTransfer?.getData?.("application/x-waveforge-plugin");
+    if (customPluginPayload) {
+      try {
+        const parsed = JSON.parse(customPluginPayload);
+        if (parsed?.path) {
+          return parsed;
+        }
+      } catch {
+        // ignore malformed payloads
+      }
+    }
+    const file = event.dataTransfer?.files?.[0];
+    if (file?.path && isPluginFilePath(file.path)) {
+      return {
+        id: file.path,
+        name: file.name ? file.name.replace(/\.(vst3|vst|component)$/i, "") : file.path,
+        format: pathExtname(file.path).replace(".", "").toUpperCase(),
+        path: file.path,
+        source: "os-drop"
+      };
+    }
+    return null;
+  }
+
+  async function openPluginEditorPanel(track) {
+    if (!isPluginInstrumentTrack(track)) {
+      closePluginEditorPanel();
+      return;
+    }
+    pluginEditorTitle.textContent = track.pluginInstrument?.name || "Plugin Editor";
+    pluginEditorFormat.textContent = track.pluginInstrument?.format || "VST";
+    pluginEditorPlaceholder.innerHTML = `
+      Opening <strong style="color:#fff;">${escapeHtml(track.pluginInstrument?.name || "plugin")}</strong> in the native host.<br>
+      Keep playing from WaveForge's typing keyboard to record MIDI into this track.
+    `;
+    pluginEditorPanel.classList.add("visible");
+    pluginEditorPanel.setAttribute("aria-hidden", "false");
+    pluginEditorPanel.dataset.trackId = track.id;
+    const result = await openPluginInstrumentEditor(track);
+    if (result?.width && result?.height) {
+      pluginEditorPlaceholder.innerHTML = `
+        Native plugin window active at ${result.width}x${result.height}.<br>
+        Click the plugin badge on the track or the button here to bring it back to the front.
+      `;
+    }
+    window.focus();
+  }
+
+  function closePluginEditorPanel() {
+    pluginEditorPanel.classList.remove("visible");
+    pluginEditorPanel.setAttribute("aria-hidden", "true");
+    pluginEditorPanel.dataset.trackId = "";
+  }
+
+  function startPluginEditorDrag(event) {
+    if (event.button !== 0) return;
+    state.pluginEditorDragPointerId = event.pointerId;
+    const rect = pluginEditorPanel.getBoundingClientRect();
+    state.pluginEditorDragOffsetX = event.clientX - rect.left;
+    state.pluginEditorDragOffsetY = event.clientY - rect.top;
+    pluginEditorPanel.classList.add("dragging");
+    pluginEditorPanel.setPointerCapture?.(event.pointerId);
+    event.preventDefault();
+  }
+
+  function movePluginEditorDrag(event) {
+    if (state.pluginEditorDragPointerId !== event.pointerId) return;
+    const x = event.clientX - state.pluginEditorDragOffsetX;
+    const y = event.clientY - state.pluginEditorDragOffsetY;
+    pluginEditorPanel.style.left = `${Math.max(0, x)}px`;
+    pluginEditorPanel.style.top = `${Math.max(0, y)}px`;
+    pluginEditorPanel.style.right = "auto";
+  }
+
+  function stopPluginEditorDrag(event) {
+    if (state.pluginEditorDragPointerId !== event.pointerId) return;
+    state.pluginEditorDragPointerId = null;
+    pluginEditorPanel.classList.remove("dragging");
+    pluginEditorPanel.releasePointerCapture?.(event.pointerId);
+  }
+
+  async function focusOrOpenPluginEditorPanel(track) {
+    if (!track || !isPluginInstrumentTrack(track)) {
+      closePluginEditorPanel();
+      return;
+    }
+    const currentTrackId = pluginEditorPanel.dataset.trackId;
+    if (currentTrackId === track.id && pluginEditorPanel.classList.contains("visible")) {
+      await focusPluginInstrumentEditor(track);
+      window.focus();
+      return;
+    }
+    await openPluginEditorPanel(track);
+  }
+
+  function isInstrumentDropEvent(event) {
+    if (!event.dataTransfer) return false;
+    const pluginPayload = getDroppedPluginPayload(event);
+    if (pluginPayload) return true;
+    const types = event.dataTransfer.types || [];
+    return types.includes("application/x-waveforge-plugin") ||
+           types.includes("Files");
+  }
+
+  function handleTrackDragOver(event, track) {
+    if (!track || track.instrument === "audio") return;
+    if (!isInstrumentDropEvent(event)) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "copy";
+    const lane = timelineContent.querySelector(`.track-lane[data-track-id="${track.id}"]`);
+    const dropZone = lane?.querySelector(".plugin-drop-zone");
+    if (dropZone) {
+      dropZone.classList.add("visible");
+      lane?.classList.add("drag-over");
+    }
+  }
+
+  function handleTrackDragLeave(event, track) {
+    const lane = timelineContent.querySelector(`.track-lane[data-track-id="${track.id}"]`);
+    const dropZone = lane?.querySelector(".plugin-drop-zone");
+    if (dropZone) {
+      const rect = lane.getBoundingClientRect();
+      const x = event.clientX;
+      const y = event.clientY;
+      if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) {
+        dropZone.classList.remove("visible");
+        lane?.classList.remove("drag-over");
+      }
+    }
+  }
+
+  async function handleTrackDrop(event, track) {
+    if (!track || track.instrument === "audio") return;
+    const pluginPayload = getDroppedPluginPayload(event);
+    if (!pluginPayload) return;
+    event.preventDefault();
+    const lane = timelineContent.querySelector(`.track-lane[data-track-id="${track.id}"]`);
+    const dropZone = lane?.querySelector(".plugin-drop-zone");
+    if (dropZone) {
+      dropZone.classList.remove("visible", "drag-over");
+      lane?.classList.remove("drag-over");
+    }
+    selectTrack(track.id);
+    await assignPluginInstrumentToTrack(track, pluginPayload, { autoOpen: true });
+  }
+
+  function setupTrackDragAndDrop(headerRow, lane, track) {
+    if (!headerRow || !lane || !track || track.instrument === "audio") return;
+    lane.addEventListener("dragover", (e) => handleTrackDragOver(e, track));
+    lane.addEventListener("dragleave", (e) => handleTrackDragLeave(e, track));
+    lane.addEventListener("drop", (e) => handleTrackDrop(e, track));
+    headerRow.addEventListener("dragover", (e) => handleTrackDragOver(e, track));
+    headerRow.addEventListener("dragleave", (e) => handleTrackDragLeave(e, track));
+    headerRow.addEventListener("drop", (e) => handleTrackDrop(e, track));
+    headerRow.addEventListener("click", (e) => {
+      if (isPluginInstrumentTrack(track) && e.target.closest(".track-main")) {
+        focusOrOpenPluginEditorPanel(track);
+      }
+    });
+  }
+
+  async function warmRestoredPluginInstrumentTracks() {
+    if (!window.waveforgeDesktop?.ensurePluginInstrument) {
+      return;
+    }
+    const pluginTracks = state.tracks.filter((track) => isPluginInstrumentTrack(track));
+    for (const track of pluginTracks) {
+      try {
+        await ensurePluginInstrumentTrackReady(track, { autoOpen: false, announce: false });
+      } catch {
+        // Keep the rest of the restored plugin tracks warming even if one host fails.
+      }
+    }
+  }
+
+  function destroyPluginInstrumentTrackResources(track) {
+    if (!track?.id) {
+      return;
+    }
+    if (pluginEditorPanel.dataset.trackId === track.id) {
+      closePluginEditorPanel();
+    }
+    window.waveforgeDesktop?.destroyPluginInstrument?.(track.id).catch(() => {});
+    window.waveforgeDesktop?.destroyEmbeddedPlugin?.(track.id).catch(() => {});
+  }
+
+  function startLivePluginInstrumentNote(track, midi) {
+    let active = true;
+    ensurePluginInstrumentTrackReady(track, { announce: true }).then((ready) => {
+      if (!ready || !active) {
+        return;
+      }
+      window.waveforgeDesktop.pluginInstrumentNoteOn({
+        trackId: track.id,
+        midi,
+        velocity: 104
+      }).catch((error) => {
+        setStatus(String(error?.message || error || "Could not send MIDI note to the plugin."));
+      });
+    });
+    return {
+      stop() {
+        if (!active) {
+          return;
+        }
+        active = false;
+        window.waveforgeDesktop?.pluginInstrumentNoteOff?.({
+          trackId: track.id,
+          midi
+        }).catch(() => {});
+      }
+    };
+  }
+
+  function schedulePluginPlaybackNote(track, midi, durationSeconds, startDelayMs) {
+    const noteOnTimer = window.setTimeout(async () => {
+      const ready = await ensurePluginInstrumentTrackReady(track, { announce: false });
+      if (!ready || !state.playing) {
+        return;
+      }
+      window.waveforgeDesktop.pluginInstrumentNoteOn({
+        trackId: track.id,
+        midi,
+        velocity: 104
+      }).catch(() => {});
+      const noteOffTimer = window.setTimeout(() => {
+        window.waveforgeDesktop.pluginInstrumentNoteOff({
+          trackId: track.id,
+          midi
+        }).catch(() => {});
+      }, Math.max(30, Math.round(durationSeconds * 1000)));
+      state.scheduledTimeouts.push(noteOffTimer);
+    }, Math.max(0, startDelayMs));
+    state.scheduledTimeouts.push(noteOnTimer);
   }
 
   function getSelectedTrack() {
@@ -5655,6 +6731,13 @@
 
   function renderEffectPicker() {
     const track = getSelectedTrack();
+    if (effectPickerSearch && effectPickerSearch.value !== state.effectPickerQuery) {
+      effectPickerSearch.value = state.effectPickerQuery;
+    }
+    document.querySelectorAll("[data-effect-filter]").forEach((button) => {
+      button.classList.toggle("active", (button.dataset.effectFilter || "all") === state.effectPickerTag);
+    });
+    renderEffectPickerStatus();
     if (!track) {
       effectPickerTrackBadge.textContent = "No track selected";
       effectPickerCopy.textContent = "Choose an effect for the selected track.";
@@ -5665,29 +6748,78 @@
       `;
       return;
     }
-    const eqEffect = getTrackEqEffect(track);
-    const reverbEffect = getTrackReverbEffect(track);
     effectPickerTrackBadge.textContent = track.name;
-    effectPickerCopy.textContent = `Choose an effect for ${track.name}. Added effects reopen directly in the rack.`;
-    effectPickerList.innerHTML = `
-      <button
-        type="button"
-        class="effect-picker-card${eqEffect ? " added" : ""}"
-        data-add-effect="eq">
-        <div class="effect-picker-card-tag">${eqEffect ? "Already added" : "Available now"}</div>
-        <strong>EQ</strong>
-        <span>12-band tone shaping with vertical sliders from low bass on the left to air on the right.</span>
-        <div class="effect-picker-card-action">${eqEffect ? "Open EQ" : "Add EQ"}</div>
-      </button>
-      <button
-        type="button"
-        class="effect-picker-card${reverbEffect ? " added" : ""}"
-        data-add-effect="reverb">
-        <div class="effect-picker-card-tag">${reverbEffect ? "Already added" : "Available now"}</div>
-        <strong>Reverb</strong>
-        <span>Shape the room size and tail length for a wider, more spacious sound.</span>
-        <div class="effect-picker-card-action">${reverbEffect ? "Open Reverb" : "Add Reverb"}</div>
-      </button>
+    effectPickerCopy.textContent = `Choose an effect for ${track.name}. Built-in effects reopen directly in the rack, and scanned plugins can be loaded into a slot.`;
+    const cards = getFilteredEffectPickerCatalog(track);
+    effectPickerList.innerHTML = cards.length
+      ? cards.map((item) => item.family === "external"
+        ? `
+          <button
+            type="button"
+            class="effect-picker-card external"
+            draggable="true"
+            data-add-plugin-id="${escapeHtml(item.plugin.id)}"
+            data-add-plugin-path="${escapeHtml(item.plugin.path)}"
+            data-add-plugin-name="${escapeHtml(item.plugin.name)}"
+            data-add-plugin-format="${escapeHtml(item.plugin.format)}">
+            <div class="effect-picker-card-tag">${escapeHtml(item.statusLabel)}</div>
+            <strong>${escapeHtml(item.name)}</strong>
+            <span>${escapeHtml(item.description)}</span>
+            <div class="effect-picker-card-action">${escapeHtml(item.actionLabel)} · ${escapeHtml(item.format)}</div>
+          </button>
+        `
+        : `
+          <button
+            type="button"
+            class="effect-picker-card${item.added ? " added" : ""}"
+            data-add-effect="${escapeHtml(item.type)}">
+            <div class="effect-picker-card-tag">${escapeHtml(item.statusLabel)}</div>
+            <strong>${escapeHtml(item.name)}</strong>
+            <span>${escapeHtml(item.description)}</span>
+            <div class="effect-picker-card-action">${escapeHtml(item.actionLabel)}</div>
+          </button>
+        `).join("")
+      : `
+        <div class="effect-picker-empty">
+          No effects or plugins match your current search and filter.
+        </div>
+      `;
+  }
+
+  function getExternalPluginPanelMarkup(track, effect, _effectCount, scope) {
+    const availability = describeExternalPluginAvailability(effect);
+    const isRack = scope === "rack";
+    const buttonDisabled = !supportsDesktopPluginFeatures() || availability.state !== "ready";
+    return `
+      <div class="external-plugin-panel${isRack ? " rack-effect" : ""}">
+        <div class="plugin-panel-head">
+          <div class="plugin-panel-title">
+            <strong>${escapeHtml(effect.name)}</strong>
+            <div class="plugin-panel-copy">${escapeHtml(availability.message)}</div>
+          </div>
+          <div class="plugin-panel-actions">
+            <div class="plugin-format-chip">${escapeHtml(effect.format)}</div>
+            <button
+              type="button"
+              class="plugin-panel-btn"
+              data-action="open-plugin-editor"
+              data-track-id="${escapeHtml(track.id)}"
+              data-effect-id="${escapeHtml(effect.effectId)}"
+              data-plugin-path="${escapeHtml(effect.pluginPath)}"
+              data-plugin-name="${escapeHtml(effect.name)}"
+              ${buttonDisabled ? "disabled" : ""}
+              aria-label="Open ${escapeHtml(effect.name)} editor">
+              ↗
+            </button>
+          </div>
+        </div>
+        <div class="plugin-panel-body">
+          <div class="plugin-panel-note">
+            This slot restores the external plugin metadata with the project and can reopen its native editor window from WaveForge.
+          </div>
+          ${effect.lastError ? `<div class="plugin-panel-note">${escapeHtml(effect.lastError)}</div>` : ""}
+        </div>
+      </div>
     `;
   }
 
@@ -5857,6 +6989,17 @@
               </div>
             `;
           }
+          if (effect?.type === "external-plugin") {
+            const externalEffect = hydrateExternalPluginEffect(effect);
+            if (!externalEffect) {
+              return "";
+            }
+            return `
+              <div class="effects-rack-item">
+                ${getExternalPluginPanelMarkup(track, externalEffect, effectCount, "rack")}
+              </div>
+            `;
+          }
           return "";
         }).join("")}
       </div>
@@ -5888,6 +7031,10 @@
           }
           if (effect?.type === "reverb") {
             return getReverbPanelMarkup(track, getTrackReverbEffect(track, { create: true }), effectCount, "window");
+          }
+          if (effect?.type === "external-plugin") {
+            const externalEffect = hydrateExternalPluginEffect(effect);
+            return externalEffect ? getExternalPluginPanelMarkup(track, externalEffect, effectCount, "window") : "";
           }
           return "";
         }).join("")
@@ -5953,6 +7100,39 @@
     effectsWindowOverlay.classList.remove("active");
   }
 
+  function addExternalPluginToSelectedTrack(pluginPayload) {
+    const track = getSelectedTrack();
+    if (!track) {
+      setStatus("Add or select a track before loading a plugin.");
+      return;
+    }
+    if (!supportsDesktopPluginFeatures()) {
+      setStatus("External plugins can be loaded only in the WaveForge desktop app.");
+      return;
+    }
+    const plugin = normalizeDiscoveredPlugin(pluginPayload);
+    if (!plugin) {
+      setStatus("That plugin is no longer available in the latest scan. Try rescanning plugins.");
+      return;
+    }
+    const effect = createExternalPluginEffect(plugin);
+    if (!effect) {
+      setStatus("WaveForge could not prepare that plugin slot.");
+      return;
+    }
+    if (!Array.isArray(track.effects)) {
+      track.effects = [];
+    }
+    track.effects.push(effect);
+    ensureTrackOutput(track);
+    state.composerPanelMode = "effects";
+    renderComposerPanel();
+    scheduleProjectSave();
+    closeEffectPicker();
+    closeEffectsWindow();
+    setStatus(`${plugin.name} loaded into ${track.name}. Use the arrow button to open its native editor window.`);
+  }
+
   function addEffectToSelectedTrack(effectType) {
     const track = getSelectedTrack();
     if (!track) {
@@ -5981,6 +7161,57 @@
     setStatus(hadEffect
       ? `${effectName} opened in the effects rack for ${track.name}.`
       : `${effectName} added to the effects rack for ${track.name}.`);
+  }
+
+  async function openExternalPluginEditor({ effectId = "", trackId = "", pluginPath = "", pluginName = "" } = {}) {
+    const targetTrack = trackId
+      ? state.tracks.find((track) => track.id === trackId)
+      : state.tracks.find((track) => Array.isArray(track.effects)
+        && track.effects.some((effect) => effect?.effectId === effectId || (pluginPath && effect?.pluginPath === pluginPath)));
+    const effect = targetTrack?.effects?.find((item) => item?.effectId === effectId || (pluginPath && item?.pluginPath === pluginPath));
+    const hydratedEffect = hydrateExternalPluginEffect(effect);
+    if (!targetTrack || !hydratedEffect || !isExternalPluginEffect(hydratedEffect)) {
+      setStatus("That plugin slot is no longer available.");
+      return;
+    }
+    const availability = describeExternalPluginAvailability(hydratedEffect);
+    if (!supportsDesktopPluginFeatures()) {
+      setStatus("Open this project in the WaveForge desktop app to use native plugin editor windows.");
+      return;
+    }
+    if (availability.state !== "ready") {
+      setStatus(availability.message);
+      return;
+    }
+    const openKey = hydratedEffect.effectId || hydratedEffect.pluginPath;
+    if (state.openingPluginEditors.has(openKey)) {
+      setStatus(`WaveForge is already opening ${hydratedEffect.name || pluginName || "that plugin"}.`);
+      return;
+    }
+    state.openingPluginEditors.add(openKey);
+    try {
+      const result = await window.waveforgeDesktop.openPluginUi(hydratedEffect.pluginPath);
+      if (!result?.opened) {
+        hydratedEffect.lastError = String(result?.message || `WaveForge could not open ${hydratedEffect.name}.`);
+        setStatus(hydratedEffect.lastError);
+        renderComposerPanel();
+        if (effectsWindowOverlay.classList.contains("active")) {
+          renderEffectsWindow();
+        }
+        return;
+      }
+      hydratedEffect.lastError = "";
+      setStatus(result.message || `${hydratedEffect.name} editor opened.`);
+    } catch (error) {
+      hydratedEffect.lastError = String(error?.message || error || "Could not open the plugin editor.");
+      setStatus(hydratedEffect.lastError);
+      renderComposerPanel();
+      if (effectsWindowOverlay.classList.contains("active")) {
+        renderEffectsWindow();
+      }
+    } finally {
+      state.openingPluginEditors.delete(openKey);
+    }
   }
 
   function resetTrackEq(trackId) {
@@ -6253,6 +7484,9 @@
   function getDefaultInstrumentGain(instrumentId) {
     if (instrumentId === "keyboard") {
       return 0.22;
+    }
+    if (instrumentId === "plugin-instrument") {
+      return 0.18;
     }
     return instrumentSampleConfigs[instrumentId]?.gain ?? (instrumentId === "pads" ? 0.16 : 0.14);
   }
@@ -6622,8 +7856,10 @@
 
     state.tracks.forEach((track) => {
       const selected = track.id === state.selectedTrackId;
+      const isPluginInstrument = isPluginInstrumentTrack(track);
       const headerRow = document.createElement("div");
-      headerRow.className = `track-header-row${selected ? " selected" : ""}`;
+      headerRow.className = `track-header-row${selected ? " selected" : ""}${isPluginInstrument ? " plugin-instrument" : ""}`;
+      headerRow.dataset.trackId = track.id;
       const card = document.createElement("div");
       card.className = `track-card${selected ? " selected" : ""}`;
       card.dataset.trackContextRegion = track.id;
@@ -6632,9 +7868,19 @@
         <div class="track-head">
           <div class="track-main">
             <strong>${track.name}</strong>
-            <span>${labelForInstrument(track.instrument)}</span>
+            <span>${displayLabelForTrack(track)}</span>
           </div>
           <div class="track-utility-buttons">
+            ${isPluginInstrument ? `
+              <button
+                type="button"
+                class="track-plugin-btn"
+                data-action="focus-plugin-track"
+                data-track-id="${track.id}"
+                aria-label="Open ${track.name} plugin editor">
+                ↗
+              </button>
+            ` : ""}
             <button
               type="button"
               class="track-solo-btn${track.solo ? " active" : ""}"
@@ -6685,11 +7931,18 @@
       trackHeadersContent.appendChild(headerRow);
 
       const lane = document.createElement("div");
-      lane.className = `track-lane${selected ? " selected" : ""}`;
+      lane.className = `track-lane${selected ? " selected" : ""}${track.instrument !== "audio" ? " plugin-drop-target" : ""}`;
       lane.dataset.trackId = track.id;
       lane.innerHTML = `
         <div class="lane-tint" style="--lane-color:${track.color};"></div>
       `;
+
+      if (track.instrument !== "audio") {
+        const pluginDrop = document.createElement("div");
+        pluginDrop.className = "plugin-drop-zone";
+        pluginDrop.innerHTML = `<div><strong>Drop a VST/VST3 instrument plugin</strong><br><span class="helper">Load a plugin instrument onto this track</span></div>`;
+        lane.appendChild(pluginDrop);
+      }
 
       if (!track.clips.length) {
         const drop = document.createElement("div");
@@ -6697,6 +7950,8 @@
         drop.innerHTML = `<div><strong>Drop a loop or audio file here</strong><br><span class="helper">Track color, recordings, and imports all appear in this lane.</span></div>`;
         lane.appendChild(drop);
       }
+
+      setupTrackDragAndDrop(headerRow, lane, track);
 
       track.clips.forEach((clip) => {
         const clipEl = document.createElement("div");
@@ -6724,7 +7979,7 @@
           ` : ""}
           <div class="clip-copy">
             <strong>${clip.name}</strong>
-            <span>${clip.type === "audio" ? "Audio clip" : labelForInstrument(track.instrument)} · ${beatsToSeconds(clip.beatDuration).toFixed(1)}s</span>
+            <span>${clip.type === "audio" ? "Audio clip" : displayLabelForTrack(track)} · ${beatsToSeconds(clip.beatDuration).toFixed(1)}s</span>
           </div>
         `;
         lane.appendChild(clipEl);
@@ -6749,9 +8004,17 @@
       bass: "Bass",
       pads: "Pads",
       drums: "Drum kits",
-      audio: "Audio"
+      audio: "Audio",
+      "plugin-instrument": "Plugin Instrument"
     };
     return map[id] || id;
+  }
+
+  function displayLabelForTrack(track) {
+    if (isPluginInstrumentTrack(track)) {
+      return track.pluginInstrument?.name || "Plugin Instrument";
+    }
+    return labelForInstrument(track?.instrument);
   }
 
   function renderKeyboardStyleInstrument(instrumentId) {
@@ -6770,6 +8033,63 @@
         <div class="keyboard-octave-readout">Octave ${rootOctave}</div>
         <div class="keyboard-toolbar">Use <strong>Z</strong> to go down and <strong>X</strong> to go up.</div>
         <div class="keyboard-stage">
+          <div class="piano" id="piano"></div>
+        </div>
+      </div>
+    `;
+    const piano = document.getElementById("piano");
+    const whiteKeyCount = keyboardNotes.filter((note) => !note.black).length;
+    const whiteKeyWidth = 100 / whiteKeyCount;
+    keyboardNotes.filter((n) => !n.black).forEach((item) => {
+      const key = document.createElement("button");
+      key.className = "white-key";
+      key.dataset.midi = item.midi;
+      key.dataset.note = item.note;
+      key.innerHTML = `<span>${item.key}</span>`;
+      piano.appendChild(key);
+    });
+    keyboardNotes.filter((n) => n.black).forEach((item) => {
+      const key = document.createElement("button");
+      key.className = "black-key";
+      key.dataset.midi = item.midi;
+      key.dataset.note = item.note;
+      const left = (item.whiteIndex + 1) * whiteKeyWidth - whiteKeyWidth * 0.37;
+      key.style.left = `${left}%`;
+      key.textContent = item.key;
+      piano.appendChild(key);
+    });
+    state.activeKeyVisualCounts.forEach((count, midi) => {
+      if (count > 0) {
+        setPianoKeyVisual(midi, true);
+      }
+    });
+  }
+
+  function renderPluginInstrumentPerformance(track) {
+    const plugin = normalizePluginInstrumentDescriptor(track?.pluginInstrument);
+    if (!plugin) {
+      performanceArea.innerHTML = `<div class="notice">Drop an instrument plugin onto this track to make it playable.</div>`;
+      return;
+    }
+    const keyboardNotes = getKeyboardNotes("keyboard");
+    const rootOctave = Math.floor(keyboardNotes[0].midi / 12) - 1;
+    const sustainActive = isSustainActive();
+    performanceArea.innerHTML = `
+      <div class="keyboard-layout">
+        <button
+          type="button"
+          class="keyboard-sustain${sustainActive ? " active" : ""}"
+          data-action="toggle-sustain"
+          aria-pressed="${sustainActive ? "true" : "false"}">
+          ${sustainActive ? "Sustain On" : "Sustain"}
+        </button>
+        <div class="keyboard-octave-readout">Octave ${rootOctave}</div>
+        <div class="keyboard-toolbar">Use <strong>Z</strong> and <strong>X</strong> for octave shifts. Notes will drive ${escapeHtml(plugin.name)} and record into the timeline.</div>
+        <div class="notice" style="position:absolute; top:52px; left:0; z-index:2; max-width:360px;">
+          <strong style="display:block; color:#fff; margin-bottom:6px;">${escapeHtml(plugin.name)}</strong>
+          <button type="button" class="effect-picker-utility-btn" data-action="open-plugin-track-editor">Open Plugin UI</button>
+        </div>
+        <div class="keyboard-stage" style="padding-top:64px;">
           <div class="piano" id="piano"></div>
         </div>
       </div>
@@ -6839,7 +8159,15 @@
     }
 
     state.currentInstrument = selectedTrack.instrument;
-    keyboardWindowTitle.textContent = labelForInstrument(state.currentInstrument);
+    keyboardWindowTitle.textContent = isPluginInstrumentTrack(selectedTrack)
+      ? selectedTrack.pluginInstrument.name
+      : labelForInstrument(state.currentInstrument);
+
+    if (isPluginInstrumentTrack(selectedTrack)) {
+      renderPluginInstrumentPerformance(selectedTrack);
+      ensurePluginInstrumentTrackReady(selectedTrack, { announce: false }).catch(() => {});
+      return;
+    }
 
     if (state.currentInstrument === "keyboard") {
       renderKeyboardStyleInstrument("keyboard");
@@ -6911,6 +8239,7 @@
               id: `track-${state.trackCounter}`,
               name: defaultTrackName(nextInstrument),
               instrument: nextInstrument,
+              pluginInstrument: null,
               color: COLOR_OPTIONS[state.trackCounter % COLOR_OPTIONS.length],
               gain: 0.8,
               muted: false,
@@ -6943,6 +8272,7 @@
       id: `track-${state.trackCounter}`,
       name: defaultTrackName("audio"),
       instrument: "audio",
+      pluginInstrument: null,
       color: "#3b92ff",
       gain: 0.85,
       muted: false,
@@ -6961,6 +8291,7 @@
       id: `track-${state.trackCounter}`,
       name,
       instrument: "audio",
+      pluginInstrument: null,
       color: color || COLOR_OPTIONS[state.trackCounter % COLOR_OPTIONS.length],
       gain: 0.85,
       muted: false,
@@ -7003,6 +8334,7 @@
       return;
     }
     const [removedTrack] = state.tracks.splice(trackIndex, 1);
+    destroyPluginInstrumentTrackResources(removedTrack);
     removedTrack.clips.forEach((clip) => {
       if (clip.activePlayback) {
         clip.activePlayback.stop();
@@ -7439,6 +8771,9 @@
   }
 
   function startLiveInstrumentNote(instrumentId, midi, options = {}) {
+    if (instrumentId === "plugin-instrument" && options.track && isPluginInstrumentTrack(options.track)) {
+      return startLivePluginInstrumentNote(options.track, midi);
+    }
     if (instrumentId === "keyboard") {
       return startHeldKeyboardTone(midiToFrequency(midi), {
         gain: options.gain,
@@ -7511,7 +8846,7 @@
     if (!clip) {
       clip = {
         id: `clip-${state.clipCounter += 1}`,
-        name: `${labelForInstrument(track.instrument)} Take`,
+        name: `${displayLabelForTrack(track)} Take`,
         type: "instrument",
         beatStart: state.instrumentRecordingStartBeat,
         beatDuration: 0,
@@ -7546,7 +8881,7 @@
     }
     clip = {
       id: `clip-${state.clipCounter += 1}`,
-      name: `${labelForInstrument(track.instrument)} Take`,
+      name: `${displayLabelForTrack(track)} Take`,
       type: "instrument",
       beatStart: state.instrumentRecordingStartBeat,
       beatDuration: 0,
@@ -7647,6 +8982,7 @@
     ensureAudioContext();
     const destination = ensureTrackOutput(track);
     const controller = startLiveInstrumentNote(instrumentId, midi, {
+      track,
       gain: getDefaultInstrumentGain(instrumentId),
       destination,
       startTime: state.audioContext.currentTime
@@ -7799,6 +9135,13 @@
             playDrum(event.drum, undefined, { destination });
           } else {
             const instrumentId = event.instrument || track.instrument;
+            if (instrumentId === "plugin-instrument" && isPluginInstrumentTrack(track)) {
+              const durationSeconds = beatsToSeconds(event.beatDuration ?? secondsToBeats(event.duration));
+              (event.notes || []).forEach((note) => {
+                schedulePluginPlaybackNote(track, note, durationSeconds, 0);
+              });
+              return;
+            }
             playInstrumentNotes(instrumentId, event.notes || [], {
               duration: beatsToSeconds(event.beatDuration ?? secondsToBeats(event.duration)),
               gain: getDefaultInstrumentGain(instrumentId),
@@ -8585,17 +9928,60 @@
     });
     addEffectBtn.addEventListener("click", openEffectPicker);
     closeEffectPickerBtn.addEventListener("click", closeEffectPicker);
+    effectPickerSearch?.addEventListener("input", (event) => {
+      state.effectPickerQuery = event.target.value || "";
+      renderEffectPicker();
+    });
+    rescanPluginsBtn?.addEventListener("click", () => {
+      refreshDesktopPluginLibrary({ force: true, announce: true });
+    });
+    document.querySelectorAll("[data-effect-filter]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.effectPickerTag = button.dataset.effectFilter || "all";
+        document.querySelectorAll("[data-effect-filter]").forEach((candidate) => {
+          candidate.classList.toggle("active", candidate === button);
+        });
+        renderEffectPicker();
+      });
+    });
     effectPickerOverlay.addEventListener("click", (event) => {
       if (event.target === effectPickerOverlay) {
         closeEffectPicker();
       }
     });
     effectPickerList.addEventListener("click", (event) => {
+      const addPluginCard = event.target.closest("[data-add-plugin-id]");
+      if (addPluginCard) {
+        addExternalPluginToSelectedTrack({
+          id: addPluginCard.dataset.addPluginId || "",
+          path: addPluginCard.dataset.addPluginPath || "",
+          name: addPluginCard.dataset.addPluginName || "",
+          format: addPluginCard.dataset.addPluginFormat || "",
+          source: "picker-click"
+        });
+        return;
+      }
       const addEffectCard = event.target.closest("[data-add-effect]");
       if (!addEffectCard) {
         return;
       }
       addEffectToSelectedTrack(addEffectCard.dataset.addEffect);
+    });
+    effectPickerList.addEventListener("dragstart", (event) => {
+      const pluginCard = event.target.closest("[data-add-plugin-path]");
+      if (!pluginCard || !event.dataTransfer) {
+        return;
+      }
+      const payload = {
+        id: pluginCard.dataset.addPluginId || "",
+        path: pluginCard.dataset.addPluginPath || "",
+        name: pluginCard.dataset.addPluginName || "",
+        format: pluginCard.dataset.addPluginFormat || "",
+        source: "picker-drag"
+      };
+      event.dataTransfer.setData("application/x-waveforge-plugin", JSON.stringify(payload));
+      event.dataTransfer.effectAllowed = "copy";
+      state.draggedPluginPayload = payload;
     });
     closeEffectsWindowBtn.addEventListener("click", closeEffectsWindow);
     effectsWindowOverlay.addEventListener("click", (event) => {
@@ -8626,6 +10012,25 @@
       const reverbResetButton = event.target.closest('[data-action="reset-reverb"]');
       if (reverbResetButton) {
         resetTrackReverb(reverbResetButton.dataset.trackId);
+        return;
+      }
+      const openPluginButton = event.target.closest('[data-action="open-plugin-editor"]');
+      if (openPluginButton) {
+        openExternalPluginEditor({
+          effectId: openPluginButton.dataset.effectId || "",
+          trackId: openPluginButton.dataset.trackId || "",
+          pluginPath: openPluginButton.dataset.pluginPath || "",
+          pluginName: openPluginButton.dataset.pluginName || ""
+        });
+        return;
+      }
+      const openTrackPluginEditorButton = event.target.closest('[data-action="open-plugin-track-editor"]');
+      if (openTrackPluginEditorButton) {
+        const selectedTrack = getSelectedTrack();
+        if (selectedTrack && isPluginInstrumentTrack(selectedTrack)) {
+          openPluginEditorPanel(selectedTrack);
+        }
+        return;
       }
     };
     const handleEqContainerInput = (event) => {
@@ -8734,9 +10139,26 @@
     keyboardWindowHeader.addEventListener("pointermove", moveKeyboardWindowDrag);
     keyboardWindowHeader.addEventListener("pointerup", stopKeyboardWindowDrag);
     keyboardWindowHeader.addEventListener("pointercancel", stopKeyboardWindowDrag);
+    
+    // Plugin editor panel drag and close
+    closePluginEditorBtn?.addEventListener("click", closePluginEditorPanel);
+    pluginEditorPanel?.querySelector(".plugin-editor-header")?.addEventListener("pointerdown", startPluginEditorDrag);
+    pluginEditorPanel?.addEventListener("pointermove", movePluginEditorDrag);
+    pluginEditorPanel?.addEventListener("pointerup", stopPluginEditorDrag);
+    pluginEditorPanel?.addEventListener("pointercancel", stopPluginEditorDrag);
     trackHeaders.addEventListener("click", (event) => {
       const panControl = event.target.closest('[data-action="pan-dial"]');
       if (panControl) {
+        return;
+      }
+      const pluginButton = event.target.closest('[data-action="focus-plugin-track"]');
+      if (pluginButton) {
+        const track = state.tracks.find((item) => item.id === pluginButton.dataset.trackId);
+        if (!track) {
+          return;
+        }
+        selectTrack(track.id);
+        focusOrOpenPluginEditorPanel(track);
         return;
       }
       const soloButton = event.target.closest('[data-action="solo"]');
@@ -8873,6 +10295,14 @@
     });
 
     performanceArea.addEventListener("click", (event) => {
+      const openPluginTrackEditorButton = event.target.closest('[data-action="open-plugin-track-editor"]');
+      if (openPluginTrackEditorButton) {
+        const track = getSelectedTrack();
+        if (track) {
+          focusOrOpenPluginEditorPanel(track);
+        }
+        return;
+      }
       const sustainButton = event.target.closest('[data-action="toggle-sustain"]');
       if (sustainButton) {
         event.preventDefault();
@@ -8973,16 +10403,34 @@
       releasePerformanceNote(`key:${key}`);
     });
     window.addEventListener("blur", () => {
-      stopAllPerformanceNotes();
+      // Don't stop notes if the plugin editor panel is open (plugin window is external)
+      const pluginEditorOpen = pluginEditorPanel?.classList.contains("visible");
+      if (!pluginEditorOpen) {
+        stopAllPerformanceNotes();
+      }
       if (state.keyboardWindowDragPointerId !== null) {
         state.keyboardWindowDragPointerId = null;
         keyboardWindow.classList.remove("dragging");
       }
     });
+    
+    // Refocus the window when clicking on the document if plugin editor is open
+    document.addEventListener("mousedown", () => {
+      if (pluginEditorPanel?.classList.contains("visible")) {
+        window.focus();
+      }
+    });
 
     timelineArea.addEventListener("dragover", (event) => {
-      event.preventDefault();
-      timelineArea.classList.add("dragover");
+      const pluginPayload = getDroppedPluginPayload(event);
+      const file = event.dataTransfer?.files?.[0];
+      if (pluginPayload || file) {
+        event.preventDefault();
+        timelineArea.classList.add("dragover");
+        if (event.dataTransfer) {
+          event.dataTransfer.dropEffect = pluginPayload ? "copy" : "move";
+        }
+      }
     });
     timelineArea.addEventListener("wheel", () => {
       if (state.playing) {
@@ -8998,6 +10446,13 @@
     timelineArea.addEventListener("drop", (event) => {
       event.preventDefault();
       timelineArea.classList.remove("dragover");
+      const pluginPayload = getDroppedPluginPayload(event);
+      const lane = event.target.closest(".track-lane");
+      const laneTrack = lane ? state.tracks.find((track) => track.id === lane.dataset.trackId) : getSelectedTrack();
+      if (pluginPayload) {
+        assignPluginInstrumentToTrack(laneTrack, pluginPayload, { autoOpen: true });
+        return;
+      }
       const file = event.dataTransfer.files[0];
       importAudioFile(file);
     });
@@ -9190,6 +10645,11 @@
     window.addEventListener("pagehide", () => {
       clearTimeout(state.saveTimer);
       persistProjectNow().catch(() => {});
+      state.tracks.forEach((track) => {
+        if (isPluginInstrumentTrack(track)) {
+          destroyPluginInstrumentTrackResources(track);
+        }
+      });
     });
     window.addEventListener("blur", () => {
       stopPanDialDrag(true);
@@ -9209,6 +10669,7 @@
   async function init() {
     await restorePersistedProject();
     await refreshStemSplitterHealth();
+    await refreshDesktopPluginLibrary();
     bindAudioEngineWatchers();
     applyComposerHeight(state.composerHeight);
     document.getElementById("tempoInput").value = String(state.tempo);
@@ -9224,6 +10685,7 @@
     primeInstrumentSample("bass");
     primeInstrumentSample("guitar");
     primeInstrumentSample("pads");
+    warmRestoredPluginInstrumentTracks().catch(() => {});
   }
 
   init();
