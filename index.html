@@ -77,12 +77,14 @@
     border-radius: 0;
     display: grid;
     grid-template-rows: auto 1fr;
-    overflow: hidden;
+    overflow: visible;
     background: rgba(8, 10, 12, 0.94);
     box-shadow: none;
   }
 
   .topbar {
+    position: relative;
+    z-index: 220;
     display: flex;
     gap: 18px;
     align-items: center;
@@ -92,7 +94,7 @@
     background: rgba(8, 9, 11, 0.94);
     backdrop-filter: blur(24px);
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     white-space: nowrap;
     scrollbar-width: none;
   }
@@ -102,6 +104,7 @@
   }
 
   .brand {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 14px;
@@ -118,6 +121,11 @@
     place-items: center;
     border: 1px solid var(--border);
     background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  }
+
+  .app-menu-btn {
+    cursor: pointer;
+    color: var(--text);
   }
 
   .brand-mark {
@@ -137,6 +145,67 @@
   .brand-copy p {
     color: var(--muted);
     font-size: 0.84rem;
+  }
+
+  .brand.markless .brand-mark,
+  .brand.markless .brand-copy {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+
+  .app-menu-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 212px;
+    padding: 8px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: rgba(14, 17, 22, 0.98);
+    box-shadow: 0 22px 52px rgba(0, 0, 0, 0.42);
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 5000;
+  }
+
+  .app-menu-panel.active {
+    display: flex;
+  }
+
+  .app-menu-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .app-menu-item:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .app-menu-item:disabled {
+    opacity: 0.42;
+    cursor: default;
+  }
+
+  .app-menu-item-label {
+    font-weight: 600;
+  }
+
+  .app-menu-item-hint {
+    color: var(--muted);
+    font-size: 0.8rem;
   }
 
   .transport-cluster {
@@ -254,6 +323,56 @@
     gap: 12px;
   }
 
+  .stereo-meter-slider {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 18px;
+    display: flex;
+    align-items: center;
+  }
+
+  .stereo-meter-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .stereo-meter-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(51, 65, 52, 0.58);
+    box-shadow: inset 0 0 0 0.5px rgba(255,255,255,0.05);
+  }
+
+  .stereo-meter-line.top {
+    top: 3px;
+  }
+
+  .stereo-meter-line.bottom {
+    bottom: 3px;
+  }
+
+  .stereo-meter-fill {
+    position: absolute;
+    inset: 0;
+    transform-origin: 0 50%;
+    transform: scaleX(var(--meter-level, 0));
+    border-radius: inherit;
+    background: linear-gradient(90deg, #16a34a 0%, #22c55e 68%, #86efac 100%);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.24);
+  }
+
+  .stereo-meter-slider input[type="range"] {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+  }
+
   .volume-group input[type="range"],
   .track-gain input[type="range"],
   .eq-slider,
@@ -275,6 +394,11 @@
       );
     outline: none;
     transition: background 120ms ease;
+  }
+
+  .volume-group .stereo-meter-slider input[type="range"],
+  .track-gain .stereo-meter-slider input[type="range"] {
+    background: transparent;
   }
 
   input[type="range"]::-webkit-slider-thumb {
@@ -437,6 +561,10 @@
     font-size: 0.78rem;
     margin-top: auto;
     transform: translateY(-16px);
+  }
+
+  .track-gain .stereo-meter-slider {
+    align-self: center;
   }
 
   .pan-control {
@@ -1150,6 +1278,49 @@
     color: var(--text);
   }
 
+  .context-action.gradient-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-image: linear-gradient(90deg, #66a6ff 0%, #a855f7 48%, #ff7b54 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
+
+  .context-action.gradient-text::before {
+    content: "AI";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 20px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #66a6ff 0%, #a855f7 52%, #ff7b54 100%);
+    color: #0b1220;
+    -webkit-text-fill-color: #0b1220;
+    background-clip: border-box;
+    -webkit-background-clip: border-box;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    flex: 0 0 auto;
+  }
+
+  .context-action.gradient-text:disabled {
+    background-image: linear-gradient(90deg, rgba(102, 166, 255, 0.44) 0%, rgba(168, 85, 247, 0.44) 48%, rgba(255, 123, 84, 0.44) 100%);
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .context-action.gradient-text:disabled::before {
+    opacity: 0.72;
+  }
+
   .context-action.danger:hover {
     background: rgba(255, 84, 61, 0.14);
     color: #ff9d92;
@@ -1389,10 +1560,26 @@
     background: transparent;
   }
 
+  .clip-drag-hit {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 24px;
+    bottom: 0;
+    z-index: 2;
+    cursor: grab;
+    background: transparent;
+  }
+
+  .clip.audio.dragging .clip-drag-hit {
+    cursor: grabbing;
+  }
+
   .clip-copy,
   .clip-waveform {
     position: relative;
     z-index: 1;
+    pointer-events: none;
   }
 
   .clip-copy {
@@ -1427,6 +1614,14 @@
       linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.02)),
       var(--clip-color, #1db8b4);
     opacity: 0.88;
+    cursor: grab;
+  }
+
+  .clip.audio.dragging {
+    cursor: grabbing;
+    opacity: 0.96;
+    z-index: 40;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
   }
 
   .clip-waveform {
@@ -1454,6 +1649,23 @@
     transform: translateY(-0.5px);
     background: #ffffff;
     border-radius: 999px;
+  }
+
+  .clip-note-preview {
+    position: absolute;
+    inset: 10px 10px 10px 10px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .clip-note-block {
+    position: absolute;
+    min-width: 3px;
+    height: 6px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.82);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.06);
+    transform: translateY(-50%);
   }
 
   .playhead {
@@ -1573,6 +1785,12 @@
     display: block;
     overflow: hidden;
     padding-bottom: 16px;
+  }
+
+  .effects-body.midi-roll-mode {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0;
   }
 
   .composer.sampler-active .composer-header {
@@ -2751,6 +2969,243 @@
     }
   }
 
+  .midi-roll-shell {
+    height: 100%;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 10px;
+    padding: 12px 14px 14px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.008));
+  }
+
+  .midi-roll-shell.quick-place .midi-roll-grid-surface {
+    cursor: copy;
+  }
+
+  .midi-roll-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    min-height: 40px;
+  }
+
+  .midi-roll-topbar strong {
+    display: block;
+    font-size: 0.98rem;
+  }
+
+  .midi-roll-topbar span {
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  .midi-roll-mode-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 112px;
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+
+  .midi-roll-mode-badge.active {
+    border-color: rgba(255, 181, 31, 0.28);
+    background: linear-gradient(180deg, rgba(255, 181, 31, 0.16), rgba(255, 181, 31, 0.06));
+    color: #ffe0a1;
+  }
+
+  .midi-roll-ruler-layout {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 0;
+    border: 0.5px solid var(--border);
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
+    background: rgba(8, 10, 14, 0.52);
+  }
+
+  .midi-roll-ruler-spacer {
+    border-right: 0.5px solid rgba(255,255,255,0.08);
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  }
+
+  .midi-roll-ruler-scroll {
+    overflow: hidden;
+  }
+
+  .midi-roll-ruler {
+    position: relative;
+  }
+
+  .midi-roll-ruler-bars,
+  .midi-roll-ruler-beats {
+    display: grid;
+  }
+
+  .midi-roll-ruler-bars {
+    min-height: 26px;
+    border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  }
+
+  .midi-roll-ruler-bar {
+    padding: 5px 8px 0;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.9);
+    border-left: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .midi-roll-ruler-bar:first-child {
+    border-left: 0;
+  }
+
+  .midi-roll-ruler-beats {
+    min-height: 28px;
+  }
+
+  .midi-roll-ruler-beat {
+    padding: 5px 8px;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.54);
+    border-left: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .midi-roll-ruler-beat.bar-start {
+    border-left-color: rgba(255,255,255,0.16);
+    color: rgba(255,255,255,0.72);
+  }
+
+  .midi-roll-content {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    border: 0.5px solid var(--border);
+    border-top: 0;
+    border-radius: 0 0 18px 18px;
+    overflow: hidden;
+    background: rgba(9, 12, 16, 0.9);
+  }
+
+  .midi-roll-keys-viewport {
+    min-height: 0;
+    overflow: hidden;
+    border-right: 0.5px solid rgba(255,255,255,0.08);
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  }
+
+  .midi-roll-keys {
+    position: relative;
+  }
+
+  .midi-roll-key-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 8px;
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.58);
+    border-bottom: 1px solid rgba(255,255,255,0.045);
+    white-space: nowrap;
+  }
+
+  .midi-roll-key-row.black {
+    background: rgba(255,255,255,0.028);
+  }
+
+  .midi-roll-key-row.c-note {
+    color: rgba(255,255,255,0.86);
+    font-weight: 700;
+  }
+
+  .midi-roll-grid-scroll {
+    min-height: 0;
+    overflow: auto;
+    background: #10141a;
+  }
+
+  .midi-roll-grid-surface {
+    position: relative;
+    outline: none;
+    background: rgba(8, 10, 14, 0.5);
+    cursor: default;
+  }
+
+  .midi-roll-row-line,
+  .midi-roll-column-line,
+  .midi-roll-selected-cell,
+  .midi-roll-note {
+    position: absolute;
+  }
+
+  .midi-roll-row-line {
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255,255,255,0.045);
+    pointer-events: none;
+  }
+
+  .midi-roll-row-line.black {
+    background: rgba(255,255,255,0.065);
+  }
+
+  .midi-roll-column-line {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(255,255,255,0.06);
+    pointer-events: none;
+  }
+
+  .midi-roll-column-line.bar {
+    width: 2px;
+    background: rgba(255,255,255,0.16);
+  }
+
+  .midi-roll-selected-cell {
+    border: 1px solid rgba(102, 166, 255, 0.62);
+    background: rgba(102, 166, 255, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+
+  .midi-roll-note {
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: linear-gradient(180deg, rgba(102, 166, 255, 0.86), rgba(76, 110, 245, 0.8));
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .midi-roll-note:active,
+  .midi-roll-note.dragging {
+    cursor: grabbing;
+  }
+
+  .midi-roll-note.selected {
+    border-color: rgba(255,255,255,0.82);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.22), 0 10px 22px rgba(0,0,0,0.24);
+  }
+
+  .midi-roll-empty {
+    min-height: 220px;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+  }
+
   .keyboard-window {
     position: fixed;
     width: min(980px, calc(100vw - 32px));
@@ -3088,8 +3543,26 @@
 <body>
   <div class="app-shell">
     <header class="topbar">
-      <div class="brand">
-        <div class="menu-pill">☰</div>
+      <div class="brand markless">
+        <button id="appMenuBtn" class="menu-pill app-menu-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Project menu">☰</button>
+        <div id="appMenuPanel" class="app-menu-panel" role="menu" aria-hidden="true">
+          <button id="saveProjectMenuBtn" class="app-menu-item" type="button" role="menuitem">
+            <span class="app-menu-item-label">Save Project</span>
+            <span class="app-menu-item-hint">Documents</span>
+          </button>
+          <button id="undoMenuBtn" class="app-menu-item" type="button" role="menuitem">
+            <span class="app-menu-item-label">Undo</span>
+            <span class="app-menu-item-hint">⌘Z</span>
+          </button>
+          <button id="redoMenuBtn" class="app-menu-item" type="button" role="menuitem">
+            <span class="app-menu-item-label">Redo</span>
+            <span class="app-menu-item-hint">⇧⌘Z</span>
+          </button>
+          <button id="newProjectMenuBtn" class="app-menu-item" type="button" role="menuitem">
+            <span class="app-menu-item-label">New File</span>
+            <span class="app-menu-item-hint">Fresh project</span>
+          </button>
+        </div>
         <div class="brand-mark">OD</div>
         <div class="brand-copy">
           <h1>WaveForge</h1>
@@ -3118,8 +3591,14 @@
       <div class="right-controls">
         <div class="info-pill volume-group">
           <span>Output</span>
-          <input id="masterVolume" type="range" min="0" max="100" value="72">
-          <strong id="volumeValue">72%</strong>
+          <div class="stereo-meter-slider master-meter-slider" data-meter-owner="master">
+            <div class="stereo-meter-lines" aria-hidden="true">
+              <div class="stereo-meter-line top"><div class="stereo-meter-fill" data-meter-line="master:L"></div></div>
+              <div class="stereo-meter-line bottom"><div class="stereo-meter-fill" data-meter-line="master:R"></div></div>
+            </div>
+            <input id="masterVolume" type="range" min="0" max="100" value="58">
+          </div>
+          <strong id="volumeValue">-∞ dB</strong>
         </div>
       </div>
     </header>
@@ -3403,6 +3882,24 @@
       </div>
     </div>
   </div>
+  <div id="saveProjectOverlay" class="chooser-overlay rename-track-overlay save-project-overlay">
+    <div class="chooser-modal rename-track-modal">
+      <div class="chooser-head">
+        <div>
+          <strong>Save Project</strong>
+          <p>Name this project and WaveForge will save it in your Documents folder.</p>
+        </div>
+      </div>
+      <div class="rename-track-field">
+        <label for="saveProjectInput">Project Name</label>
+        <input id="saveProjectInput" class="rename-track-input" type="text" maxlength="72" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="rename-track-actions">
+        <button id="saveProjectCancelBtn" class="ghost-btn" type="button">Cancel</button>
+        <button id="saveProjectSaveBtn" class="primary-btn" type="button">Save Project</button>
+      </div>
+    </div>
+  </div>
   <div id="stemSplitOverlay" class="chooser-overlay stem-split-overlay" role="dialog" aria-modal="true" aria-labelledby="stemSplitTitle">
     <div class="chooser-modal stem-split-modal">
       <button id="stemSplitCloseBtn" class="stem-split-close" type="button" aria-label="Cancel stem splitting" title="Cancel stem splitting">
@@ -3425,12 +3922,12 @@
           <strong id="stemSplitRemainingValue">--</strong>
         </div>
       </div>
-      <div class="stem-split-footnote">Close to cancel. Your original clip stays intact.</div>
+      <div class="stem-split-footnote"></div>
     </div>
   </div>
   <div id="contextMenu" class="context-menu">
-    <button id="splitStemsBtn" class="context-action">Split to Stems</button>
-    <button id="detectChordsBtn" class="context-action">Detect Chords</button>
+    <button id="splitStemsBtn" class="context-action gradient-text">Split to Stems</button>
+    <button id="detectChordsBtn" class="context-action gradient-text">Detect Chords</button>
     <button id="splitAudioClipBtn" class="context-action">Split Audio Clip</button>
     <button id="copyAudioClipBtn" class="context-action">Copy Audio Clip</button>
     <button id="pasteAudioClipBtn" class="context-action">Paste Audio Clip</button>
@@ -3466,7 +3963,14 @@
   const DEFAULT_COMPOSER_HEIGHT = 126;
   const MIN_COMPOSER_HEIGHT = 106;
   const MIN_SAMPLER_COMPOSER_HEIGHT = 360;
+  const MIN_MIDI_ROLL_COMPOSER_HEIGHT = 320;
   const MAX_COMPOSER_HEIGHT = 420;
+  const MIDI_ROLL_ROW_HEIGHT = 18;
+  const MIDI_ROLL_MIN_MIDI = 36;
+  const MIDI_ROLL_MAX_MIDI = 84;
+  const MIDI_ROLL_DEFAULT_VELOCITY = 100;
+  const MIDI_ROLL_DEFAULT_DURATION = 1;
+  const MIDI_ROLL_DRAG_BEAT_SNAP = 0.25;
   const BASS_SAMPLE_URL = "assets/bass-note-csharp2.mp3";
   const BASS_SAMPLE_ROOT_MIDI = 37;
   const GUITAR_SAMPLE_URL = "assets/guitar-note-c4.mp3";
@@ -3667,12 +4171,22 @@
     { label: "Crash", kind: "crash" }
   ];
 
+  const FADER_UNITY_SLIDER_VALUE = 58;
+  const FADER_MIN_DB = -60;
+  const FADER_MAX_DB = 6;
+
   const state = {
     audioContext: null,
     masterGain: null,
+    masterMeterSplitter: null,
+    masterMeterAnalyserLeft: null,
+    masterMeterAnalyserRight: null,
+    masterMeterDataLeft: null,
+    masterMeterDataRight: null,
+    meterLevels: {},
     audioWatchersBound: false,
     audioRecoveryTimer: null,
-    outputVolume: 72,
+    outputVolume: FADER_UNITY_SLIDER_VALUE,
     tempo: 120,
     currentInstrument: "keyboard",
     keyboardOctaveShift: 0,
@@ -3685,6 +4199,7 @@
     playStartTime: 0,
     transportPositionBeats: 0,
     animationFrame: null,
+    meterAnimationFrame: null,
     scheduledTimeouts: [],
     micStream: null,
     mediaRecorder: null,
@@ -3713,6 +4228,32 @@
     composerPanelMode: "effects",
     samplerClipTrackId: "",
     samplerClipId: "",
+    midiRollTrackId: "",
+    midiRollClipId: "",
+    midiRollSelectedCell: null,
+    midiRollSelectedNoteId: "",
+    midiRollQuickPlacement: false,
+    midiRollScrollLeft: 0,
+    midiRollScrollTop: 0,
+    midiRollNeedsAutoScroll: false,
+    midiNoteDragPointerId: null,
+    midiNoteDragElement: null,
+    midiNoteDragTrackId: "",
+    midiNoteDragClipId: "",
+    midiNoteDragNoteId: "",
+    midiNoteDragEventId: "",
+    midiNoteDragNoteIndex: 0,
+    midiNoteDragStartX: 0,
+    midiNoteDragStartY: 0,
+    midiNoteDragStartBeat: 0,
+    midiNoteDragStartPitch: 0,
+    midiNoteDragDuration: 0,
+    midiNoteDragTotalBeats: 0,
+    midiNoteDragGridWidth: 0,
+    midiNoteDragCurrentBeat: 0,
+    midiNoteDragCurrentPitch: 0,
+    midiNoteDragMoved: false,
+    lastMidiNoteDragAt: 0,
     stemSplitterOnline: false,
     stemSplitterReady: false,
     stemSplitterEngine: "",
@@ -3730,6 +4271,18 @@
     effectPickerQuery: "",
     openingPluginEditors: new Set(),
     draggedPluginPayload: null,
+    projectDirty: false,
+    currentProjectName: "Untitled Project",
+    currentProjectPath: "",
+    lastSavedSnapshot: "",
+    historySnapshot: "",
+    historyPast: [],
+    historyFuture: [],
+    historyTimer: null,
+    autosaveIntervalId: null,
+    isApplyingProjectSnapshot: false,
+    saveProjectMode: "save",
+    appMenuOpen: false,
     trackCounter: 0,
     clipCounter: 1,
     tracks: [],
@@ -3756,12 +4309,31 @@
     samplerPitchDragStartX: 0,
     samplerPitchDragStartY: 0,
     samplerPitchDragStartValue: 0,
+    clipDragPointerId: null,
+    clipDragTrackId: "",
+    clipDragClipId: "",
+    clipDragStartX: 0,
+    clipDragStartY: 0,
+    clipDragStartBeat: 0,
+    clipDragTargetTrackId: "",
+    clipDragPreviewBeat: 0,
+    clipDragActive: false,
+    clipDragMoved: false,
+    clipDragStartedAt: 0,
     timelineFollowSuspendedUntil: 0,
-    lastSamplerClick: null
-    ,clipPreviewMode: false
-    ,clipPreviewTimer: null
+    lastSamplerClick: null,
+    lastMidiRollClick: null,
+    lastClipDragAt: 0,
+    clipPreviewMode: false,
+    clipPreviewTimer: null
   };
 
+  const appMenuBtn = document.getElementById("appMenuBtn");
+  const appMenuPanel = document.getElementById("appMenuPanel");
+  const saveProjectMenuBtn = document.getElementById("saveProjectMenuBtn");
+  const undoMenuBtn = document.getElementById("undoMenuBtn");
+  const redoMenuBtn = document.getElementById("redoMenuBtn");
+  const newProjectMenuBtn = document.getElementById("newProjectMenuBtn");
   const ruler = document.getElementById("ruler");
   const trackHeaders = document.getElementById("trackHeaders");
   const trackHeadersContent = document.getElementById("trackHeadersContent");
@@ -3814,6 +4386,7 @@
   const composer = document.querySelector(".composer");
   const composerResizeHandle = document.getElementById("composerResizeHandle");
   const timeDisplay = document.getElementById("timeDisplay");
+  const masterVolume = document.getElementById("masterVolume");
   const volumeValue = document.getElementById("volumeValue");
   const trackChooserOverlay = document.getElementById("trackChooserOverlay");
   const trackChooserModal = document.getElementById("trackChooserModal");
@@ -3822,6 +4395,10 @@
   const renameTrackInput = document.getElementById("renameTrackInput");
   const renameTrackCancelBtn = document.getElementById("renameTrackCancelBtn");
   const renameTrackSaveBtn = document.getElementById("renameTrackSaveBtn");
+  const saveProjectOverlay = document.getElementById("saveProjectOverlay");
+  const saveProjectInput = document.getElementById("saveProjectInput");
+  const saveProjectCancelBtn = document.getElementById("saveProjectCancelBtn");
+  const saveProjectSaveBtn = document.getElementById("saveProjectSaveBtn");
   const stemSplitOverlay = document.getElementById("stemSplitOverlay");
   const stemSplitCloseBtn = document.getElementById("stemSplitCloseBtn");
   const stemSplitSubtitle = document.getElementById("stemSplitSubtitle");
@@ -3905,6 +4482,30 @@
 
   function createEffectInstanceId(prefix = "fx") {
     return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
+  }
+
+  function normalizeMidiRollNotes(notes, trackId = "") {
+    if (!Array.isArray(notes)) {
+      return [];
+    }
+    return notes
+      .map((note, index) => {
+        const pitch = Math.round(Number(note?.pitch));
+        const startBeat = Math.max(0, Math.round(Number(note?.startBeat)));
+        const duration = Math.max(1, Math.round(Number(note?.duration)));
+        if (!Number.isFinite(pitch) || pitch < MIDI_ROLL_MIN_MIDI || pitch > MIDI_ROLL_MAX_MIDI) {
+          return null;
+        }
+        return {
+          id: String(note?.id || `midi-${trackId || "track"}-${index}`),
+          trackId: String(note?.trackId || trackId || ""),
+          pitch,
+          startBeat,
+          duration,
+          velocity: Math.max(1, Math.min(127, Math.round(Number(note?.velocity) || MIDI_ROLL_DEFAULT_VELOCITY)))
+        };
+      })
+      .filter(Boolean);
   }
 
   function supportsDesktopPluginFeatures() {
@@ -4474,6 +5075,796 @@
     updateSamplerPlayheadPosition();
   }
 
+  function isTypingField(element = document.activeElement) {
+    if (!element) {
+      return false;
+    }
+    if (element.isContentEditable) {
+      return true;
+    }
+    return /input|select|textarea/i.test(element.tagName || "");
+  }
+
+  function isInstrumentTrack(track) {
+    return Boolean(track && track.instrument !== "audio");
+  }
+
+  function normalizeInstrumentClipEvent(event, index = 0) {
+    const notes = Array.isArray(event?.notes)
+      ? event.notes.map((note) => Math.round(Number(note))).filter((note) => Number.isFinite(note))
+      : [];
+    const beatDuration = Math.max(0.05, Number(event?.beatDuration ?? secondsToBeats(event?.duration || 0.05)) || 0.05);
+    return {
+      id: String(event?.id || createEffectInstanceId(`evt${index}`)),
+      notes,
+      drum: event?.drum ?? null,
+      beatOffset: Math.max(0, Number(event?.beatOffset) || 0),
+      beatDuration,
+      duration: Number(event?.duration) || beatsToSeconds(beatDuration),
+      instrument: event?.instrument || state.currentInstrument,
+      velocity: Math.max(1, Math.min(127, Math.round(Number(event?.velocity) || MIDI_ROLL_DEFAULT_VELOCITY)))
+    };
+  }
+
+  function normalizeInstrumentClipEvents(events) {
+    if (!Array.isArray(events)) {
+      return [];
+    }
+    return events.map((event, index) => normalizeInstrumentClipEvent(event, index));
+  }
+
+  function createInstrumentClipEvent(event = {}) {
+    return normalizeInstrumentClipEvent({
+      ...event,
+      id: event.id || createEffectInstanceId('evt')
+    });
+  }
+
+  function getInstrumentClipNoteEntries(clip) {
+    if (!clip || clip.type !== 'instrument') {
+      return [];
+    }
+    clip.events = normalizeInstrumentClipEvents(clip.events);
+    return clip.events.flatMap((event) => (event.notes || []).map((pitch, noteIndex) => ({
+      noteId: `${event.id}:${noteIndex}`,
+      eventId: event.id,
+      noteIndex,
+      pitch,
+      startBeat: Number(event.beatOffset) || 0,
+      duration: Math.max(0.05, Number(event.beatDuration) || 0.05),
+      velocity: Math.max(1, Math.min(127, Math.round(Number(event.velocity) || MIDI_ROLL_DEFAULT_VELOCITY)))
+    })));
+  }
+
+  function getInstrumentClipPreviewMarkup(clip) {
+    const noteEntries = getInstrumentClipNoteEntries(clip);
+    if (!noteEntries.length || !clip.beatDuration) {
+      return '';
+    }
+    const pitches = noteEntries.map((entry) => entry.pitch);
+    const minPitch = Math.min(...pitches);
+    const maxPitch = Math.max(...pitches);
+    const pitchRange = Math.max(1, maxPitch - minPitch + 1);
+    return `
+      <div class="clip-note-preview" aria-hidden="true">
+        ${noteEntries.map((entry) => {
+          const left = Math.max(0, Math.min(100, (entry.startBeat / Math.max(clip.beatDuration, 0.001)) * 100));
+          const width = Math.max(3.5, (entry.duration / Math.max(clip.beatDuration, 0.001)) * 100);
+          const top = ((maxPitch - entry.pitch) / pitchRange) * 100;
+          return `<div class="clip-note-block" style="left:${left}%; top:${top}%; width:${Math.min(100 - left, width)}%;"></div>`;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  function getMidiRollTrack() {
+    const track = state.tracks.find((item) => item.id === state.midiRollTrackId);
+    return isInstrumentTrack(track) ? track : null;
+  }
+
+  function getMidiRollClip() {
+    const track = getMidiRollTrack();
+    if (!track) {
+      return { track: null, clip: null };
+    }
+    const clip = track.clips.find((item) => item.id === state.midiRollClipId && item.type === 'instrument') || null;
+    return { track, clip };
+  }
+
+  function createEmptyInstrumentClip(track) {
+    const beatStart = quantizeBeatToNearestBar(Number(state.transportPositionBeats) || 0);
+    const clip = {
+      id: `clip-${state.clipCounter += 1}`,
+      name: `${displayLabelForTrack(track)} Take`,
+      type: 'instrument',
+      beatStart,
+      beatDuration: BEATS_PER_MEASURE,
+      events: []
+    };
+    track.clips.push(clip);
+    track.clips.sort((left, right) => left.beatStart - right.beatStart);
+    return clip;
+  }
+
+  function getPreferredMidiRollClip(track, clipId = '') {
+    if (!isInstrumentTrack(track)) {
+      return null;
+    }
+    if (clipId) {
+      const clip = track.clips.find((item) => item.id === clipId && item.type === 'instrument');
+      if (clip) {
+        return clip;
+      }
+    }
+    const rememberedClip = state.midiRollClipId
+      ? track.clips.find((item) => item.id === state.midiRollClipId && item.type === 'instrument')
+      : null;
+    if (rememberedClip && getInstrumentClipNoteEntries(rememberedClip).length) {
+      return rememberedClip;
+    }
+    const populatedClip = track.clips
+      .filter((item) => item.type === 'instrument')
+      .sort((left, right) => {
+        const rightNoteCount = getInstrumentClipNoteEntries(right).length;
+        const leftNoteCount = getInstrumentClipNoteEntries(left).length;
+        if (rightNoteCount !== leftNoteCount) {
+          return rightNoteCount - leftNoteCount;
+        }
+        return (right.beatDuration || 0) - (left.beatDuration || 0);
+      })[0];
+    return populatedClip || rememberedClip || track.clips.find((item) => item.type === 'instrument') || null;
+  }
+
+  function ensureMidiRollClip(track, clipId = '') {
+    const existing = getPreferredMidiRollClip(track, clipId);
+    if (existing) {
+      existing.events = normalizeInstrumentClipEvents(existing.events);
+      return { clip: existing, created: false };
+    }
+    const clip = createEmptyInstrumentClip(track);
+    return { clip, created: true };
+  }
+
+  function getMidiRollPitchRows() {
+    const rows = [];
+    for (let midi = MIDI_ROLL_MAX_MIDI; midi >= MIDI_ROLL_MIN_MIDI; midi -= 1) {
+      rows.push({
+        midi,
+        note: midiToName(midi),
+        isBlack: [1, 3, 6, 8, 10].includes(midi % 12),
+        isC: midi % 12 === 0
+      });
+    }
+    return rows;
+  }
+
+  function getMidiRollMeasureCount(clip) {
+    const noteEndBeat = getInstrumentClipNoteEntries(clip).reduce((maxBeat, note) => Math.max(maxBeat, note.startBeat + note.duration), 0);
+    const clipLength = Math.max(Number(clip?.beatDuration) || 0, noteEndBeat);
+    return Math.max(4, Math.ceil(Math.max(BEATS_PER_MEASURE, clipLength) / BEATS_PER_MEASURE));
+  }
+
+  function getSuggestedMidiRollScrollTop(clip, viewportHeight = 0) {
+    const totalRows = MIDI_ROLL_MAX_MIDI - MIDI_ROLL_MIN_MIDI + 1;
+    const contentHeight = totalRows * MIDI_ROLL_ROW_HEIGHT;
+    const visibleHeight = Math.max(MIDI_ROLL_ROW_HEIGHT * 8, Number(viewportHeight) || 0);
+    const notes = getInstrumentClipNoteEntries(clip)
+      .filter((note) => note.pitch >= MIDI_ROLL_MIN_MIDI && note.pitch <= MIDI_ROLL_MAX_MIDI);
+    let targetCenter = (MIDI_ROLL_MAX_MIDI - 60 + 0.5) * MIDI_ROLL_ROW_HEIGHT;
+    if (notes.length) {
+      const rows = notes.map((note) => MIDI_ROLL_MAX_MIDI - note.pitch).sort((left, right) => left - right);
+      const topRow = rows[0];
+      const bottomRow = rows[rows.length - 1];
+      targetCenter = ((topRow + bottomRow + 1) * MIDI_ROLL_ROW_HEIGHT) / 2;
+    }
+    return Math.max(0, Math.min(contentHeight - visibleHeight, Math.round(targetCenter - (visibleHeight / 2))));
+  }
+
+  function syncMidiRollQuickPlacementUi() {
+    const shell = effectsRackBody.querySelector('[data-midi-roll-shell]');
+    const badge = effectsRackBody.querySelector('[data-midi-roll-mode-badge]');
+    if (shell) {
+      shell.classList.toggle('quick-place', state.midiRollQuickPlacement);
+    }
+    if (badge) {
+      badge.classList.toggle('active', state.midiRollQuickPlacement);
+      badge.textContent = state.midiRollQuickPlacement ? 'B Quick Place On' : 'Hold B for Quick Place';
+    }
+  }
+
+  function focusMidiRollGrid() {
+    const grid = effectsRackBody.querySelector('[data-midi-roll-grid]');
+    grid?.focus({ preventScroll: true });
+  }
+
+  function ensureMidiRollSelection(clip) {
+    const notes = getInstrumentClipNoteEntries(clip);
+    if (state.midiRollSelectedNoteId && !notes.some((note) => note.noteId === state.midiRollSelectedNoteId)) {
+      state.midiRollSelectedNoteId = '';
+    }
+    if (state.midiRollSelectedCell && (state.midiRollSelectedCell.pitch < MIDI_ROLL_MIN_MIDI || state.midiRollSelectedCell.pitch > MIDI_ROLL_MAX_MIDI)) {
+      state.midiRollSelectedCell = null;
+    }
+  }
+
+  function openMidiRoll(trackId, options = {}) {
+    const track = state.tracks.find((item) => item.id === trackId);
+    if (!isInstrumentTrack(track)) {
+      return;
+    }
+    const { clip, created } = ensureMidiRollClip(track, options.clipId || '');
+    const openingDifferentClip = state.midiRollTrackId !== track.id || state.midiRollClipId !== clip.id;
+    state.midiRollTrackId = track.id;
+    state.midiRollClipId = clip.id;
+    state.composerPanelMode = 'midi-roll';
+    if (openingDifferentClip) {
+      state.midiRollSelectedCell = null;
+      state.midiRollSelectedNoteId = '';
+    }
+    state.midiRollScrollLeft = 0;
+    state.midiRollNeedsAutoScroll = true;
+    ensureMidiRollSelection(clip);
+    renderTracks();
+    renderComposerPanel();
+    if (created) {
+      scheduleProjectSave();
+    }
+    requestAnimationFrame(() => {
+      focusMidiRollGrid();
+      syncMidiRollQuickPlacementUi();
+    });
+    if (!options.silent) {
+      setStatus(`MIDI roll opened for ${track.name}.`);
+    }
+  }
+
+  function closeMidiRoll(options = {}) {
+    state.midiRollQuickPlacement = false;
+    state.midiRollTrackId = '';
+    state.midiRollClipId = '';
+    state.midiRollSelectedCell = null;
+    state.midiRollSelectedNoteId = '';
+    state.midiRollNeedsAutoScroll = false;
+    state.composerPanelMode = 'effects';
+    renderComposerPanel();
+    if (!options.silent) {
+      setStatus('MIDI roll closed.');
+    }
+  }
+
+  function syncOpenMidiRollToInstrumentClip(track, clip) {
+    if (!isInstrumentTrack(track) || !clip || clip.type !== 'instrument') {
+      return;
+    }
+    if (state.composerPanelMode !== 'midi-roll' || state.midiRollTrackId !== track.id) {
+      return;
+    }
+    const clipChanged = state.midiRollClipId !== clip.id;
+    state.midiRollClipId = clip.id;
+    if (clipChanged) {
+      state.midiRollSelectedCell = null;
+      state.midiRollSelectedNoteId = '';
+      state.midiRollScrollLeft = 0;
+      state.midiRollNeedsAutoScroll = true;
+    }
+    renderComposerPanel();
+  }
+
+  function getMidiRollCellFromPointerEvent(event) {
+    const grid = event.target.closest('[data-midi-roll-grid]');
+    if (!grid) {
+      return null;
+    }
+    const rect = grid.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const maxY = (MIDI_ROLL_MAX_MIDI - MIDI_ROLL_MIN_MIDI + 1) * MIDI_ROLL_ROW_HEIGHT;
+    if (x < 0 || y < 0 || y > maxY) {
+      return null;
+    }
+    const totalBeats = Math.max(1, Number(grid.dataset.totalBeats) || 1);
+    const startBeat = Math.max(0, Math.min(totalBeats - 1, Math.floor((x / Math.max(rect.width, 1)) * totalBeats)));
+    const rowIndex = Math.max(0, Math.min(MIDI_ROLL_MAX_MIDI - MIDI_ROLL_MIN_MIDI, Math.floor(y / MIDI_ROLL_ROW_HEIGHT)));
+    const pitch = MIDI_ROLL_MAX_MIDI - rowIndex;
+    return { startBeat, pitch };
+  }
+
+  function upsertMidiRollNote(track, clip, cell, duration = MIDI_ROLL_DEFAULT_DURATION) {
+    if (!isInstrumentTrack(track) || !clip || !cell) {
+      return null;
+    }
+    clip.events = normalizeInstrumentClipEvents(clip.events);
+    const existing = getInstrumentClipNoteEntries(clip).find((note) => note.pitch === cell.pitch && Math.abs(note.startBeat - cell.startBeat) < 0.0001);
+    if (existing) {
+      state.midiRollSelectedNoteId = existing.noteId;
+      state.midiRollSelectedCell = { pitch: existing.pitch, startBeat: existing.startBeat };
+      renderComposerPanel();
+      return existing;
+    }
+    const newEvent = createInstrumentClipEvent({
+      notes: [cell.pitch],
+      beatOffset: cell.startBeat,
+      beatDuration: Math.max(1, Number(duration) || MIDI_ROLL_DEFAULT_DURATION),
+      duration: beatsToSeconds(Math.max(1, Number(duration) || MIDI_ROLL_DEFAULT_DURATION)),
+      instrument: track.instrument,
+      velocity: MIDI_ROLL_DEFAULT_VELOCITY
+    });
+    clip.events.push(newEvent);
+    clip.events.sort((left, right) => (left.beatOffset - right.beatOffset) || (((right.notes || [0])[0]) - ((left.notes || [0])[0])));
+    clip.beatDuration = Math.max(clip.beatDuration || 0, cell.startBeat + Math.max(1, Number(duration) || MIDI_ROLL_DEFAULT_DURATION));
+    const noteId = `${newEvent.id}:0`;
+    state.midiRollSelectedNoteId = noteId;
+    state.midiRollSelectedCell = { pitch: cell.pitch, startBeat: cell.startBeat };
+    renderTracks();
+    renderComposerPanel();
+    scheduleProjectSave();
+    return noteId;
+  }
+
+  function findMidiRollNoteReference(clip, noteId, eventId = '', preferredNoteIndex = null) {
+    if (!clip) {
+      return null;
+    }
+    clip.events = normalizeInstrumentClipEvents(clip.events);
+    if (eventId) {
+      const eventIndex = clip.events.findIndex((event) => event.id === eventId);
+      if (eventIndex !== -1) {
+        const event = clip.events[eventIndex];
+        const notes = Array.isArray(event.notes) ? event.notes : [];
+        const noteIndex = Math.max(0, Math.min(notes.length - 1, Number(preferredNoteIndex) || 0));
+        if (notes.length) {
+          return { event, eventIndex, noteIndex };
+        }
+      }
+    }
+    if (!noteId) {
+      return null;
+    }
+    for (let eventIndex = 0; eventIndex < clip.events.length; eventIndex += 1) {
+      const event = clip.events[eventIndex];
+      const notes = Array.isArray(event.notes) ? event.notes : [];
+      for (let noteIndex = 0; noteIndex < notes.length; noteIndex += 1) {
+        if (`${event.id}:${noteIndex}` === noteId) {
+          return { event, eventIndex, noteIndex };
+        }
+      }
+    }
+    return null;
+  }
+
+  function recalculateInstrumentClipBeatDuration(clip) {
+    const noteEndBeat = getInstrumentClipNoteEntries(clip).reduce((maxBeat, note) => Math.max(maxBeat, note.startBeat + note.duration), 0);
+    clip.beatDuration = Math.max(BEATS_PER_MEASURE, Number(clip.beatDuration) || 0, noteEndBeat || BEATS_PER_MEASURE);
+  }
+
+  function moveMidiRollEventNote(track, clip, eventId, nextPitch, nextStartBeat, options = {}) {
+    if (!isInstrumentTrack(track) || !clip || !eventId) {
+      return null;
+    }
+    clip.events = normalizeInstrumentClipEvents(clip.events);
+    const eventIndex = clip.events.findIndex((item) => item.id === eventId);
+    if (eventIndex === -1) {
+      return null;
+    }
+    const event = clip.events[eventIndex];
+    const pitch = Math.max(MIDI_ROLL_MIN_MIDI, Math.min(MIDI_ROLL_MAX_MIDI, Math.round(Number(nextPitch) || (event.notes?.[0] ?? 60))));
+    const startBeat = Math.max(0, Number(nextStartBeat) || 0);
+    const duplicate = getInstrumentClipNoteEntries(clip).some((note) => (
+      note.eventId !== eventId
+      && note.pitch === pitch
+      && Math.abs(note.startBeat - startBeat) < 0.0001
+    ));
+    if (duplicate) {
+      return null;
+    }
+    const updatedEvent = {
+      ...event,
+      notes: [pitch],
+      beatOffset: startBeat,
+      beatDuration: Math.max(0.05, Number(event.beatDuration) || 0.05)
+    };
+    updatedEvent.duration = beatsToSeconds(updatedEvent.beatDuration);
+    clip.events[eventIndex] = updatedEvent;
+    clip.events.sort((left, right) => (left.beatOffset - right.beatOffset) || (((right.notes || [0])[0]) - ((left.notes || [0])[0])));
+    recalculateInstrumentClipBeatDuration(clip);
+    const selectedNoteId = `${eventId}:0`;
+    state.midiRollSelectedNoteId = selectedNoteId;
+    state.midiRollSelectedCell = { pitch, startBeat };
+    if (options.render !== false) {
+      renderTracks();
+      renderComposerPanel();
+    }
+    if (options.persist !== false) {
+      scheduleProjectSave();
+    }
+    return selectedNoteId;
+  }
+
+  function moveMidiRollNote(track, clip, noteId, nextPitch, nextStartBeat, options = {}) {
+    if (!isInstrumentTrack(track) || !clip || !noteId) {
+      return null;
+    }
+    const reference = findMidiRollNoteReference(clip, noteId, options.eventId || '', options.noteIndex);
+    if (!reference) {
+      return null;
+    }
+    const duration = Math.max(0.05, Number(reference.event.beatDuration) || 0.05);
+    const pitch = Math.max(MIDI_ROLL_MIN_MIDI, Math.min(MIDI_ROLL_MAX_MIDI, Math.round(Number(nextPitch) || reference.event.notes[reference.noteIndex])));
+    const startBeat = Math.max(0, Number(nextStartBeat) || 0);
+    const currentEventId = reference.event.id;
+    const currentNoteIndex = reference.noteIndex;
+    const duplicate = getInstrumentClipNoteEntries(clip).some((note) => (
+      !(note.eventId === currentEventId && note.noteIndex === currentNoteIndex)
+      && note.pitch === pitch
+      && Math.abs(note.startBeat - startBeat) < 0.0001
+    ));
+    if (duplicate) {
+      return null;
+    }
+
+    let selectedNoteId = noteId;
+    if ((reference.event.notes || []).length > 1) {
+      const remainingNotes = [...reference.event.notes];
+      remainingNotes.splice(reference.noteIndex, 1);
+      clip.events[reference.eventIndex] = { ...reference.event, notes: remainingNotes };
+      const movedEvent = createInstrumentClipEvent({
+        ...reference.event,
+        id: createEffectInstanceId('evt'),
+        notes: [pitch],
+        beatOffset: startBeat,
+        beatDuration: duration,
+        duration: beatsToSeconds(duration)
+      });
+      clip.events.push(movedEvent);
+      selectedNoteId = `${movedEvent.id}:0`;
+    } else {
+      reference.event.notes = [pitch];
+      reference.event.beatOffset = startBeat;
+      reference.event.beatDuration = duration;
+      reference.event.duration = beatsToSeconds(duration);
+    }
+
+    clip.events.sort((left, right) => (left.beatOffset - right.beatOffset) || (((right.notes || [0])[0]) - ((left.notes || [0])[0])));
+    recalculateInstrumentClipBeatDuration(clip);
+    state.midiRollSelectedNoteId = selectedNoteId;
+    state.midiRollSelectedCell = { pitch, startBeat };
+    if (options.render !== false) {
+      renderTracks();
+      renderComposerPanel();
+    }
+    if (options.persist !== false) {
+      scheduleProjectSave();
+    }
+    return selectedNoteId;
+  }
+
+  function startMidiRollNoteDrag(event, noteEl) {
+    if (state.composerPanelMode !== 'midi-roll' || !noteEl) {
+      return false;
+    }
+    const { track, clip } = getMidiRollClip();
+    const note = getInstrumentClipNoteEntries(clip).find((item) => item.eventId === noteEl.dataset.midiEventId)
+      || getInstrumentClipNoteEntries(clip).find((item) => item.noteId === noteEl.dataset.midiNoteId);
+    const grid = noteEl.closest('[data-midi-roll-grid]');
+    if (!track || !clip || !note || !grid) {
+      return false;
+    }
+    const totalBeats = Math.max(1, Number(grid.dataset.totalBeats) || 1);
+    const gridWidth = Math.max(1, grid.getBoundingClientRect().width);
+    state.midiNoteDragPointerId = event.pointerId;
+    state.midiNoteDragElement = noteEl;
+    state.midiNoteDragTrackId = track.id;
+    state.midiNoteDragClipId = clip.id;
+    state.midiNoteDragNoteId = note.noteId;
+    state.midiNoteDragEventId = note.eventId;
+    state.midiNoteDragNoteIndex = note.noteIndex;
+    state.midiNoteDragStartX = event.clientX;
+    state.midiNoteDragStartY = event.clientY;
+    state.midiNoteDragStartBeat = note.startBeat;
+    state.midiNoteDragStartPitch = note.pitch;
+    state.midiNoteDragDuration = note.duration;
+    state.midiNoteDragTotalBeats = totalBeats;
+    state.midiNoteDragGridWidth = gridWidth;
+    state.midiNoteDragCurrentBeat = note.startBeat;
+    state.midiNoteDragCurrentPitch = note.pitch;
+    state.midiNoteDragMoved = false;
+    state.midiRollSelectedNoteId = note.noteId;
+    state.midiRollSelectedCell = { pitch: note.pitch, startBeat: note.startBeat };
+    noteEl.classList.add('dragging');
+    noteEl.setPointerCapture?.(event.pointerId);
+    event.preventDefault();
+    event.stopPropagation();
+    return true;
+  }
+
+  function updateMidiRollNoteDrag(event) {
+    if (state.midiNoteDragPointerId !== event.pointerId) {
+      return;
+    }
+    const track = state.tracks.find((item) => item.id === state.midiNoteDragTrackId);
+    const clip = track?.clips.find((item) => item.id === state.midiNoteDragClipId && item.type === 'instrument');
+    if (!track || !clip) {
+      stopMidiRollNoteDrag(false);
+      return;
+    }
+    const rawDeltaX = event.clientX - state.midiNoteDragStartX;
+    const rawDeltaY = event.clientY - state.midiNoteDragStartY;
+    const beatWidth = Math.max(1, state.midiNoteDragGridWidth / Math.max(1, state.midiNoteDragTotalBeats));
+    const snapBeatWidth = Math.max(1, beatWidth * MIDI_ROLL_DRAG_BEAT_SNAP);
+    const deltaBeat = Math.round(rawDeltaX / snapBeatWidth) * MIDI_ROLL_DRAG_BEAT_SNAP;
+    const deltaPitch = -Math.round(rawDeltaY / MIDI_ROLL_ROW_HEIGHT);
+    const maxStartBeat = Math.max(0, Math.ceil(Math.max(state.midiNoteDragTotalBeats, state.midiNoteDragStartBeat + state.midiNoteDragDuration)) - Math.max(1, Math.ceil(state.midiNoteDragDuration)));
+    const nextStartBeat = Math.max(0, Math.min(maxStartBeat, state.midiNoteDragStartBeat + deltaBeat));
+    const nextPitch = Math.max(MIDI_ROLL_MIN_MIDI, Math.min(MIDI_ROLL_MAX_MIDI, state.midiNoteDragStartPitch + deltaPitch));
+    const minVisualX = -state.midiNoteDragStartBeat * beatWidth;
+    const maxVisualX = (maxStartBeat - state.midiNoteDragStartBeat) * beatWidth;
+    const minVisualY = -(MIDI_ROLL_MAX_MIDI - state.midiNoteDragStartPitch) * MIDI_ROLL_ROW_HEIGHT;
+    const maxVisualY = (state.midiNoteDragStartPitch - MIDI_ROLL_MIN_MIDI) * MIDI_ROLL_ROW_HEIGHT;
+    const visualX = Math.max(minVisualX, Math.min(maxVisualX, rawDeltaX));
+    const visualY = Math.max(minVisualY, Math.min(maxVisualY, rawDeltaY));
+    if (state.midiNoteDragElement?.isConnected) {
+      state.midiNoteDragElement.style.transform = `translate(${visualX}px, ${visualY}px)`;
+      state.midiNoteDragElement.style.zIndex = '30';
+    }
+    if (Math.abs(rawDeltaX) > 2 || Math.abs(rawDeltaY) > 2) {
+      state.midiNoteDragMoved = true;
+    }
+    if (Math.abs(nextStartBeat - state.midiNoteDragCurrentBeat) >= 0.0001 || nextPitch !== state.midiNoteDragCurrentPitch) {
+      const movedNoteId = moveMidiRollEventNote(track, clip, state.midiNoteDragEventId, nextPitch, nextStartBeat, {
+        render: false,
+        persist: false
+      });
+      if (movedNoteId) {
+        state.midiNoteDragNoteId = movedNoteId;
+        const movedReference = findMidiRollNoteReference(clip, movedNoteId);
+        if (movedReference) {
+          state.midiNoteDragEventId = movedReference.event.id;
+          state.midiNoteDragNoteIndex = movedReference.noteIndex;
+        }
+        state.midiRollSelectedNoteId = movedNoteId;
+        state.midiRollSelectedCell = { pitch: nextPitch, startBeat: nextStartBeat };
+        state.midiNoteDragCurrentBeat = nextStartBeat;
+        state.midiNoteDragCurrentPitch = nextPitch;
+      }
+    }
+    event.preventDefault();
+  }
+
+  function stopMidiRollNoteDrag(commit = true) {
+    if (state.midiNoteDragPointerId === null) {
+      return;
+    }
+    const moved = state.midiNoteDragMoved;
+    const track = state.tracks.find((item) => item.id === state.midiNoteDragTrackId);
+    const clip = track?.clips.find((item) => item.id === state.midiNoteDragClipId && item.type === 'instrument');
+    const noteId = state.midiNoteDragNoteId;
+    const eventId = state.midiNoteDragEventId;
+    const noteIndex = state.midiNoteDragNoteIndex;
+    const nextBeat = state.midiNoteDragCurrentBeat;
+    const nextPitch = state.midiNoteDragCurrentPitch;
+    const dragEl = state.midiNoteDragElement;
+    state.midiNoteDragPointerId = null;
+    state.midiNoteDragElement = null;
+    state.midiNoteDragTrackId = '';
+    state.midiNoteDragClipId = '';
+    state.midiNoteDragNoteId = '';
+    state.midiNoteDragEventId = '';
+    state.midiNoteDragNoteIndex = 0;
+    state.midiNoteDragMoved = false;
+    if (!moved) {
+      dragEl?.classList.remove('dragging');
+      if (dragEl) {
+        dragEl.style.transform = '';
+        dragEl.style.zIndex = '';
+      }
+      renderComposerPanel();
+      return;
+    }
+    state.lastMidiNoteDragAt = performance.now();
+    if (commit && track && clip) {
+      const committedNoteId = moveMidiRollEventNote(track, clip, eventId, nextPitch, nextBeat, { render: false, persist: false }) || state.midiRollSelectedNoteId;
+      state.midiRollSelectedNoteId = committedNoteId;
+      scheduleProjectSave();
+      setStatus('MIDI note moved.');
+      renderTracks();
+      renderComposerPanel();
+      return;
+    }
+    renderComposerPanel();
+  }
+
+  function nudgeSelectedMidiRollNote(direction) {
+    const { track, clip } = getMidiRollClip();
+    if (!track || !clip) {
+      return false;
+    }
+    const notes = getInstrumentClipNoteEntries(clip).sort((left, right) => (left.startBeat - right.startBeat) || (right.pitch - left.pitch));
+    const note = notes.find((item) => item.noteId === state.midiRollSelectedNoteId) || notes[0];
+    if (!note) {
+      return false;
+    }
+    state.midiRollSelectedNoteId = note.noteId;
+    let nextPitch = note.pitch;
+    let nextBeat = note.startBeat;
+    if (direction === 'up') {
+      nextPitch = Math.min(MIDI_ROLL_MAX_MIDI, note.pitch + 1);
+    } else if (direction === 'down') {
+      nextPitch = Math.max(MIDI_ROLL_MIN_MIDI, note.pitch - 1);
+    } else if (direction === 'left') {
+      nextBeat = Math.max(0, Math.floor(note.startBeat));
+      if (Math.abs(nextBeat - note.startBeat) < 0.0001) {
+        nextBeat = Math.max(0, note.startBeat - 1);
+      }
+    } else if (direction === 'right') {
+      nextBeat = Math.ceil(note.startBeat);
+      if (Math.abs(nextBeat - note.startBeat) < 0.0001) {
+        nextBeat = note.startBeat + 1;
+      }
+    } else {
+      return false;
+    }
+    const movedNoteId = moveMidiRollEventNote(track, clip, note.eventId, nextPitch, nextBeat);
+    if (!movedNoteId) {
+      return true;
+    }
+    setStatus(`Moved ${midiToName(nextPitch)} in ${track.name}.`);
+    return true;
+  }
+
+  function handleMidiRollArrowKey(event) {
+    if (state.composerPanelMode !== 'midi-roll' || isTypingField()) {
+      return false;
+    }
+    const direction = {
+      ArrowLeft: 'left',
+      ArrowRight: 'right',
+      ArrowUp: 'up',
+      ArrowDown: 'down'
+    }[event.key] || {
+      ArrowLeft: 'left',
+      ArrowRight: 'right',
+      ArrowUp: 'up',
+      ArrowDown: 'down'
+    }[event.code];
+    if (!direction) {
+      return false;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    nudgeSelectedMidiRollNote(direction);
+    return true;
+  }
+
+  function selectMidiRollNote(trackId, clipId, noteId) {
+    const track = state.tracks.find((item) => item.id === trackId);
+    const clip = track?.clips.find((item) => item.id === clipId && item.type === 'instrument');
+    const note = getInstrumentClipNoteEntries(clip).find((item) => item.noteId === noteId);
+    if (!note) {
+      return;
+    }
+    state.midiRollTrackId = trackId;
+    state.midiRollClipId = clipId;
+    state.midiRollSelectedNoteId = noteId;
+    state.midiRollSelectedCell = { pitch: note.pitch, startBeat: note.startBeat };
+    renderComposerPanel();
+  }
+
+  function deleteSelectedMidiRollNote() {
+    const { track, clip } = getMidiRollClip();
+    if (!track || !clip || !state.midiRollSelectedNoteId) {
+      return false;
+    }
+    clip.events = normalizeInstrumentClipEvents(clip.events);
+    let changed = false;
+    clip.events = clip.events.flatMap((event) => {
+      const notes = Array.isArray(event.notes) ? [...event.notes] : [];
+      const matchingIndex = notes.findIndex((_, index) => `${event.id}:${index}` === state.midiRollSelectedNoteId);
+      if (matchingIndex === -1) {
+        return [event];
+      }
+      changed = true;
+      notes.splice(matchingIndex, 1);
+      if (!notes.length) {
+        return [];
+      }
+      return [{ ...event, notes }];
+    });
+    if (!changed) {
+      return false;
+    }
+    const noteEndBeat = getInstrumentClipNoteEntries(clip).reduce((maxBeat, note) => Math.max(maxBeat, note.startBeat + note.duration), 0);
+    clip.beatDuration = Math.max(BEATS_PER_MEASURE, noteEndBeat || BEATS_PER_MEASURE);
+    state.midiRollSelectedNoteId = '';
+    renderTracks();
+    renderComposerPanel();
+    scheduleProjectSave();
+    setStatus(`Removed the selected note from ${track.name}.`);
+    return true;
+  }
+
+  function bindMidiRollPanelInteractions(track, clip) {
+    const gridScroll = effectsRackBody.querySelector('[data-midi-roll-grid-scroll]');
+    const rulerScroll = effectsRackBody.querySelector('[data-midi-roll-ruler-scroll]');
+    const keysViewport = effectsRackBody.querySelector('[data-midi-roll-keys-viewport]');
+    if (!gridScroll || !rulerScroll || !keysViewport) {
+      return;
+    }
+    gridScroll.scrollLeft = Math.max(0, Number(state.midiRollScrollLeft) || 0);
+    if (state.midiRollNeedsAutoScroll) {
+      state.midiRollScrollTop = getSuggestedMidiRollScrollTop(clip, gridScroll.clientHeight);
+      state.midiRollNeedsAutoScroll = false;
+    }
+    gridScroll.scrollTop = Math.max(0, Number(state.midiRollScrollTop) || 0);
+    rulerScroll.scrollLeft = gridScroll.scrollLeft;
+    keysViewport.scrollTop = gridScroll.scrollTop;
+    gridScroll.addEventListener('scroll', () => {
+      state.midiRollScrollLeft = gridScroll.scrollLeft;
+      state.midiRollScrollTop = gridScroll.scrollTop;
+      rulerScroll.scrollLeft = gridScroll.scrollLeft;
+      keysViewport.scrollTop = gridScroll.scrollTop;
+    }, { passive: true });
+    ensureMidiRollSelection(clip);
+    syncMidiRollQuickPlacementUi();
+  }
+
+  function getMidiRollMarkup(track, clip) {
+    if (!isInstrumentTrack(track) || !clip) {
+      return `<div class="effects-placeholder">Double-click an instrument clip or track to open its MIDI roll.</div>`;
+    }
+    const notes = getInstrumentClipNoteEntries(clip);
+    const rows = getMidiRollPitchRows();
+    const measureCount = getMidiRollMeasureCount(clip);
+    const totalBeats = measureCount * BEATS_PER_MEASURE;
+    const gridWidth = totalBeats * PIXELS_PER_BEAT;
+    const contentWidth = `${measureCount * 25}%`;
+    const gridHeight = rows.length * MIDI_ROLL_ROW_HEIGHT;
+    const selectedNote = notes.find((note) => note.noteId === state.midiRollSelectedNoteId) || null;
+    const selectedCell = !selectedNote && state.midiRollSelectedCell ? state.midiRollSelectedCell : null;
+    return `
+      <div class="midi-roll-shell${state.midiRollQuickPlacement ? ' quick-place' : ''}" data-midi-roll-shell>
+        <div class="midi-roll-topbar">
+          <div>
+            <strong>${track.name}</strong>
+            <span>${clip.name} · Recorded notes stay exact. New notes snap to the visible 4-beat grid.</span>
+          </div>
+          <div class="midi-roll-mode-badge${state.midiRollQuickPlacement ? ' active' : ''}" data-midi-roll-mode-badge>${state.midiRollQuickPlacement ? 'B Quick Place On' : 'Hold B for Quick Place'}</div>
+        </div>
+        <div class="midi-roll-ruler-layout">
+          <div class="midi-roll-ruler-spacer"></div>
+          <div class="midi-roll-ruler-scroll" data-midi-roll-ruler-scroll>
+            <div class="midi-roll-ruler" style="width:${contentWidth}; min-width:${gridWidth}px;">
+              <div class="midi-roll-ruler-bars" style="grid-template-columns:repeat(${measureCount}, minmax(0, 1fr));">
+                ${Array.from({ length: measureCount }, (_, index) => `<div class="midi-roll-ruler-bar">${index + 1}</div>`).join('')}
+              </div>
+              <div class="midi-roll-ruler-beats" style="grid-template-columns:repeat(${totalBeats}, minmax(0, 1fr));">
+                ${Array.from({ length: totalBeats }, (_, index) => {
+                  const measure = Math.floor(index / BEATS_PER_MEASURE) + 1;
+                  const beat = (index % BEATS_PER_MEASURE) + 1;
+                  return `<div class="midi-roll-ruler-beat${index % BEATS_PER_MEASURE === 0 ? ' bar-start' : ''}">${measure}.${beat}</div>`;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="midi-roll-content">
+          <div class="midi-roll-keys-viewport" data-midi-roll-keys-viewport>
+            <div class="midi-roll-keys" style="height:${gridHeight}px;">
+              ${rows.map((row) => `<div class="midi-roll-key-row${row.isBlack ? ' black' : ''}${row.isC ? ' c-note' : ''}" style="height:${MIDI_ROLL_ROW_HEIGHT}px;">${row.note}</div>`).join('')}
+            </div>
+          </div>
+          <div class="midi-roll-grid-scroll" data-midi-roll-grid-scroll>
+            <div class="midi-roll-grid-surface" data-midi-roll-grid data-total-beats="${totalBeats}" data-midi-roll-track-id="${track.id}" data-midi-roll-clip-id="${clip.id}" tabindex="0" style="width:${contentWidth}; min-width:${gridWidth}px; height:${gridHeight}px;">
+              ${rows.map((row, index) => `<div class="midi-roll-row-line${row.isBlack ? ' black' : ''}" style="top:${index * MIDI_ROLL_ROW_HEIGHT}px;"></div>`).join('')}
+              ${Array.from({ length: totalBeats + 1 }, (_, index) => `<div class="midi-roll-column-line${index % BEATS_PER_MEASURE === 0 ? ' bar' : ''}" style="left:${(index / totalBeats) * 100}%;"></div>`).join('')}
+              ${selectedCell ? `<div class="midi-roll-selected-cell" style="left:${(selectedCell.startBeat / totalBeats) * 100}%; top:${(MIDI_ROLL_MAX_MIDI - selectedCell.pitch) * MIDI_ROLL_ROW_HEIGHT}px; width:${100 / totalBeats}%; height:${MIDI_ROLL_ROW_HEIGHT}px;"></div>` : ''}
+              ${notes.map((note) => `<div class="midi-roll-note${note.noteId === state.midiRollSelectedNoteId ? ' selected' : ''}" data-midi-note-id="${note.noteId}" data-midi-event-id="${note.eventId}" data-midi-note-index="${note.noteIndex}" data-midi-track-id="${track.id}" data-midi-clip-id="${clip.id}" data-midi-pitch="${note.pitch}" data-midi-start-beat="${note.startBeat}" style="left:calc(${(note.startBeat / totalBeats) * 100}% + 1px); top:${(MIDI_ROLL_MAX_MIDI - note.pitch) * MIDI_ROLL_ROW_HEIGHT + 1}px; width:calc(${Math.max((note.duration / totalBeats) * 100, 100 / totalBeats)}% - 2px); height:${MIDI_ROLL_ROW_HEIGHT - 2}px;"></div>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   function updateSamplerClipSetting(field, value) {
     const { clip } = getSamplerClip();
     if (!clip || clip.type !== "audio") {
@@ -4964,6 +6355,431 @@
     });
   }
 
+  function sanitizeProjectNameInput(value) {
+    const trimmed = String(value || "").replace(/\.waveforge\.json$/i, "").trim();
+    return trimmed || "Untitled Project";
+  }
+
+  function projectSnapshotString() {
+    return JSON.stringify(serializeProjectState());
+  }
+
+  function refreshAppMenuState() {
+    if (undoMenuBtn) {
+      undoMenuBtn.disabled = state.historyPast.length === 0;
+    }
+    if (redoMenuBtn) {
+      redoMenuBtn.disabled = state.historyFuture.length === 0;
+    }
+  }
+
+  function updateProjectDirtyState(snapshot = null) {
+    const resolvedSnapshot = typeof snapshot === "string" ? snapshot : projectSnapshotString();
+    state.projectDirty = resolvedSnapshot !== state.lastSavedSnapshot;
+    refreshAppMenuState();
+    return state.projectDirty;
+  }
+
+  function openAppMenu() {
+    state.appMenuOpen = true;
+    refreshAppMenuState();
+    if (appMenuBtn && appMenuPanel) {
+      const rect = appMenuBtn.getBoundingClientRect();
+      const panelWidth = Math.max(212, appMenuPanel.offsetWidth || 212);
+      const left = Math.min(
+        Math.max(12, rect.left),
+        Math.max(12, window.innerWidth - panelWidth - 12)
+      );
+      const top = Math.min(rect.bottom + 12, Math.max(12, window.innerHeight - 240));
+      appMenuPanel.style.left = `${left}px`;
+      appMenuPanel.style.top = `${top}px`;
+    }
+    appMenuPanel?.classList.add("active");
+    appMenuPanel?.setAttribute("aria-hidden", "false");
+    appMenuBtn?.setAttribute("aria-expanded", "true");
+  }
+
+  function closeAppMenu() {
+    state.appMenuOpen = false;
+    appMenuPanel?.classList.remove("active");
+    appMenuPanel?.setAttribute("aria-hidden", "true");
+    appMenuBtn?.setAttribute("aria-expanded", "false");
+  }
+
+  function toggleAppMenu() {
+    if (state.appMenuOpen) {
+      closeAppMenu();
+    } else {
+      openAppMenu();
+    }
+  }
+
+  function openSaveProjectOverlay(mode = "save") {
+    state.saveProjectMode = mode;
+    saveProjectInput.value = sanitizeProjectNameInput(state.currentProjectName);
+    saveProjectOverlay.classList.add("active");
+    requestAnimationFrame(() => {
+      saveProjectInput.focus();
+      saveProjectInput.select();
+    });
+  }
+
+  function closeSaveProjectOverlay() {
+    saveProjectOverlay.classList.remove("active");
+    saveProjectInput.value = "";
+    state.saveProjectMode = "save";
+  }
+
+  function recordHistorySnapshot() {
+    clearTimeout(state.historyTimer);
+    if (state.isApplyingProjectSnapshot) {
+      return;
+    }
+    const nextSnapshot = projectSnapshotString();
+    if (!state.historySnapshot) {
+      state.historySnapshot = nextSnapshot;
+      updateProjectDirtyState(nextSnapshot);
+      return;
+    }
+    if (nextSnapshot === state.historySnapshot) {
+      updateProjectDirtyState(nextSnapshot);
+      return;
+    }
+    state.historyPast.push(state.historySnapshot);
+    if (state.historyPast.length > 80) {
+      state.historyPast.shift();
+    }
+    state.historySnapshot = nextSnapshot;
+    state.historyFuture = [];
+    updateProjectDirtyState(nextSnapshot);
+  }
+
+  function scheduleHistorySnapshot() {
+    clearTimeout(state.historyTimer);
+    if (state.isApplyingProjectSnapshot) {
+      return;
+    }
+    state.historyTimer = setTimeout(recordHistorySnapshot, 240);
+  }
+
+  async function revokeTrackAudioUrls(tracks = state.tracks) {
+    for (const track of tracks || []) {
+      for (const clip of track?.clips || []) {
+        if (clip?.audioSrc) {
+          URL.revokeObjectURL(clip.audioSrc);
+          clip.audioSrc = null;
+        }
+      }
+    }
+  }
+
+  async function hydrateProjectStateFromParsed(parsed) {
+    state.tempo = Math.max(60, Math.min(500, Number(parsed.tempo) || 120));
+    state.outputVolume = Math.max(0, Math.min(100, Number(parsed.outputVolume) || FADER_UNITY_SLIDER_VALUE));
+    state.currentInstrument = instrumentConfigs[parsed.currentInstrument] ? parsed.currentInstrument : "keyboard";
+    state.keyboardOctaveShift = Math.max(-2, Math.min(2, Number(parsed.keyboardOctaveShift) || 0));
+    state.sustainEnabled = Boolean(parsed.sustainEnabled);
+    state.composerHeight = Math.max(
+      DEFAULT_COMPOSER_HEIGHT,
+      Math.max(MIN_COMPOSER_HEIGHT, Math.min(MAX_COMPOSER_HEIGHT, Number(parsed.composerHeight) || DEFAULT_COMPOSER_HEIGHT))
+    );
+    state.selectedTrackId = parsed.selectedTrackId || null;
+    state.currentProjectName = sanitizeProjectNameInput(parsed.projectName || state.currentProjectName);
+    state.micTakeCounter = Number(parsed.micTakeCounter) || 0;
+    state.trackCounter = Number(parsed.trackCounter) || 0;
+    state.clipCounter = Number(parsed.clipCounter) || 1;
+    state.tracks = Array.isArray(parsed.tracks)
+      ? parsed.tracks.map((track) => normalizeTrackMonitorState({
+          id: track.id,
+          name: normalizeTrackName(track.name, track.instrument),
+          instrument: track.instrument,
+          pluginInstrument: normalizePluginInstrumentDescriptor(track.pluginInstrument),
+          color: track.color,
+          gain: Math.max(0, Number(track.gain) || 0.8),
+          muted: Boolean(track.muted),
+          solo: Boolean(track.solo),
+          pan: Math.max(-1, Math.min(1, Number(track.pan) || 0)),
+          effects: normalizeTrackEffects(track.effects),
+          midiNotes: normalizeMidiRollNotes(track.midiNotes, track.id),
+          clips: Array.isArray(track.clips)
+            ? track.clips.map((clip) => ({
+                id: clip.id,
+                name: clip.name,
+                type: clip.type,
+                beatStart: Number(clip.beatStart) || 0,
+                beatDuration: Number(clip.beatDuration) || 0,
+                sourceTempo: clip.sourceTempo ? Number(clip.sourceTempo) : null,
+                sourceDuration: clip.sourceDuration ? Number(clip.sourceDuration) : null,
+                pitchSemitones: clip.type === "audio" ? Math.max(-12, Math.min(12, Number(clip.pitchSemitones) || 0)) : 0,
+                reversed: clip.type === "audio" ? Boolean(clip.reversed) : false,
+                waveformVersion: clip.type === "audio" ? Number(clip.waveformVersion) || null : null,
+                waveformPeaks: clip.type === "audio" ? normalizeWaveformPeaks(clip.waveformPeaks) : null,
+                chordMarkers: clip.type === "audio" && Array.isArray(clip.chordMarkers)
+                  ? clip.chordMarkers
+                      .map((marker) => ({
+                        beat: Number(marker?.beat) || 0,
+                        label: String(marker?.label || "").trim()
+                      }))
+                      .filter((marker) => marker.label)
+                  : [],
+                events: normalizeInstrumentClipEvents(clip.events),
+                audioSrc: null,
+                activeAudio: null
+              }))
+            : []
+        }))
+      : [];
+
+    for (const track of state.tracks) {
+      for (const clip of track.clips) {
+        if (clip.type !== "audio") {
+          continue;
+        }
+        try {
+          const blob = await loadAudioAsset(clip.id);
+          if (blob) {
+            clip.audioSrc = URL.createObjectURL(blob);
+          }
+        } catch (error) {
+          clip.audioSrc = null;
+        }
+      }
+    }
+
+    if (!state.tracks.some((track) => track.id === state.selectedTrackId)) {
+      state.selectedTrackId = state.tracks[0]?.id || null;
+    }
+    if (state.composerPanelMode === "sampler") {
+      const { clip } = getSamplerClip();
+      if (!clip) {
+        state.composerPanelMode = "effects";
+        state.samplerClipTrackId = "";
+        state.samplerClipId = "";
+      }
+    }
+    if (state.composerPanelMode === "midi-roll") {
+      const midiTrack = state.tracks.find((track) => track.id === state.midiRollTrackId && track.instrument !== "audio");
+      if (!midiTrack) {
+        state.composerPanelMode = "effects";
+        state.midiRollTrackId = "";
+        state.midiRollClipId = "";
+        state.midiRollSelectedCell = null;
+        state.midiRollSelectedNoteId = "";
+      }
+    }
+  }
+
+  async function applySerializedProjectStateSnapshot(snapshot, options = {}) {
+    const parsed = typeof snapshot === "string" ? JSON.parse(snapshot) : snapshot;
+    if (state.recording) {
+      stopRecording();
+    }
+    stopPlayback();
+    stopAllPerformanceNotes();
+    state.isApplyingProjectSnapshot = true;
+    try {
+      await revokeTrackAudioUrls(state.tracks);
+      await hydrateProjectStateFromParsed(parsed);
+      applyComposerHeight(state.composerHeight);
+      document.getElementById("tempoInput").value = String(state.tempo);
+      masterVolume.value = String(state.outputVolume);
+      volumeValue.textContent = formatOutputVolumeDb(state.outputVolume);
+      renderRuler();
+      renderTracks();
+      syncInstrumentUI();
+      updateProjectStats();
+      const targetTransport = options.resetTransport
+        ? 0
+        : Math.max(0, Math.min(Number(state.transportPositionBeats) || 0, getSongLengthBeats()));
+      setTransportPosition(targetTransport);
+      document.querySelectorAll('input[type="range"]').forEach(updateRangeVisual);
+    } finally {
+      state.isApplyingProjectSnapshot = false;
+    }
+    const normalizedSnapshot = typeof snapshot === "string" ? snapshot : projectSnapshotString();
+    state.historySnapshot = normalizedSnapshot;
+    updateProjectDirtyState(normalizedSnapshot);
+  }
+
+  function createEmptyProjectSnapshot() {
+    return JSON.stringify({
+      projectName: "Untitled Project",
+      tempo: 120,
+      outputVolume: FADER_UNITY_SLIDER_VALUE,
+      currentInstrument: "keyboard",
+      keyboardOctaveShift: 0,
+      sustainEnabled: false,
+      composerHeight: DEFAULT_COMPOSER_HEIGHT,
+      selectedTrackId: null,
+      micTakeCounter: 0,
+      trackCounter: 0,
+      clipCounter: 1,
+      tracks: []
+    });
+  }
+
+  async function performUndo() {
+    closeAppMenu();
+    if (!state.historyPast.length) {
+      setStatus("Nothing to undo yet.");
+      return;
+    }
+    const previousSnapshot = state.historyPast.pop();
+    const currentSnapshot = projectSnapshotString();
+    state.historyFuture.push(currentSnapshot);
+    await applySerializedProjectStateSnapshot(previousSnapshot);
+    setStatus("Undid the last change.");
+  }
+
+  async function performRedo() {
+    closeAppMenu();
+    if (!state.historyFuture.length) {
+      setStatus("Nothing to redo yet.");
+      return;
+    }
+    const nextSnapshot = state.historyFuture.pop();
+    const currentSnapshot = projectSnapshotString();
+    state.historyPast.push(currentSnapshot);
+    await applySerializedProjectStateSnapshot(nextSnapshot);
+    setStatus("Redid the last change.");
+  }
+
+  async function blobToDataUrl(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result || ""));
+      reader.onerror = () => reject(reader.error || new Error("Could not read audio asset."));
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function buildProjectExportPayload(projectName) {
+    const project = serializeProjectState();
+    const audioAssets = {};
+    for (const track of state.tracks) {
+      for (const clip of track.clips) {
+        if (clip.type !== "audio") {
+          continue;
+        }
+        const blob = await loadClipAudioBlob(clip);
+        if (!blob) {
+          continue;
+        }
+        audioAssets[clip.id] = {
+          mimeType: blob.type || "audio/wav",
+          dataUrl: await blobToDataUrl(blob)
+        };
+      }
+    }
+    return {
+      app: "WaveForge",
+      version: 1,
+      projectName: sanitizeProjectNameInput(projectName),
+      savedAt: new Date().toISOString(),
+      project,
+      audioAssets
+    };
+  }
+
+  async function saveProjectToDocuments(projectName, options = {}) {
+    const resolvedProjectName = sanitizeProjectNameInput(projectName || state.currentProjectName);
+    await persistProjectNow();
+    if (!window.waveforgeDesktop?.saveProjectFile) {
+      state.currentProjectName = resolvedProjectName;
+      state.lastSavedSnapshot = projectSnapshotString();
+      state.historySnapshot = state.lastSavedSnapshot;
+      updateProjectDirtyState(state.lastSavedSnapshot);
+      if (!options.silent) {
+        setStatus(`Saved ${resolvedProjectName} locally in the browser project cache.`);
+      }
+      return { ok: true, projectName: resolvedProjectName, path: "" };
+    }
+    const payload = await buildProjectExportPayload(resolvedProjectName);
+    const result = await window.waveforgeDesktop.saveProjectFile({
+      fileName: resolvedProjectName,
+      autosave: Boolean(options.autosave),
+      content: JSON.stringify(payload, null, 2)
+    });
+    state.currentProjectName = result?.projectName || resolvedProjectName;
+    state.currentProjectPath = result?.path || state.currentProjectPath;
+    state.lastSavedSnapshot = projectSnapshotString();
+    state.historySnapshot = state.lastSavedSnapshot;
+    updateProjectDirtyState(state.lastSavedSnapshot);
+    if (!options.silent) {
+      setStatus(`Saved ${state.currentProjectName} to Documents.`);
+    }
+    return result;
+  }
+
+  async function submitSaveProject() {
+    const requestedName = sanitizeProjectNameInput(saveProjectInput.value);
+    if (!requestedName) {
+      saveProjectInput.focus();
+      return;
+    }
+    try {
+      await saveProjectToDocuments(requestedName);
+      const mode = state.saveProjectMode;
+      closeSaveProjectOverlay();
+      if (mode === "new") {
+        await performNewProject();
+      }
+    } catch (error) {
+      setStatus(String(error?.message || error || "Could not save this project."));
+    }
+  }
+
+  async function performNewProject() {
+    closeAppMenu();
+    closeSaveProjectOverlay();
+    await applySerializedProjectStateSnapshot(createEmptyProjectSnapshot(), { resetTransport: true });
+    state.currentProjectPath = "";
+    const emptySnapshot = projectSnapshotString();
+    state.lastSavedSnapshot = emptySnapshot;
+    state.historySnapshot = emptySnapshot;
+    state.historyPast = [];
+    state.historyFuture = [];
+    updateProjectDirtyState(emptySnapshot);
+    await persistProjectNow();
+    setStatus("Started a new project.");
+  }
+
+  async function requestNewProject() {
+    closeAppMenu();
+    if (!state.projectDirty) {
+      await performNewProject();
+      return;
+    }
+    if (window.waveforgeDesktop?.showUnsavedChangesDialog) {
+      const result = await window.waveforgeDesktop.showUnsavedChangesDialog();
+      if (result?.choice === "cancel") {
+        return;
+      }
+      if (result?.choice === "save") {
+        openSaveProjectOverlay("new");
+        return;
+      }
+      await performNewProject();
+      return;
+    }
+    if (window.confirm("Save the current project before creating a new one?")) {
+      openSaveProjectOverlay("new");
+      return;
+    }
+    await performNewProject();
+  }
+
+  function startProjectAutosaveLoop() {
+    clearInterval(state.autosaveIntervalId);
+    state.autosaveIntervalId = window.setInterval(() => {
+      if (!state.projectDirty) {
+        return;
+      }
+      const name = sanitizeProjectNameInput(state.currentProjectName || "Untitled Project");
+      saveProjectToDocuments(name, { autosave: true, silent: true }).catch(() => {});
+    }, 5 * 60 * 1000);
+  }
+
   function serializeProjectState() {
     return {
       tempo: state.tempo,
@@ -4976,6 +6792,7 @@
       micTakeCounter: state.micTakeCounter,
       trackCounter: state.trackCounter,
       clipCounter: state.clipCounter,
+      projectName: state.currentProjectName,
       tracks: state.tracks.map((track) => ({
         id: track.id,
         name: track.name,
@@ -4987,6 +6804,7 @@
         solo: Boolean(track.solo),
         pan: track.pan ?? 0,
         effects: normalizeTrackEffects(track.effects),
+        midiNotes: normalizeMidiRollNotes(track.midiNotes, track.id),
         clips: track.clips.map((clip) => ({
           id: clip.id,
           name: clip.name,
@@ -5021,6 +6839,8 @@
 
   function scheduleProjectSave() {
     clearTimeout(state.saveTimer);
+    scheduleHistorySnapshot();
+    updateProjectDirtyState();
     state.saveTimer = setTimeout(() => {
       persistProjectNow().catch(() => {});
     }, 120);
@@ -5148,6 +6968,99 @@
       return;
     }
     state.tracks.forEach((track) => ensureTrackOutput(track));
+    ensureMeterAnimationRunning();
+  }
+
+  function sliderValueToDb(value) {
+    const slider = Math.max(0, Math.min(100, Number(value) || 0));
+    if (slider <= 0) {
+      return -Infinity;
+    }
+    if (slider <= FADER_UNITY_SLIDER_VALUE) {
+      return FADER_MIN_DB + ((slider / FADER_UNITY_SLIDER_VALUE) * Math.abs(FADER_MIN_DB));
+    }
+    return ((slider - FADER_UNITY_SLIDER_VALUE) / (100 - FADER_UNITY_SLIDER_VALUE)) * FADER_MAX_DB;
+  }
+
+  function sliderValueToGain(value) {
+    const db = sliderValueToDb(value);
+    if (!Number.isFinite(db)) {
+      return 0;
+    }
+    return Math.pow(10, db / 20);
+  }
+
+  function gainToSliderValue(gain) {
+    const safeGain = Math.max(0, Number(gain) || 0);
+    if (safeGain <= 0.0001) {
+      return 0;
+    }
+    const db = 20 * Math.log10(safeGain);
+    if (db <= 0) {
+      return ((db - FADER_MIN_DB) / Math.abs(FADER_MIN_DB)) * FADER_UNITY_SLIDER_VALUE;
+    }
+    return FADER_UNITY_SLIDER_VALUE + ((db / FADER_MAX_DB) * (100 - FADER_UNITY_SLIDER_VALUE));
+  }
+
+  function formatOutputVolumeDb(value) {
+    const db = sliderValueToDb(value);
+    return Number.isFinite(db) ? `${db.toFixed(1)} dB` : `-∞ dB`;
+  }
+
+  function sampleMeter(analyser, buffer) {
+    if (!analyser || !buffer) {
+      return { level: 0, db: -Infinity };
+    }
+    analyser.getFloatTimeDomainData(buffer);
+    let sum = 0;
+    for (let index = 0; index < buffer.length; index += 1) {
+      const sample = buffer[index] || 0;
+      sum += sample * sample;
+    }
+    const rms = Math.sqrt(sum / Math.max(1, buffer.length));
+    if (!Number.isFinite(rms) || rms <= 1e-5) {
+      return { level: 0, db: -Infinity };
+    }
+    const db = 20 * Math.log10(rms);
+    const normalized = Math.max(0, Math.min(1, (db + 54) / 54));
+    return { level: Math.pow(normalized, 1.35) * 0.82, db };
+  }
+
+  function setMeterLineValue(key, level) {
+    const element = document.querySelector(`[data-meter-line="${key}"]`);
+    if (!element) {
+      return;
+    }
+    const clamped = Math.max(0, Math.min(1, level || 0));
+    const previous = state.meterLevels[key] ?? 0;
+    const smoothed = clamped > previous
+      ? previous + ((clamped - previous) * 0.18)
+      : previous + ((clamped - previous) * 0.1);
+    state.meterLevels[key] = smoothed < 0.002 ? 0 : smoothed;
+    element.style.setProperty('--meter-level', String(state.meterLevels[key]));
+  }
+
+  function updateMeterVisuals() {
+    if (state.audioContext) {
+      state.tracks.forEach((track) => {
+        const leftSample = sampleMeter(track.outputMeterAnalyserLeft, track.outputMeterDataLeft);
+        const rightSample = sampleMeter(track.outputMeterAnalyserRight, track.outputMeterDataRight);
+        setMeterLineValue(`${track.id}:L`, leftSample.level);
+        setMeterLineValue(`${track.id}:R`, rightSample.level);
+      });
+      const masterLeft = sampleMeter(state.masterMeterAnalyserLeft, state.masterMeterDataLeft);
+      const masterRight = sampleMeter(state.masterMeterAnalyserRight, state.masterMeterDataRight);
+      setMeterLineValue('master:L', masterLeft.level);
+      setMeterLineValue('master:R', masterRight.level);
+    }
+    state.meterAnimationFrame = window.requestAnimationFrame(updateMeterVisuals);
+  }
+
+  function ensureMeterAnimationRunning() {
+    if (state.meterAnimationFrame) {
+      return;
+    }
+    state.meterAnimationFrame = window.requestAnimationFrame(updateMeterVisuals);
   }
 
   function setTrackPan(track, value, options = {}) {
@@ -5199,6 +7112,9 @@
       track.outputReverbPreDelay?.disconnect?.();
       track.outputReverbConvolver?.disconnect?.();
       track.outputReverbWetGain?.disconnect?.();
+      track.outputMeterSplitter?.disconnect?.();
+      track.outputMeterAnalyserLeft?.disconnect?.();
+      track.outputMeterAnalyserRight?.disconnect?.();
       track.outputContext = state.audioContext;
       track.outputGainNode = state.audioContext.createGain();
       track.outputPannerNode =
@@ -5211,6 +7127,13 @@
       track.outputReverbPreDelay = state.audioContext.createDelay(0.12);
       track.outputReverbConvolver = state.audioContext.createConvolver();
       track.outputReverbWetGain = state.audioContext.createGain();
+      track.outputMeterSplitter = state.audioContext.createChannelSplitter(2);
+      track.outputMeterAnalyserLeft = state.audioContext.createAnalyser();
+      track.outputMeterAnalyserRight = state.audioContext.createAnalyser();
+      track.outputMeterAnalyserLeft.fftSize = 512;
+      track.outputMeterAnalyserRight.fftSize = 512;
+      track.outputMeterDataLeft = new Float32Array(track.outputMeterAnalyserLeft.fftSize);
+      track.outputMeterDataRight = new Float32Array(track.outputMeterAnalyserRight.fftSize);
     }
     track.outputGainNode.disconnect();
     track.outputPannerNode?.disconnect?.();
@@ -5220,6 +7143,13 @@
     track.outputReverbPreDelay?.disconnect?.();
     track.outputReverbConvolver?.disconnect?.();
     track.outputReverbWetGain?.disconnect?.();
+    track.outputMeterSplitter?.disconnect?.();
+    track.outputMeterAnalyserLeft?.disconnect?.();
+    track.outputMeterAnalyserRight?.disconnect?.();
+    if (track.outputMeterSplitter && track.outputMeterAnalyserLeft && track.outputMeterAnalyserRight) {
+      track.outputMeterSplitter.connect(track.outputMeterAnalyserLeft, 0);
+      track.outputMeterSplitter.connect(track.outputMeterAnalyserRight, 1);
+    }
 
     const eqEffect = getTrackEqEffect(track);
     const reverbEffect = getTrackReverbEffect(track);
@@ -5243,6 +7173,13 @@
       }
       chainTail = track.outputEqNodes[track.outputEqNodes.length - 1];
     }
+
+    const tapMeter = (node) => {
+      if (node && track.outputMeterSplitter) {
+        node.connect(track.outputMeterSplitter);
+      }
+    };
+
     if (reverbEffect) {
       const wetMix = 0.18 + (reverbEffect.size / 100) * 0.24;
       const preDelay = 0.005 + (reverbEffect.size / 100) * 0.04;
@@ -5263,23 +7200,27 @@
       if (track.outputPannerNode) {
         track.outputReverbDryGain.connect(track.outputPannerNode);
         track.outputReverbWetGain.connect(track.outputPannerNode);
+        track.outputPannerNode.connect(state.masterGain);
+        tapMeter(track.outputPannerNode);
       } else {
         track.outputReverbDryGain.connect(state.masterGain);
         track.outputReverbWetGain.connect(state.masterGain);
+        tapMeter(track.outputReverbDryGain);
+        tapMeter(track.outputReverbWetGain);
       }
     } else if (track.outputPannerNode) {
       chainTail.connect(track.outputPannerNode);
       track.outputPannerNode.connect(state.masterGain);
+      tapMeter(track.outputPannerNode);
     } else {
       chainTail.connect(state.masterGain);
-    }
-    if (reverbEffect && track.outputPannerNode) {
-      track.outputPannerNode.connect(state.masterGain);
+      tapMeter(chainTail);
     }
     track.outputGainNode.gain.value = isTrackAudible(track) ? (track.gain ?? 1) : 0;
     if (track.outputPannerNode) {
       track.outputPannerNode.pan.value = track.pan ?? 0;
     }
+    ensureMeterAnimationRunning();
     return track.outputGainNode;
   }
 
@@ -5312,81 +7253,9 @@
       localStorage.removeItem(PROJECT_STORAGE_KEY);
       return;
     }
-
-    state.tempo = Math.max(60, Math.min(500, Number(parsed.tempo) || 120));
-    state.outputVolume = Math.max(0, Math.min(100, Number(parsed.outputVolume) || 72));
-    state.currentInstrument = instrumentConfigs[parsed.currentInstrument] ? parsed.currentInstrument : "keyboard";
-    state.keyboardOctaveShift = Math.max(-2, Math.min(2, Number(parsed.keyboardOctaveShift) || 0));
-    state.sustainEnabled = Boolean(parsed.sustainEnabled);
-    state.composerHeight = Math.max(
-      DEFAULT_COMPOSER_HEIGHT,
-      Math.max(MIN_COMPOSER_HEIGHT, Math.min(MAX_COMPOSER_HEIGHT, Number(parsed.composerHeight) || DEFAULT_COMPOSER_HEIGHT))
-    );
-    state.selectedTrackId = parsed.selectedTrackId || null;
-    state.micTakeCounter = Number(parsed.micTakeCounter) || 0;
-    state.trackCounter = Number(parsed.trackCounter) || 0;
-    state.clipCounter = Number(parsed.clipCounter) || 1;
-    state.tracks = Array.isArray(parsed.tracks)
-      ? parsed.tracks.map((track) => normalizeTrackMonitorState({
-          id: track.id,
-          name: normalizeTrackName(track.name, track.instrument),
-          instrument: track.instrument,
-          pluginInstrument: normalizePluginInstrumentDescriptor(track.pluginInstrument),
-          color: track.color,
-          gain: Number(track.gain) || 0.8,
-          muted: Boolean(track.muted),
-          solo: Boolean(track.solo),
-          pan: Math.max(-1, Math.min(1, Number(track.pan) || 0)),
-          effects: normalizeTrackEffects(track.effects),
-          clips: Array.isArray(track.clips)
-            ? track.clips.map((clip) => ({
-                id: clip.id,
-                name: clip.name,
-                type: clip.type,
-                beatStart: Number(clip.beatStart) || 0,
-                beatDuration: Number(clip.beatDuration) || 0,
-                sourceTempo: clip.sourceTempo ? Number(clip.sourceTempo) : null,
-                sourceDuration: clip.sourceDuration ? Number(clip.sourceDuration) : null,
-                pitchSemitones: clip.type === "audio" ? Math.max(-12, Math.min(12, Number(clip.pitchSemitones) || 0)) : 0,
-                reversed: clip.type === "audio" ? Boolean(clip.reversed) : false,
-                waveformVersion: clip.type === "audio" ? Number(clip.waveformVersion) || null : null,
-                waveformPeaks: clip.type === "audio" ? normalizeWaveformPeaks(clip.waveformPeaks) : null,
-                chordMarkers: clip.type === "audio" && Array.isArray(clip.chordMarkers)
-                  ? clip.chordMarkers
-                      .map((marker) => ({
-                        beat: Number(marker?.beat) || 0,
-                        label: String(marker?.label || "").trim()
-                      }))
-                      .filter((marker) => marker.label)
-                  : [],
-                events: Array.isArray(clip.events) ? clip.events : [],
-                audioSrc: null,
-                activeAudio: null
-              }))
-            : []
-        }))
-      : [];
-
-    for (const track of state.tracks) {
-      for (const clip of track.clips) {
-        if (clip.type !== "audio") {
-          continue;
-        }
-        try {
-          const blob = await loadAudioAsset(clip.id);
-          if (blob) {
-            clip.audioSrc = URL.createObjectURL(blob);
-          }
-        } catch (error) {
-          clip.audioSrc = null;
-        }
-      }
-    }
-
-    if (!state.tracks.some((track) => track.id === state.selectedTrackId)) {
-      state.selectedTrackId = state.tracks[0]?.id || null;
-    }
+    await hydrateProjectStateFromParsed(parsed);
   }
+
 
   function bindAudioEngineWatchers() {
     if (state.audioWatchersBound) {
@@ -5409,10 +7278,21 @@
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     state.audioContext = new AudioCtx();
     state.masterGain = state.audioContext.createGain();
-    state.masterGain.gain.value = state.outputVolume / 100;
+    state.masterMeterSplitter = state.audioContext.createChannelSplitter(2);
+    state.masterMeterAnalyserLeft = state.audioContext.createAnalyser();
+    state.masterMeterAnalyserRight = state.audioContext.createAnalyser();
+    state.masterMeterAnalyserLeft.fftSize = 512;
+    state.masterMeterAnalyserRight.fftSize = 512;
+    state.masterMeterDataLeft = new Float32Array(state.masterMeterAnalyserLeft.fftSize);
+    state.masterMeterDataRight = new Float32Array(state.masterMeterAnalyserRight.fftSize);
+    state.masterGain.gain.value = sliderValueToGain(state.outputVolume);
     state.masterGain.connect(state.audioContext.destination);
+    state.masterGain.connect(state.masterMeterSplitter);
+    state.masterMeterSplitter.connect(state.masterMeterAnalyserLeft, 0);
+    state.masterMeterSplitter.connect(state.masterMeterAnalyserRight, 1);
     bindAudioEngineWatchers();
     refreshTrackOutputStates();
+    ensureMeterAnimationRunning();
   }
 
   function ensureAudioContext() {
@@ -5441,12 +7321,21 @@
         if (state.masterGain) {
           try {
             state.masterGain.disconnect();
+            state.masterMeterSplitter?.disconnect?.();
+            state.masterMeterAnalyserLeft?.disconnect?.();
+            state.masterMeterAnalyserRight?.disconnect?.();
           } catch (error) {
             // no-op
           }
           state.masterGain.connect(state.audioContext.destination);
+          if (state.masterMeterSplitter && state.masterMeterAnalyserLeft && state.masterMeterAnalyserRight) {
+            state.masterGain.connect(state.masterMeterSplitter);
+            state.masterMeterSplitter.connect(state.masterMeterAnalyserLeft, 0);
+            state.masterMeterSplitter.connect(state.masterMeterAnalyserRight, 1);
+          }
         }
         refreshTrackOutputStates();
+        ensureMeterAnimationRunning();
       } catch (error) {
         if (!state.audioContext || state.audioContext.state === "closed") {
           try {
@@ -6929,15 +8818,20 @@
   function renderComposerPanel() {
     const selectedTrack = getSelectedTrack();
     const samplerActive = state.composerPanelMode === "sampler";
+    const midiRollActive = state.composerPanelMode === "midi-roll";
     composer.classList.toggle("sampler-active", samplerActive);
-    composerPanelTitle.textContent = "Add Effects";
-    addEffectBtn.hidden = samplerActive;
+    composer.classList.toggle("midi-roll-active", midiRollActive);
+    composerPanelTitle.textContent = midiRollActive ? "MIDI Roll" : "Add Effects";
+    addEffectBtn.hidden = samplerActive || midiRollActive;
     if (samplerActive && state.composerHeight < MIN_SAMPLER_COMPOSER_HEIGHT) {
       applyComposerHeight(MIN_SAMPLER_COMPOSER_HEIGHT);
     }
+    if (midiRollActive && state.composerHeight < MIN_MIDI_ROLL_COMPOSER_HEIGHT) {
+      applyComposerHeight(MIN_MIDI_ROLL_COMPOSER_HEIGHT);
+    }
     if (samplerActive) {
       const { track, clip } = getSamplerClip();
-      effectsRackBody.classList.remove("has-effect");
+      effectsRackBody.classList.remove("has-effect", "midi-roll-mode");
       effectsRackBody.classList.add("sampler-mode");
       effectsRackBody.innerHTML = getSamplerRackMarkup(track, clip);
       if (track && clip) {
@@ -6951,7 +8845,20 @@
       }
       return;
     }
-    effectsRackBody.classList.remove("sampler-mode");
+    if (midiRollActive) {
+      const { track: midiTrack, clip: midiClip } = getMidiRollClip();
+      if (!midiTrack || !midiClip) {
+        state.composerPanelMode = "effects";
+        renderComposerPanel();
+        return;
+      }
+      effectsRackBody.classList.remove("has-effect", "sampler-mode");
+      effectsRackBody.classList.add("midi-roll-mode");
+      effectsRackBody.innerHTML = getMidiRollMarkup(midiTrack, midiClip);
+      bindMidiRollPanelInteractions(midiTrack, midiClip);
+      return;
+    }
+    effectsRackBody.classList.remove("sampler-mode", "midi-roll-mode");
     renderEffectsRack();
   }
 
@@ -7395,7 +9302,8 @@
     const canDetectChords = Boolean(clip && clip.type === "audio");
     const canSplitAudioClip = Boolean(clip && clip.type === "audio");
     const canCopyAudioClip = Boolean(clip && clip.type === "audio");
-    const canPasteAudioClip = Boolean(clip && clip.type === "audio" && state.copiedAudioClip);
+    const isEmptyTrackLane = mode === "empty-track";
+    const canPasteAudioClip = isEmptyTrackLane || mode === "track" || Boolean(clip && clip.type === "audio");
     if (canSplitToStems) {
       await refreshStemSplitterHealth();
     }
@@ -7418,6 +9326,9 @@
     copyAudioClipBtn.style.display = canCopyAudioClip ? "block" : "none";
     pasteAudioClipBtn.style.display = canPasteAudioClip ? "block" : "none";
     pasteAudioClipBtn.disabled = !state.copiedAudioClip;
+    pasteAudioClipBtn.title = state.copiedAudioClip
+      ? "Paste the copied audio clip at the current playhead position."
+      : "Copy an audio clip first to paste it here.";
     deleteRegionBtn.style.display = mode === "clip" ? "block" : "none";
     renameTrackBtn.style.display = mode === "track" ? "block" : "none";
     deleteTrackBtn.style.display = mode === "track" ? "block" : "none";
@@ -7901,14 +9812,20 @@
         </div>
         <div class="track-gain">
           <span>Vol</span>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value="${Math.round(track.gain * 100)}"
-            data-action="gain"
-            data-track-id="${track.id}"
-            style="--range-progress:${Math.round(track.gain * 100)}%;">
+          <div class="stereo-meter-slider" data-meter-owner="${track.id}">
+            <div class="stereo-meter-lines" aria-hidden="true">
+              <div class="stereo-meter-line top"><div class="stereo-meter-fill" data-meter-line="${track.id}:L"></div></div>
+              <div class="stereo-meter-line bottom"><div class="stereo-meter-fill" data-meter-line="${track.id}:R"></div></div>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value="${Math.round(gainToSliderValue(track.gain))}"
+              data-action="gain"
+              data-track-id="${track.id}"
+              style="--range-progress:${Math.round(gainToSliderValue(track.gain))}%;">
+          </div>
           <div class="pan-stack">
             <button
               type="button"
@@ -7964,8 +9881,11 @@
         const waveformPath = clip.type === "audio"
           ? (clip.reversed ? reversedWaveformPathFromPeaks(clip.waveformPeaks) : waveformPathFromPeaks(clip.waveformPeaks))
           : "";
+        const instrumentPreviewMarkup = clip.type === "instrument"
+          ? getInstrumentClipPreviewMarkup(clip)
+          : "";
         clipEl.innerHTML = `
-          ${clip.type === "audio" ? `<div class="clip-sampler-hit" data-action="open-sampler" aria-hidden="true"></div>` : ""}
+          ${clip.type === "audio" ? `<div class="clip-sampler-hit" data-action="open-sampler" aria-hidden="true"></div><div class="clip-drag-hit" data-action="drag-audio-clip" aria-hidden="true"></div>` : ""}
           ${clip.type === "audio" ? `
             <div class="clip-waveform" aria-hidden="true">
               ${waveformPath
@@ -7976,7 +9896,7 @@
                 `
                 : `<div class="clip-waveform-placeholder"></div>`}
             </div>
-          ` : ""}
+          ` : instrumentPreviewMarkup}
           <div class="clip-copy">
             <strong>${clip.name}</strong>
             <span>${clip.type === "audio" ? "Audio clip" : displayLabelForTrack(track)} · ${beatsToSeconds(clip.beatDuration).toFixed(1)}s</span>
@@ -7992,7 +9912,7 @@
     });
 
     updateProjectStats();
-    if (state.composerPanelMode === "sampler") {
+    if (state.composerPanelMode === "sampler" || state.composerPanelMode === "midi-roll") {
       renderComposerPanel();
     }
   }
@@ -8246,6 +10166,7 @@
               solo: false,
               pan: 0,
               effects: [],
+              midiNotes: [],
               clips: []
             };
           })();
@@ -8279,6 +10200,7 @@
       solo: false,
       pan: 0,
       effects: [],
+      midiNotes: [],
       clips: []
     };
     state.tracks.push(newTrack);
@@ -8298,6 +10220,7 @@
       solo: false,
       pan: 0,
       effects: [],
+      midiNotes: [],
       clips: []
     };
     state.tracks.push(newTrack);
@@ -8860,16 +10783,19 @@
     payload.events.forEach((event) => {
       const eventBeatDuration = event.beatDuration ?? secondsToBeats(event.duration || payload.duration);
       const eventBeatOffset = beatOffset + (event.beatOffset || 0);
-      clip.events.push({
+      clip.events.push(createInstrumentClipEvent({
         ...event,
         beatOffset: eventBeatOffset,
-        beatDuration: eventBeatDuration
-      });
+        beatDuration: eventBeatDuration,
+        duration: beatsToSeconds(eventBeatDuration),
+        instrument: event.instrument || track.instrument
+      }));
       clipEndBeat = Math.max(clipEndBeat, eventBeatOffset + eventBeatDuration);
     });
 
     clip.beatDuration = clipEndBeat;
     renderTracks();
+    syncOpenMidiRollToInstrumentClip(track, clip);
     scheduleProjectSave();
     setStatus(`Recording into ${clip.name} on ${track.name}.`);
   }
@@ -8903,14 +10829,15 @@
     const clip = ensureInstrumentRecordingClip(track);
     const noteStartBeat = Math.max(getCurrentTransportBeat(), state.instrumentRecordingStartBeat);
     const beatOffset = Math.max(noteStartBeat - state.instrumentRecordingStartBeat, 0);
-    const event = {
+    const event = createInstrumentClipEvent({
       notes: [midi],
       drum: null,
       beatOffset,
       beatDuration: secondsToBeats(0.05),
       duration: 0.05,
-      instrument: instrumentId
-    };
+      instrument: instrumentId,
+      velocity: MIDI_ROLL_DEFAULT_VELOCITY
+    });
     clip.events.push(event);
     clip.beatDuration = Math.max(clip.beatDuration, beatOffset + event.beatDuration);
     state.activeRecordedNotes.set(noteId, {
@@ -8920,6 +10847,7 @@
       startBeat: noteStartBeat
     });
     renderTracks();
+    syncOpenMidiRollToInstrumentClip(track, clip);
     scheduleProjectSave();
     setStatus(`Recording into ${clip.name} on ${track.name}.`);
   }
@@ -8941,6 +10869,7 @@
     activeNote.event.duration = beatsToSeconds(beatDuration);
     clip.beatDuration = Math.max(clip.beatDuration, activeNote.event.beatOffset + beatDuration);
     renderTracks();
+    syncOpenMidiRollToInstrumentClip(track, clip);
     scheduleProjectSave();
   }
 
@@ -9184,6 +11113,118 @@
         startBufferedClipPlayback(clip, track, audioBuffer, offsetSeconds);
       }, Math.max(beatsToSeconds(Math.max(clip.beatStart - baseTime, 0)) * 1000, 0));
       state.scheduledTimeouts.push(timeout);
+    }
+  }
+
+  function quantizeBeatToNearestBar(beat) {
+    return Math.max(0, Math.round(Math.max(0, Number(beat) || 0) / BEATS_PER_MEASURE) * BEATS_PER_MEASURE);
+  }
+
+  function clearClipDragTargetVisuals() {
+    timelineContent.querySelectorAll('.track-lane.clip-drag-target').forEach((lane) => {
+      lane.classList.remove('clip-drag-target');
+    });
+  }
+
+  function stopClipDrag(commit = true) {
+    if (!state.clipDragPointerId) {
+      return;
+    }
+    const track = state.tracks.find((item) => item.id === state.clipDragTrackId);
+    const clip = track?.clips.find((item) => item.id === state.clipDragClipId);
+    const clipNode = clip ? timelineContent.querySelector(`.clip[data-track-id="${track.id}"][data-clip-id="${clip.id}"]`) : null;
+    if (clipNode) {
+      clipNode.classList.remove('dragging');
+      clipNode.style.transform = '';
+      clipNode.style.left = `${(state.clipDragPreviewBeat || state.clipDragStartBeat) * PIXELS_PER_BEAT}px`;
+      clipNode.releasePointerCapture?.(state.clipDragPointerId);
+    }
+    clearClipDragTargetVisuals();
+
+    if (commit && state.clipDragActive && clip) {
+      const targetTrack = state.tracks.find((item) => item.id === (state.clipDragTargetTrackId || state.clipDragTrackId)) || track;
+      const nextBeat = quantizeBeatToNearestBar(state.clipDragPreviewBeat);
+      clip.beatStart = nextBeat;
+      if (targetTrack.id !== track.id) {
+        track.clips = track.clips.filter((item) => item.id !== clip.id);
+        targetTrack.clips.push(clip);
+      }
+      selectTrack(targetTrack.id);
+      renderTracks();
+      scheduleProjectSave();
+      setStatus(`${clip.name} moved to ${targetTrack.name} at bar ${Math.floor(nextBeat / BEATS_PER_MEASURE) + 1}.`);
+      state.lastClipDragAt = performance.now();
+    }
+
+    state.clipDragPointerId = null;
+    state.clipDragTrackId = '';
+    state.clipDragClipId = '';
+    state.clipDragStartX = 0;
+    state.clipDragStartY = 0;
+    state.clipDragStartBeat = 0;
+    state.clipDragTargetTrackId = '';
+    state.clipDragPreviewBeat = 0;
+    state.clipDragActive = false;
+    state.clipDragMoved = false;
+    state.clipDragStartedAt = 0;
+  }
+
+  function startClipDrag(event, track, clip, clipNode) {
+    if (!track || !clip || clip.type !== 'audio' || event.button !== 0) {
+      return;
+    }
+    if (state.recording) {
+      setStatus('Stop recording before moving audio clips.');
+      return;
+    }
+    closeContextMenu();
+    state.clipDragPointerId = event.pointerId;
+    state.clipDragTrackId = track.id;
+    state.clipDragClipId = clip.id;
+    state.clipDragStartX = event.clientX;
+    state.clipDragStartY = event.clientY;
+    state.clipDragStartBeat = clip.beatStart;
+    state.clipDragTargetTrackId = track.id;
+    state.clipDragPreviewBeat = clip.beatStart;
+    state.clipDragActive = false;
+    state.clipDragMoved = false;
+    state.clipDragStartedAt = performance.now();
+    clipNode.setPointerCapture?.(event.pointerId);
+    event.preventDefault();
+  }
+
+  function updateClipDrag(event) {
+    if (!state.clipDragPointerId || state.clipDragPointerId !== event.pointerId) {
+      return;
+    }
+    const track = state.tracks.find((item) => item.id === state.clipDragTrackId);
+    const clip = track?.clips.find((item) => item.id === state.clipDragClipId);
+    const clipNode = clip ? timelineContent.querySelector(`.clip[data-track-id="${track.id}"][data-clip-id="${clip.id}"]`) : null;
+    if (!track || !clip || !clipNode) {
+      stopClipDrag(false);
+      return;
+    }
+    const deltaX = event.clientX - state.clipDragStartX;
+    const deltaY = event.clientY - state.clipDragStartY;
+    if (!state.clipDragActive) {
+      if (Math.abs(deltaX) < 6 && Math.abs(deltaY) < 6) {
+        return;
+      }
+      state.clipDragActive = true;
+      clipNode.classList.add('dragging');
+    }
+    state.clipDragMoved = true;
+    const rawBeat = state.clipDragStartBeat + (deltaX / PIXELS_PER_BEAT);
+    const snappedBeat = quantizeBeatToNearestBar(rawBeat);
+    state.clipDragPreviewBeat = snappedBeat;
+    clipNode.style.left = `${snappedBeat * PIXELS_PER_BEAT}px`;
+
+    clearClipDragTargetVisuals();
+    const lane = event.target.closest?.('.track-lane') || document.elementFromPoint(event.clientX, event.clientY)?.closest?.('.track-lane');
+    const targetTrackId = lane?.dataset?.trackId || state.clipDragTrackId;
+    state.clipDragTargetTrackId = targetTrackId;
+    if (lane) {
+      lane.classList.add('clip-drag-target');
     }
   }
 
@@ -9837,6 +11878,21 @@
   }
 
   function attachEvents() {
+    appMenuBtn?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleAppMenu();
+    });
+    saveProjectMenuBtn?.addEventListener("click", () => {
+      closeAppMenu();
+      openSaveProjectOverlay("save");
+    });
+    undoMenuBtn?.addEventListener("click", performUndo);
+    redoMenuBtn?.addEventListener("click", performRedo);
+    newProjectMenuBtn?.addEventListener("click", () => {
+      requestNewProject().catch((error) => {
+        setStatus(String(error?.message || error || "Could not start a new project."));
+      });
+    });
     document.getElementById("playBtn").addEventListener("click", togglePlayback);
     document.getElementById("stopBtn").addEventListener("click", () => {
       if (state.recording) {
@@ -9857,12 +11913,12 @@
     window.addEventListener("pointerup", stopComposerResize);
     window.addEventListener("pointercancel", stopComposerResize);
     document.getElementById("tapTempoBtn").addEventListener("click", registerTapTempo);
-    document.getElementById("masterVolume").addEventListener("input", (event) => {
+    masterVolume.addEventListener("input", (event) => {
       ensureAudioContext();
       const value = Number(event.target.value);
       state.outputVolume = value;
-      state.masterGain.gain.value = value / 100;
-      volumeValue.textContent = `${value}%`;
+      state.masterGain.gain.value = sliderValueToGain(value);
+      volumeValue.textContent = formatOutputVolumeDb(value);
       updateRangeVisual(event.target);
       scheduleProjectSave();
     });
@@ -9918,12 +11974,31 @@
         closeRenameTrackOverlay();
       }
     });
+    saveProjectOverlay.addEventListener("click", (event) => {
+      if (event.target === saveProjectOverlay) {
+        closeSaveProjectOverlay();
+      }
+    });
     renameTrackCancelBtn.addEventListener("click", closeRenameTrackOverlay);
     renameTrackSaveBtn.addEventListener("click", submitRenameTrack);
+    saveProjectCancelBtn.addEventListener("click", closeSaveProjectOverlay);
+    saveProjectSaveBtn.addEventListener("click", () => {
+      submitSaveProject().catch((error) => {
+        setStatus(String(error?.message || error || "Could not save this project."));
+      });
+    });
     renameTrackInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
         submitRenameTrack();
+      }
+    });
+    saveProjectInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        submitSaveProject().catch((error) => {
+          setStatus(String(error?.message || error || "Could not save this project."));
+        });
       }
     });
     addEffectBtn.addEventListener("click", openEffectPicker);
@@ -10132,6 +12207,64 @@
         updateSamplerClipSetting("pitch", 0);
       }
     });
+    effectsRackBody.addEventListener("pointerdown", (event) => {
+      if (state.composerPanelMode !== "midi-roll") {
+        return;
+      }
+      const noteEl = event.target.closest('[data-midi-note-id]');
+      if (noteEl) {
+        startMidiRollNoteDrag(event, noteEl);
+      }
+    });
+    effectsRackBody.addEventListener("click", (event) => {
+      if (state.composerPanelMode !== "midi-roll") {
+        return;
+      }
+      if (performance.now() - state.lastMidiNoteDragAt < 180) {
+        event.preventDefault();
+        return;
+      }
+      const { track, clip } = getMidiRollClip();
+      if (!track || !clip) {
+        return;
+      }
+      const noteEl = event.target.closest('[data-midi-note-id]');
+      if (noteEl) {
+        event.preventDefault();
+        selectMidiRollNote(noteEl.dataset.midiTrackId || track.id, noteEl.dataset.midiClipId || clip.id, noteEl.dataset.midiNoteId);
+        return;
+      }
+      const cell = getMidiRollCellFromPointerEvent(event);
+      if (!cell) {
+        return;
+      }
+      event.preventDefault();
+      state.midiRollSelectedCell = cell;
+      state.midiRollSelectedNoteId = '';
+      if (state.midiRollQuickPlacement) {
+        upsertMidiRollNote(track, clip, cell);
+        setStatus(`Placed ${midiToName(cell.pitch)} on ${track.name}.`);
+        return;
+      }
+      renderComposerPanel();
+      focusMidiRollGrid();
+    });
+    effectsRackBody.addEventListener("dblclick", (event) => {
+      if (state.composerPanelMode !== "midi-roll") {
+        return;
+      }
+      if (event.target.closest('[data-midi-note-id]')) {
+        return;
+      }
+      const { track, clip } = getMidiRollClip();
+      const cell = getMidiRollCellFromPointerEvent(event);
+      if (!track || !clip || !cell) {
+        return;
+      }
+      event.preventDefault();
+      upsertMidiRollNote(track, clip, cell);
+      setStatus(`Placed ${midiToName(cell.pitch)} on ${track.name}.`);
+    });
     closeKeyboardWindowBtn.addEventListener("click", () => {
       closeKeyboardWindow();
     });
@@ -10187,8 +12320,30 @@
       }
       const trackRegion = event.target.closest("[data-track-context-region]");
       if (trackRegion) {
+        const track = state.tracks.find((item) => item.id === trackRegion.dataset.trackContextRegion);
         selectTrack(trackRegion.dataset.trackContextRegion);
-        focusEffectsRack(state.tracks.find((item) => item.id === trackRegion.dataset.trackContextRegion));
+        focusEffectsRack(track);
+        if (isInstrumentTrack(track)) {
+          const now = performance.now();
+          const lastClick = state.lastMidiRollClick;
+          const isSecondClick = lastClick
+            && lastClick.source === "track"
+            && lastClick.trackId === track.id
+            && (now - lastClick.timestamp) <= 360;
+          state.lastMidiRollClick = isSecondClick
+            ? null
+            : {
+                source: "track",
+                trackId: track.id,
+                clipId: "",
+                timestamp: now
+              };
+          if (isSecondClick) {
+            openMidiRoll(track.id, { silent: false });
+          }
+        } else {
+          state.lastMidiRollClick = null;
+        }
       }
     });
 
@@ -10202,7 +12357,7 @@
       }
       if (event.target.dataset.action === "gain") {
         const value = Number(event.target.value);
-        track.gain = value / 100;
+        track.gain = sliderValueToGain(value);
         updateRangeVisual(event.target);
         const valueLabel = trackHeaders.querySelector(`[data-gain-value="${track.id}"]`);
         if (valueLabel) {
@@ -10234,12 +12389,22 @@
 
     trackHeaders.addEventListener("dblclick", (event) => {
       const panControl = event.target.closest('[data-action="pan-dial"]');
-      if (!panControl) {
+      if (panControl) {
+        event.preventDefault();
+        const track = state.tracks.find((item) => item.id === panControl.dataset.trackId);
+        setTrackPan(track, 0);
         return;
       }
-      event.preventDefault();
-      const track = state.tracks.find((item) => item.id === panControl.dataset.trackId);
-      setTrackPan(track, 0);
+      const trackRegion = event.target.closest("[data-track-context-region]");
+      if (!trackRegion) {
+        return;
+      }
+      const track = state.tracks.find((item) => item.id === trackRegion.dataset.trackContextRegion);
+      if (!isInstrumentTrack(track)) {
+        return;
+      }
+      selectTrack(track.id);
+      openMidiRoll(track.id, { silent: false });
     });
 
     trackHeaders.addEventListener("keydown", (event) => {
@@ -10322,7 +12487,23 @@
       }
     });
 
+    window.addEventListener("keydown", handleMidiRollArrowKey, true);
     document.addEventListener("keydown", (event) => {
+      if ((event.metaKey || event.ctrlKey) && !event.altKey && !event.shiftKey && event.key.toLowerCase() === "z") {
+        event.preventDefault();
+        performUndo();
+        return;
+      }
+      if ((event.metaKey || event.ctrlKey) && event.shiftKey && !event.altKey && event.key.toLowerCase() === "z") {
+        event.preventDefault();
+        performRedo();
+        return;
+      }
+      if ((event.metaKey || event.ctrlKey) && !event.altKey && !event.shiftKey && event.key.toLowerCase() === "s") {
+        event.preventDefault();
+        openSaveProjectOverlay("save");
+        return;
+      }
       if (event.key === "Escape" && effectPickerOverlay.classList.contains("active")) {
         closeEffectPicker();
         return;
@@ -10335,6 +12516,10 @@
         closeSamplerWindow();
         return;
       }
+      if (event.key === "Escape" && state.composerPanelMode === "midi-roll") {
+        closeMidiRoll({ silent: true });
+        return;
+      }
       if (event.metaKey && !event.ctrlKey && !event.altKey && !event.shiftKey && event.code === "KeyB") {
         event.preventDefault();
         event.stopPropagation();
@@ -10343,12 +12528,29 @@
         }
         return;
       }
-      if (event.code === "Space" && !/input|select|textarea/i.test(document.activeElement.tagName)) {
+      if (event.code === "Space" && !isTypingField()) {
         event.preventDefault();
         togglePlayback();
         return;
       }
-      if (/input|select|textarea/i.test(document.activeElement.tagName)) {
+      if (state.composerPanelMode === "midi-roll" && !isTypingField() && (event.key === "Delete" || event.key === "Backspace")) {
+        if (deleteSelectedMidiRollNote()) {
+          event.preventDefault();
+        }
+        return;
+      }
+      if (handleMidiRollArrowKey(event)) {
+        return;
+      }
+      if (isTypingField()) {
+        return;
+      }
+      if (!event.metaKey && !event.ctrlKey && !event.altKey && event.code === "KeyB" && state.composerPanelMode === "midi-roll") {
+        if (!event.repeat) {
+          state.midiRollQuickPlacement = true;
+          syncMidiRollQuickPlacementUi();
+        }
+        event.preventDefault();
         return;
       }
       if (event.code === "ShiftLeft") {
@@ -10398,6 +12600,11 @@
         setShiftSustainActive(false);
         return;
       }
+      if (event.code === "KeyB" && state.midiRollQuickPlacement) {
+        state.midiRollQuickPlacement = false;
+        syncMidiRollQuickPlacementUi();
+        return;
+      }
       const key = event.key.toUpperCase();
       state.pressedKeyboardKeys.delete(key);
       releasePerformanceNote(`key:${key}`);
@@ -10412,6 +12619,10 @@
         state.keyboardWindowDragPointerId = null;
         keyboardWindow.classList.remove("dragging");
       }
+      if (state.midiRollQuickPlacement) {
+        state.midiRollQuickPlacement = false;
+        syncMidiRollQuickPlacementUi();
+      }
     });
     
     // Refocus the window when clicking on the document if plugin editor is open
@@ -10421,6 +12632,59 @@
       }
     });
 
+    const isExternalFileDragEvent = (event) => {
+      const pluginPayload = getDroppedPluginPayload(event);
+      if (pluginPayload) {
+        return true;
+      }
+      const types = Array.from(event.dataTransfer?.types || []);
+      return types.includes("Files") || Boolean(event.dataTransfer?.files?.length);
+    };
+    const handleWindowFileDragOver = (event) => {
+      if (!isExternalFileDragEvent(event)) {
+        return;
+      }
+      const pluginPayload = getDroppedPluginPayload(event);
+      event.preventDefault();
+      event.stopPropagation();
+      timelineArea.classList.add("dragover");
+      if (event.dataTransfer) {
+        event.dataTransfer.dropEffect = pluginPayload ? "copy" : "move";
+      }
+    };
+    const handleWindowFileDrop = (event) => {
+      if (!isExternalFileDragEvent(event)) {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      timelineArea.classList.remove("dragover");
+      const pluginPayload = getDroppedPluginPayload(event);
+      const file = event.dataTransfer?.files?.[0];
+      const lane = event.target.closest?.(".track-lane");
+      const laneTrack = lane ? state.tracks.find((track) => track.id === lane.dataset.trackId) : getSelectedTrack();
+      if (pluginPayload) {
+        assignPluginInstrumentToTrack(laneTrack, pluginPayload, { autoOpen: true });
+        return;
+      }
+      if (file) {
+        importAudioFile(file);
+      }
+    };
+    const clearWindowFileDrag = () => {
+      timelineArea.classList.remove("dragover");
+    };
+    document.addEventListener("dragenter", handleWindowFileDragOver, true);
+    document.addEventListener("dragover", handleWindowFileDragOver, true);
+    document.addEventListener("drop", handleWindowFileDrop, true);
+    window.addEventListener("dragover", handleWindowFileDragOver, true);
+    window.addEventListener("drop", handleWindowFileDrop, true);
+    window.addEventListener("dragend", clearWindowFileDrag, true);
+    window.addEventListener("dragleave", (event) => {
+      if (!event.relatedTarget) {
+        clearWindowFileDrag();
+      }
+    }, true);
     timelineArea.addEventListener("dragover", (event) => {
       const pluginPayload = getDroppedPluginPayload(event);
       const file = event.dataTransfer?.files?.[0];
@@ -10456,18 +12720,45 @@
       const file = event.dataTransfer.files[0];
       importAudioFile(file);
     });
+    timelineContent.addEventListener("pointerdown", (event) => {
+      const dragHit = event.target.closest('[data-action="drag-audio-clip"]');
+      const clipEl = dragHit ? dragHit.closest('.clip.audio') : null;
+      if (!clipEl) {
+        return;
+      }
+      const track = state.tracks.find((item) => item.id === clipEl.dataset.trackId);
+      const clip = track?.clips.find((item) => item.id === clipEl.dataset.clipId);
+      if (!track || !clip) {
+        return;
+      }
+      startClipDrag(event, track, clip, clipEl);
+    });
     timelineContent.addEventListener("contextmenu", (event) => {
       const clip = event.target.closest(".clip");
-      if (!clip) {
+      if (clip) {
+        event.preventDefault();
+        openContextMenu("clip", event.clientX, event.clientY, clip.dataset.trackId, clip.dataset.clipId);
+        return;
+      }
+      const lane = event.target.closest(".track-lane");
+      if (!lane) {
+        return;
+      }
+      const track = state.tracks.find((item) => item.id === lane.dataset.trackId);
+      if (!track || track.clips.length) {
         return;
       }
       event.preventDefault();
-      openContextMenu("clip", event.clientX, event.clientY, clip.dataset.trackId, clip.dataset.clipId);
+      openContextMenu("empty-track", event.clientX, event.clientY, track.id);
     });
     rulerWrap.addEventListener("click", (event) => {
       seekTransportToBeat(timelineBeatFromClientX(event.clientX, ruler));
     });
     timelineContent.addEventListener("click", (event) => {
+      if (performance.now() - state.lastClipDragAt < 240) {
+        event.preventDefault();
+        return;
+      }
       const clipEl = event.target.closest(".clip");
       if (clipEl) {
         const track = state.tracks.find((item) => item.id === clipEl.dataset.trackId);
@@ -10496,10 +12787,47 @@
         } else {
           state.lastSamplerClick = null;
         }
+        if (track && clip?.type === "instrument" && isInstrumentTrack(track)) {
+          const now = performance.now();
+          const lastClick = state.lastMidiRollClick;
+          const isSecondClick = lastClick
+            && lastClick.source === "clip"
+            && lastClick.trackId === track.id
+            && lastClick.clipId === clip.id
+            && (now - lastClick.timestamp) <= 360;
+          state.lastMidiRollClick = isSecondClick
+            ? null
+            : {
+                source: "clip",
+                trackId: track.id,
+                clipId: clip.id,
+                timestamp: now
+              };
+          if (isSecondClick) {
+            openMidiRoll(track.id, { clipId: clip.id, silent: false });
+          }
+        } else {
+          state.lastMidiRollClick = null;
+        }
         return;
       }
       state.lastSamplerClick = null;
+      state.lastMidiRollClick = null;
       seekTransportToBeat(timelineBeatFromClientX(event.clientX, timelineContent));
+    });
+    timelineContent.addEventListener("dblclick", (event) => {
+      const clipEl = event.target.closest(".clip");
+      if (!clipEl) {
+        return;
+      }
+      const track = state.tracks.find((item) => item.id === clipEl.dataset.trackId);
+      const clip = track?.clips.find((item) => item.id === clipEl.dataset.clipId);
+      if (!track || !clip || clip.type !== "instrument" || !isInstrumentTrack(track)) {
+        return;
+      }
+      event.preventDefault();
+      selectTrack(track.id);
+      openMidiRoll(track.id, { clipId: clip.id, silent: false });
     });
     timelineArea.addEventListener("scroll", () => {
       rulerWrap.scrollLeft = timelineArea.scrollLeft;
@@ -10569,8 +12897,13 @@
       if (!event.target.closest(".context-menu")) {
         closeContextMenu();
       }
+      if (state.appMenuOpen && !event.target.closest("#appMenuPanel") && !event.target.closest("#appMenuBtn")) {
+        closeAppMenu();
+      }
     });
     window.addEventListener("pointermove", (event) => {
+      updateClipDrag(event);
+      updateMidiRollNoteDrag(event);
       if (state.panDragPointerId !== event.pointerId || !state.panDragTrackId) {
         return;
       }
@@ -10594,6 +12927,12 @@
       updateSamplerClipSetting("pitch", nextPitch);
     });
     window.addEventListener("pointerup", (event) => {
+      if (state.clipDragPointerId === event.pointerId) {
+        stopClipDrag(true);
+      }
+      if (state.midiNoteDragPointerId === event.pointerId) {
+        stopMidiRollNoteDrag(true);
+      }
       const noteId = state.activePointerNotes.get(event.pointerId);
       if (noteId) {
         state.activePointerNotes.delete(event.pointerId);
@@ -10607,6 +12946,12 @@
       }
     });
     window.addEventListener("pointercancel", (event) => {
+      if (state.clipDragPointerId === event.pointerId) {
+        stopClipDrag(false);
+      }
+      if (state.midiNoteDragPointerId === event.pointerId) {
+        stopMidiRollNoteDrag(false);
+      }
       const noteId = state.activePointerNotes.get(event.pointerId);
       if (noteId) {
         state.activePointerNotes.delete(event.pointerId);
@@ -10628,12 +12973,17 @@
       if (state.keyboardWindowVisible) {
         applyKeyboardWindowPosition();
       }
+      if (state.appMenuOpen) {
+        openAppMenu();
+      }
     });
     window.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         closeContextMenu();
         closeTrackChooser();
         closeRenameTrackOverlay();
+        closeSaveProjectOverlay();
+        closeAppMenu();
         if (resolveTempoChoice) {
           const resolve = resolveTempoChoice;
           resolveTempoChoice = null;
@@ -10644,6 +12994,8 @@
     });
     window.addEventListener("pagehide", () => {
       clearTimeout(state.saveTimer);
+      clearTimeout(state.historyTimer);
+      clearInterval(state.autosaveIntervalId);
       persistProjectNow().catch(() => {});
       state.tracks.forEach((track) => {
         if (isPluginInstrumentTrack(track)) {
@@ -10652,6 +13004,8 @@
       });
     });
     window.addEventListener("blur", () => {
+      stopClipDrag(false);
+      stopMidiRollNoteDrag(false);
       stopPanDialDrag(true);
       stopSamplerPitchDialDrag();
     });
@@ -10673,8 +13027,8 @@
     bindAudioEngineWatchers();
     applyComposerHeight(state.composerHeight);
     document.getElementById("tempoInput").value = String(state.tempo);
-    document.getElementById("masterVolume").value = String(state.outputVolume);
-    volumeValue.textContent = `${state.outputVolume}%`;
+    masterVolume.value = String(state.outputVolume);
+    volumeValue.textContent = formatOutputVolumeDb(state.outputVolume);
     renderRuler();
     renderTracks();
     syncInstrumentUI();
@@ -10682,6 +13036,13 @@
     setTransportPosition(0);
     attachEvents();
     document.querySelectorAll('input[type="range"]').forEach(updateRangeVisual);
+    const initialSnapshot = projectSnapshotString();
+    state.historySnapshot = initialSnapshot;
+    state.lastSavedSnapshot = initialSnapshot;
+    state.historyPast = [];
+    state.historyFuture = [];
+    updateProjectDirtyState(initialSnapshot);
+    startProjectAutosaveLoop();
     primeInstrumentSample("bass");
     primeInstrumentSample("guitar");
     primeInstrumentSample("pads");
