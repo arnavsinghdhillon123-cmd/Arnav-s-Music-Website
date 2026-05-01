@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Download Online DAW</title>
+  <style>
+    :root {
+      --bg: #090b10;
+      --panel: rgba(20, 24, 31, 0.88);
+      --panel-strong: #141922;
+      --line: rgba(255,255,255,0.08);
+      --text: #f4f6fb;
+      --muted: #9ea7b8;
+      --accent: #ffbc42;
+      --accent-dark: #131107;
+      --blue: #65b5ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "SF Pro Display", "Inter", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255,188,66,0.12), transparent 26%),
+        radial-gradient(circle at bottom right, rgba(101,181,255,0.12), transparent 24%),
+        linear-gradient(180deg, #0b0e14, #07090d);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .page {
+      width: min(1120px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 42px 0 56px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 420px);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 28px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.35);
+    }
+
+    .hero-copy {
+      padding: 34px 34px 30px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      color: var(--blue);
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    h1 {
+      margin: 18px 0 12px;
+      font-size: clamp(2.3rem, 4vw, 4.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      max-width: 640px;
+      color: var(--muted);
+      font-size: 1.03rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .download-btn,
+    .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 20px;
+      border-radius: 16px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+    }
+
+    .download-btn {
+      background: var(--accent);
+      color: var(--accent-dark);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .ghost-btn {
+      color: var(--text);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .download-btn:hover,
+    .ghost-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero-meta {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .download-card {
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .download-card h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+    }
+
+    .download-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .download-cta {
+      display: grid;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .download-cta a,
+    .download-cta button {
+      min-height: 52px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #171c26;
+      color: var(--text);
+      font: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .download-cta .primary {
+      background: linear-gradient(180deg, #ffc34f, #f5a924);
+      color: #141006;
+      border-color: transparent;
+    }
+
+    .download-note {
+      color: var(--muted);
+      font-size: 0.83rem;
+      line-height: 1.6;
+    }
+
+    .section {
+      margin-top: 26px;
+      padding: 28px;
+    }
+
+    .section h3 {
+      margin: 0 0 14px;
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .feature {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .feature strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .feature p,
+    .steps li,
+    .support-list li {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .steps,
+    .support-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .support-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    code {
+      font-family: "SF Mono", "JetBrains Mono", monospace;
+      font-size: 0.92em;
+      color: #f7d98d;
+    }
+
+    @media (max-width: 920px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="card hero-copy">
+        <div class="eyebrow">Desktop Download</div>
+        <h1>Online DAW for macOS</h1>
+        <p>
+          Download the desktop build of Online DAW and run the same beginner-friendly music studio on your Mac,
+          with local plugin scan support, stem splitting through the bundled backend, and the same interface as the web version.
+        </p>
+        <div class="hero-actions">
+          <a class="download-btn" href="./dist/Online%20DAW%20macOS.dmg" download>Download macOS App</a>
+          <a class="ghost-btn" href="./DESKTOP_APP_SETUP.md">Desktop Setup Notes</a>
+        </div>
+        <div class="hero-meta">
+          <div class="pill">Apple Silicon build</div>
+          <div class="pill">DMG installer included</div>
+          <div class="pill">Web version stays available</div>
+        </div>
+      </div>
+      <aside class="card download-card">
+        <h2>What You Get</h2>
+        <p>The downloadable build opens as a desktop app and keeps your existing DAW interface, timeline, instruments, effects rack, sampler view, and local workflow intact.</p>
+        <div class="download-cta">
+          <a class="primary" href="./dist/Online%20DAW%20macOS.dmg" download>Download DMG</a>
+          <button type="button" disabled>Windows build coming next</button>
+        </div>
+        <div class="download-note">
+          If macOS shows a security warning the first time, open <code>System Settings → Privacy &amp; Security</code> and allow the app there.
+        </div>
+      </aside>
+    </section>
+
+    <section class="card section">
+      <h3>Included Desktop Features</h3>
+      <div class="grid">
+        <div class="feature">
+          <strong>Local Plugin Scan</strong>
+          <p>The desktop app can scan common VST, VST3, and Audio Unit folders on your Mac and show those plugins in the Add Effects browser.</p>
+        </div>
+        <div class="feature">
+          <strong>Bundled Backend Flow</strong>
+          <p>The app launches the existing local backend automatically, so you keep clip processing, stem splitting, and the same DAW behavior without a separate browser tab.</p>
+        </div>
+        <div class="feature">
+          <strong>Same Interface</strong>
+          <p>The desktop build keeps the same timeline, track cards, sampler, effects rack, transport, recording flow, and overall UI as the web version.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section">
+      <h3>Install Steps</h3>
+      <ol class="steps">
+        <li>Download <code>Online DAW macOS.dmg</code>.</li>
+        <li>Open the DMG.</li>
+        <li>Drag <code>Online DAW.app</code> into <code>Applications</code>.</li>
+        <li>Open the app from Applications.</li>
+        <li>If macOS warns the first time, approve it in Privacy &amp; Security and open it again.</li>
+      </ol>
+    </section>
+
+    <section class="card section">
+      <h3>Support</h3>
+      <ul class="support-list">
+        <li>If the app does not open, confirm you downloaded the full DMG and moved the app into Applications.</li>
+        <li>If you want the browser version instead, you can still run <code>python3 server.py</code> and open <code>http://127.0.0.1:8000</code>.</li>
+        <li>If a plugin is detected but does not open its editor, that means the local plugin bridge still needs a native host command configured for that plugin workflow.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

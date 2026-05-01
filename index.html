@@ -84,7 +84,7 @@
 
   .topbar {
     position: relative;
-    z-index: 220;
+    z-index: 500;
     display: flex;
     gap: 18px;
     align-items: center;
@@ -158,7 +158,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    min-width: 212px;
+    min-width: 240px;
     padding: 8px;
     border-radius: 18px;
     border: 1px solid var(--border);
@@ -167,7 +167,8 @@
     display: none;
     flex-direction: column;
     gap: 4px;
-    z-index: 5000;
+    z-index: 2147483000;
+    isolation: isolate;
   }
 
   .app-menu-panel.active {
@@ -3086,6 +3087,7 @@
 
   .midi-roll-content {
     min-height: 0;
+    height: 100%;
     display: grid;
     grid-template-columns: 64px 1fr;
     border: 0.5px solid var(--border);
@@ -3098,8 +3100,8 @@
   .midi-roll-keys-viewport {
     min-height: 0;
     overflow: hidden;
-    border-right: 0.5px solid rgba(255,255,255,0.08);
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border-right: 0.5px solid rgba(255,255,255,0.16);
+    background: #15181d;
   }
 
   .midi-roll-keys {
@@ -3107,23 +3109,39 @@
   }
 
   .midi-roll-key-row {
+    appearance: none;
+    width: 100%;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 0 8px;
+    padding: 0 8px 0 4px;
     font-size: 0.68rem;
-    color: rgba(255,255,255,0.58);
-    border-bottom: 1px solid rgba(255,255,255,0.045);
+    font-weight: 700;
+    color: rgba(12, 16, 22, 0.78);
+    border: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.22);
+    background: linear-gradient(180deg, #f6f7f8, #d8dde3);
     white-space: nowrap;
+    box-shadow: inset -8px 0 14px rgba(0,0,0,0.12);
   }
 
   .midi-roll-key-row.black {
-    background: rgba(255,255,255,0.028);
+    z-index: 1;
+    width: 100%;
+    margin-left: 0;
+    color: rgba(255,255,255,0.86);
+    background: linear-gradient(180deg, #20242b, #05070a);
+    border-bottom-color: rgba(255,255,255,0.08);
+    box-shadow: inset -8px 0 12px rgba(255,255,255,0.03), 0 1px 2px rgba(0,0,0,0.46);
   }
 
   .midi-roll-key-row.c-note {
-    color: rgba(255,255,255,0.86);
-    font-weight: 700;
+    color: rgba(0,0,0,0.92);
+  }
+
+  .midi-roll-key-row.black.c-note {
+    color: rgba(255,255,255,0.9);
   }
 
   .midi-roll-grid-scroll {
@@ -3179,10 +3197,11 @@
   }
 
   .midi-roll-note {
-    border-radius: 6px;
-    border: 1px solid rgba(255,255,255,0.16);
-    background: linear-gradient(180deg, rgba(102, 166, 255, 0.86), rgba(76, 110, 245, 0.8));
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    box-sizing: border-box;
+    border-radius: 0;
+    border: 1px solid rgba(255,255,255,0.5);
+    background: var(--midi-note-color, var(--track-color, #3b92ff));
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2), 0 1px 0 rgba(0,0,0,0.32);
     cursor: grab;
     touch-action: none;
   }
@@ -3193,8 +3212,8 @@
   }
 
   .midi-roll-note.selected {
-    border-color: rgba(255,255,255,0.82);
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.22), 0 10px 22px rgba(0,0,0,0.24);
+    border-color: rgba(255,255,255,0.95);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.16), 0 0 0 2px rgba(255,255,255,0.28);
   }
 
   .midi-roll-empty {
@@ -3965,12 +3984,14 @@
   const MIN_SAMPLER_COMPOSER_HEIGHT = 360;
   const MIN_MIDI_ROLL_COMPOSER_HEIGHT = 320;
   const MAX_COMPOSER_HEIGHT = 420;
+  const MAX_MIDI_ROLL_COMPOSER_HEIGHT = 720;
   const MIDI_ROLL_ROW_HEIGHT = 18;
-  const MIDI_ROLL_MIN_MIDI = 36;
-  const MIDI_ROLL_MAX_MIDI = 84;
+  const MIDI_ROLL_MIN_MIDI = 24;
+  const MIDI_ROLL_MAX_MIDI = 96;
   const MIDI_ROLL_DEFAULT_VELOCITY = 100;
   const MIDI_ROLL_DEFAULT_DURATION = 1;
   const MIDI_ROLL_DRAG_BEAT_SNAP = 0.25;
+  const AUDIO_CLIP_DRAG_BEAT_SNAP = BEATS_PER_MEASURE / 8;
   const BASS_SAMPLE_URL = "assets/bass-note-csharp2.mp3";
   const BASS_SAMPLE_ROOT_MIDI = 37;
   const GUITAR_SAMPLE_URL = "assets/guitar-note-c4.mp3";
@@ -5374,13 +5395,6 @@
       return null;
     }
     clip.events = normalizeInstrumentClipEvents(clip.events);
-    const existing = getInstrumentClipNoteEntries(clip).find((note) => note.pitch === cell.pitch && Math.abs(note.startBeat - cell.startBeat) < 0.0001);
-    if (existing) {
-      state.midiRollSelectedNoteId = existing.noteId;
-      state.midiRollSelectedCell = { pitch: existing.pitch, startBeat: existing.startBeat };
-      renderComposerPanel();
-      return existing;
-    }
     const newEvent = createInstrumentClipEvent({
       notes: [cell.pitch],
       beatOffset: cell.startBeat,
@@ -5449,14 +5463,6 @@
     const event = clip.events[eventIndex];
     const pitch = Math.max(MIDI_ROLL_MIN_MIDI, Math.min(MIDI_ROLL_MAX_MIDI, Math.round(Number(nextPitch) || (event.notes?.[0] ?? 60))));
     const startBeat = Math.max(0, Number(nextStartBeat) || 0);
-    const duplicate = getInstrumentClipNoteEntries(clip).some((note) => (
-      note.eventId !== eventId
-      && note.pitch === pitch
-      && Math.abs(note.startBeat - startBeat) < 0.0001
-    ));
-    if (duplicate) {
-      return null;
-    }
     const updatedEvent = {
       ...event,
       notes: [pitch],
@@ -5491,17 +5497,6 @@
     const duration = Math.max(0.05, Number(reference.event.beatDuration) || 0.05);
     const pitch = Math.max(MIDI_ROLL_MIN_MIDI, Math.min(MIDI_ROLL_MAX_MIDI, Math.round(Number(nextPitch) || reference.event.notes[reference.noteIndex])));
     const startBeat = Math.max(0, Number(nextStartBeat) || 0);
-    const currentEventId = reference.event.id;
-    const currentNoteIndex = reference.noteIndex;
-    const duplicate = getInstrumentClipNoteEntries(clip).some((note) => (
-      !(note.eventId === currentEventId && note.noteIndex === currentNoteIndex)
-      && note.pitch === pitch
-      && Math.abs(note.startBeat - startBeat) < 0.0001
-    ));
-    if (duplicate) {
-      return null;
-    }
-
     let selectedNoteId = noteId;
     if ((reference.event.notes || []).length > 1) {
       const remainingNotes = [...reference.event.notes];
@@ -5538,6 +5533,18 @@
     return selectedNoteId;
   }
 
+  function handleMidiRollNoteDragMove(event) {
+    updateMidiRollNoteDrag(event);
+  }
+
+  function handleMidiRollNoteDragEnd(event) {
+    if (state.midiNoteDragPointerId === event.pointerId) {
+      event.preventDefault();
+      event.stopPropagation();
+      stopMidiRollNoteDrag(event.type !== 'pointercancel');
+    }
+  }
+
   function startMidiRollNoteDrag(event, noteEl) {
     if (state.composerPanelMode !== 'midi-roll' || !noteEl) {
       return false;
@@ -5572,6 +5579,9 @@
     state.midiRollSelectedCell = { pitch: note.pitch, startBeat: note.startBeat };
     noteEl.classList.add('dragging');
     noteEl.setPointerCapture?.(event.pointerId);
+    document.addEventListener('pointermove', handleMidiRollNoteDragMove, true);
+    document.addEventListener('pointerup', handleMidiRollNoteDragEnd, true);
+    document.addEventListener('pointercancel', handleMidiRollNoteDragEnd, true);
     event.preventDefault();
     event.stopPropagation();
     return true;
@@ -5634,6 +5644,9 @@
     if (state.midiNoteDragPointerId === null) {
       return;
     }
+    document.removeEventListener('pointermove', handleMidiRollNoteDragMove, true);
+    document.removeEventListener('pointerup', handleMidiRollNoteDragEnd, true);
+    document.removeEventListener('pointercancel', handleMidiRollNoteDragEnd, true);
     const moved = state.midiNoteDragMoved;
     const track = state.tracks.find((item) => item.id === state.midiNoteDragTrackId);
     const clip = track?.clips.find((item) => item.id === state.midiNoteDragClipId && item.type === 'instrument');
@@ -5735,6 +5748,24 @@
     return true;
   }
 
+  function previewMidiRollPitch(track, midi, options = {}) {
+    if (!isInstrumentTrack(track) || !Number.isFinite(Number(midi))) {
+      return;
+    }
+    const pitch = Math.max(MIDI_ROLL_MIN_MIDI, Math.min(MIDI_ROLL_MAX_MIDI, Math.round(Number(midi))));
+    ensureAudioContext();
+    if (isPluginInstrumentTrack(track)) {
+      ensurePluginInstrumentTrackReady(track, { announce: false })
+        .then(() => schedulePluginPlaybackNote(track, pitch, options.duration || 0.45, 0))
+        .catch(() => playInstrumentNotes("keyboard", [pitch], { duration: options.duration || 0.45, gain: 0.14 }));
+      return;
+    }
+    playInstrumentNotes(track.instrument || "keyboard", [pitch], {
+      duration: options.duration || 0.45,
+      gain: options.gain ?? getDefaultInstrumentGain(track.instrument || "keyboard")
+    });
+  }
+
   function selectMidiRollNote(trackId, clipId, noteId) {
     const track = state.tracks.find((item) => item.id === trackId);
     const clip = track?.clips.find((item) => item.id === clipId && item.type === 'instrument');
@@ -5780,6 +5811,17 @@
     scheduleProjectSave();
     setStatus(`Removed the selected note from ${track.name}.`);
     return true;
+  }
+
+  function midiRollNoteStyle(note, totalBeats, stackIndex, track) {
+    const safeTotalBeats = Math.max(1, Number(totalBeats) || 1);
+    const startBeat = Math.max(0, Number(note?.startBeat) || 0);
+    const duration = Math.max(0.05, Number(note?.duration) || MIDI_ROLL_DEFAULT_DURATION);
+    const rowIndex = MIDI_ROLL_MAX_MIDI - Math.round(Number(note?.pitch) || 60);
+    const left = (startBeat / safeTotalBeats) * 100;
+    const width = Math.max((duration / safeTotalBeats) * 100, 100 / safeTotalBeats);
+    const color = /^#[0-9a-f]{3,8}$/i.test(String(track?.color || "")) ? track.color : "#3b92ff";
+    return `--midi-note-color:${color}; left:${left}%; top:${rowIndex * MIDI_ROLL_ROW_HEIGHT}px; width:${width}%; height:${MIDI_ROLL_ROW_HEIGHT}px; z-index:${10 + stackIndex};`;
   }
 
   function bindMidiRollPanelInteractions(track, clip) {
@@ -5849,7 +5891,7 @@
         <div class="midi-roll-content">
           <div class="midi-roll-keys-viewport" data-midi-roll-keys-viewport>
             <div class="midi-roll-keys" style="height:${gridHeight}px;">
-              ${rows.map((row) => `<div class="midi-roll-key-row${row.isBlack ? ' black' : ''}${row.isC ? ' c-note' : ''}" style="height:${MIDI_ROLL_ROW_HEIGHT}px;">${row.note}</div>`).join('')}
+              ${rows.map((row) => `<button type="button" class="midi-roll-key-row${row.isBlack ? ' black' : ''}${row.isC ? ' c-note' : ''}" data-midi-preview-pitch="${row.midi}" style="height:${MIDI_ROLL_ROW_HEIGHT}px;">${row.note}</button>`).join('')}
             </div>
           </div>
           <div class="midi-roll-grid-scroll" data-midi-roll-grid-scroll>
@@ -5857,7 +5899,7 @@
               ${rows.map((row, index) => `<div class="midi-roll-row-line${row.isBlack ? ' black' : ''}" style="top:${index * MIDI_ROLL_ROW_HEIGHT}px;"></div>`).join('')}
               ${Array.from({ length: totalBeats + 1 }, (_, index) => `<div class="midi-roll-column-line${index % BEATS_PER_MEASURE === 0 ? ' bar' : ''}" style="left:${(index / totalBeats) * 100}%;"></div>`).join('')}
               ${selectedCell ? `<div class="midi-roll-selected-cell" style="left:${(selectedCell.startBeat / totalBeats) * 100}%; top:${(MIDI_ROLL_MAX_MIDI - selectedCell.pitch) * MIDI_ROLL_ROW_HEIGHT}px; width:${100 / totalBeats}%; height:${MIDI_ROLL_ROW_HEIGHT}px;"></div>` : ''}
-              ${notes.map((note) => `<div class="midi-roll-note${note.noteId === state.midiRollSelectedNoteId ? ' selected' : ''}" data-midi-note-id="${note.noteId}" data-midi-event-id="${note.eventId}" data-midi-note-index="${note.noteIndex}" data-midi-track-id="${track.id}" data-midi-clip-id="${clip.id}" data-midi-pitch="${note.pitch}" data-midi-start-beat="${note.startBeat}" style="left:calc(${(note.startBeat / totalBeats) * 100}% + 1px); top:${(MIDI_ROLL_MAX_MIDI - note.pitch) * MIDI_ROLL_ROW_HEIGHT + 1}px; width:calc(${Math.max((note.duration / totalBeats) * 100, 100 / totalBeats)}% - 2px); height:${MIDI_ROLL_ROW_HEIGHT - 2}px;"></div>`).join('')}
+              ${notes.map((note, index) => `<div class="midi-roll-note${note.noteId === state.midiRollSelectedNoteId ? ' selected' : ''}" data-midi-note-id="${note.noteId}" data-midi-event-id="${note.eventId}" data-midi-note-index="${note.noteIndex}" data-midi-track-id="${track.id}" data-midi-clip-id="${clip.id}" data-midi-pitch="${note.pitch}" data-midi-start-beat="${note.startBeat}" style="${midiRollNoteStyle(note, totalBeats, index, track)}"></div>`).join('')}
             </div>
           </div>
         </div>
@@ -6364,6 +6406,13 @@
     return JSON.stringify(serializeProjectState());
   }
 
+  function ensureAppMenuPortal() {
+    if (!appMenuPanel || appMenuPanel.parentElement === document.body) {
+      return;
+    }
+    document.body.appendChild(appMenuPanel);
+  }
+
   function refreshAppMenuState() {
     if (undoMenuBtn) {
       undoMenuBtn.disabled = state.historyPast.length === 0;
@@ -6381,11 +6430,12 @@
   }
 
   function openAppMenu() {
+    ensureAppMenuPortal();
     state.appMenuOpen = true;
     refreshAppMenuState();
     if (appMenuBtn && appMenuPanel) {
       const rect = appMenuBtn.getBoundingClientRect();
-      const panelWidth = Math.max(212, appMenuPanel.offsetWidth || 212);
+      const panelWidth = Math.max(240, appMenuPanel.offsetWidth || 240);
       const left = Math.min(
         Math.max(12, rect.left),
         Math.max(12, window.innerWidth - panelWidth - 12)
@@ -6847,7 +6897,8 @@
   }
 
   function applyComposerHeight(height = state.composerHeight) {
-    const viewportLimit = Math.max(MIN_COMPOSER_HEIGHT, Math.min(MAX_COMPOSER_HEIGHT, Math.floor(window.innerHeight * 0.72)));
+    const modeMaxHeight = state.composerPanelMode === "midi-roll" ? MAX_MIDI_ROLL_COMPOSER_HEIGHT : MAX_COMPOSER_HEIGHT;
+    const viewportLimit = Math.max(MIN_COMPOSER_HEIGHT, Math.min(modeMaxHeight, Math.floor(window.innerHeight * 0.72)));
     state.composerHeight = Math.max(MIN_COMPOSER_HEIGHT, Math.min(viewportLimit, Math.round(height)));
     mainStage.style.setProperty("--composer-height", `${state.composerHeight}px`);
   }
@@ -8416,9 +8467,10 @@
 
     const configuredCandidates = [];
     const queryBase = new URLSearchParams(window.location.search).get("stemApi");
-    const storedBase = localStorage.getItem(STEM_API_BASE_STORAGE_KEY);
     const globalBase = window.STEM_API_BASE;
-    [queryBase, storedBase, globalBase].forEach((value) => {
+    const storedBase = localStorage.getItem(STEM_API_BASE_STORAGE_KEY);
+    // Prefer the shipped backend over older saved localStorage values, which may be dead.
+    [queryBase, globalBase, storedBase].forEach((value) => {
       const normalized = normalizeStemApiBase(value);
       if (normalized) {
         configuredCandidates.push(normalized);
@@ -8442,10 +8494,23 @@
     return new URL(path, origin).toString();
   }
 
+  async function fetchStemHealth(candidate) {
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), 4500);
+    try {
+      return await fetch(resolveStemApiUrl("/api/stem-health", candidate), {
+        cache: "no-store",
+        signal: controller.signal
+      });
+    } finally {
+      window.clearTimeout(timeoutId);
+    }
+  }
+
   async function refreshStemSplitterHealth() {
     for (const candidate of getStemApiCandidates()) {
       try {
-        const response = await fetch(resolveStemApiUrl("/api/stem-health", candidate));
+        const response = await fetchStemHealth(candidate);
         if (!response.ok) {
           throw new Error(`Stem splitter health check failed with status ${response.status}.`);
         }
@@ -11120,6 +11185,11 @@
     return Math.max(0, Math.round(Math.max(0, Number(beat) || 0) / BEATS_PER_MEASURE) * BEATS_PER_MEASURE);
   }
 
+  function quantizeBeatToClipDragGrid(beat) {
+    const safeBeat = Math.max(0, Number(beat) || 0);
+    return Math.max(0, Math.round(safeBeat / AUDIO_CLIP_DRAG_BEAT_SNAP) * AUDIO_CLIP_DRAG_BEAT_SNAP);
+  }
+
   function clearClipDragTargetVisuals() {
     timelineContent.querySelectorAll('.track-lane.clip-drag-target').forEach((lane) => {
       lane.classList.remove('clip-drag-target');
@@ -11143,7 +11213,7 @@
 
     if (commit && state.clipDragActive && clip) {
       const targetTrack = state.tracks.find((item) => item.id === (state.clipDragTargetTrackId || state.clipDragTrackId)) || track;
-      const nextBeat = quantizeBeatToNearestBar(state.clipDragPreviewBeat);
+      const nextBeat = quantizeBeatToClipDragGrid(state.clipDragPreviewBeat);
       clip.beatStart = nextBeat;
       if (targetTrack.id !== track.id) {
         track.clips = track.clips.filter((item) => item.id !== clip.id);
@@ -11152,7 +11222,9 @@
       selectTrack(targetTrack.id);
       renderTracks();
       scheduleProjectSave();
-      setStatus(`${clip.name} moved to ${targetTrack.name} at bar ${Math.floor(nextBeat / BEATS_PER_MEASURE) + 1}.`);
+      const barNumber = Math.floor(nextBeat / BEATS_PER_MEASURE) + 1;
+      const beatWithinBar = (nextBeat % BEATS_PER_MEASURE) + 1;
+      setStatus(`${clip.name} moved to ${targetTrack.name} at ${barNumber}.${Math.round(beatWithinBar * 10) / 10}.`);
       state.lastClipDragAt = performance.now();
     }
 
@@ -11215,7 +11287,7 @@
     }
     state.clipDragMoved = true;
     const rawBeat = state.clipDragStartBeat + (deltaX / PIXELS_PER_BEAT);
-    const snappedBeat = quantizeBeatToNearestBar(rawBeat);
+    const snappedBeat = quantizeBeatToClipDragGrid(rawBeat);
     state.clipDragPreviewBeat = snappedBeat;
     clipNode.style.left = `${snappedBeat * PIXELS_PER_BEAT}px`;
 
@@ -11832,8 +11904,10 @@
       formData.append("audio", blob, `${sanitizeStemFilename(clip.name)}.${fileExtensionForBlob(blob)}`);
       formData.append("clip_name", clip.name);
       formData.append("model", requestedStemModel);
-      const response = await fetch(resolveStemApiUrl("/api/split-stems"), {
+      const splitUrl = resolveStemApiUrl("/api/split-stems", state.stemApiBase || getStemApiCandidates()[0]);
+      const response = await fetch(splitUrl, {
         method: "POST",
+        mode: "cors",
         body: formData
       });
       let payload = null;
@@ -11861,7 +11935,8 @@
     } catch (error) {
       const message = String(error?.message || error);
       if (message === "Failed to fetch") {
-        setStatus("Stem splitter backend is unavailable. Start the local server with a stem engine installed.");
+        const backend = state.stemApiBase || getStemApiCandidates()[0] || "the configured stem backend";
+        setStatus(`Could not reach the stem splitter at ${backend}. If the backend is online, the upload may be too large or the request was blocked.`);
       } else {
         setStatus(message);
       }
@@ -12211,9 +12286,24 @@
       if (state.composerPanelMode !== "midi-roll") {
         return;
       }
+      const { track, clip } = getMidiRollClip();
+      if (!track || !clip) {
+        return;
+      }
       const noteEl = event.target.closest('[data-midi-note-id]');
       if (noteEl) {
+        const note = getInstrumentClipNoteEntries(clip).find((item) => item.noteId === noteEl.dataset.midiNoteId)
+          || getInstrumentClipNoteEntries(clip).find((item) => item.eventId === noteEl.dataset.midiEventId);
+        const pitch = Number.isFinite(Number(noteEl.dataset.midiPitch)) ? Number(noteEl.dataset.midiPitch) : note?.pitch;
+        previewMidiRollPitch(track, pitch);
         startMidiRollNoteDrag(event, noteEl);
+        return;
+      }
+      const previewKey = event.target.closest('[data-midi-preview-pitch]');
+      if (previewKey) {
+        event.preventDefault();
+        previewMidiRollPitch(track, Number(previewKey.dataset.midiPreviewPitch));
+        focusMidiRollGrid();
       }
     });
     effectsRackBody.addEventListener("click", (event) => {
@@ -12232,6 +12322,12 @@
       if (noteEl) {
         event.preventDefault();
         selectMidiRollNote(noteEl.dataset.midiTrackId || track.id, noteEl.dataset.midiClipId || clip.id, noteEl.dataset.midiNoteId);
+        return;
+      }
+      const previewKey = event.target.closest('[data-midi-preview-pitch]');
+      if (previewKey) {
+        event.preventDefault();
+        focusMidiRollGrid();
         return;
       }
       const cell = getMidiRollCellFromPointerEvent(event);

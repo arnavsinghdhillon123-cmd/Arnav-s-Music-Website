@@ -1,0 +1,47 @@
+{
+  "name": "waveforge-desktop",
+  "version": "1.0.0",
+  "description": "Desktop wrapper for the WaveForge online DAW",
+  "main": "desktop/main.js",
+  "scripts": {
+    "app": "electron .",
+    "app:dev": "electron .",
+    "dist": "electron-builder",
+    "dist:mac": "electron-builder --mac",
+    "dist:win": "electron-builder --win",
+    "dmg:mac": "zsh ./scripts/build-macos-dmg.sh",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
+  },
+  "devDependencies": {
+    "electron": "^37.2.0",
+    "electron-builder": "^24.13.3",
+    "wrangler": "^4.87.0"
+  },
+  "build": {
+    "appId": "com.waveforge.desktop",
+    "productName": "Online DAW",
+    "files": [
+      "desktop/**/*",
+      "index.html",
+      "server.py",
+      "assets/**/*",
+      "minimal-mic-recorder.html",
+      "music_instruments.html",
+      "requirements-stems.txt",
+      "STEM_SPLITTER_SETUP.md",
+      "package.json"
+    ],
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.music"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
+  }
+}

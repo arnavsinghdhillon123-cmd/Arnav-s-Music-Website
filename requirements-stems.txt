@@ -1,3 +1,5 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.2.2
+torchaudio==2.2.2
 demucs==4.0.1
 diffq==0.2.4
-torchcodec==0.11.0

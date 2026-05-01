@@ -3,3 +3,14 @@
 .venv/
 .venv-stems/
 __pycache__/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
+cloudflare-public/
+
+node_modules/
+dist/

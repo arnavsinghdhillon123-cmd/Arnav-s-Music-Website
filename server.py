@@ -442,6 +442,9 @@ class StemHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urlparse(self.path)
+        if parsed.path == "/api/healthz":
+            self.send_json({"ok": True})
+            return
         if parsed.path == "/api/stem-health":
             engine = available_stem_engine()
             self.send_json(

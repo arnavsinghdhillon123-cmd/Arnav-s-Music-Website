@@ -4,7 +4,7 @@ services:
     env: docker
     plan: free
     autoDeploy: true
-    healthCheckPath: /api/stem-health
+    healthCheckPath: /api/healthz
     envVars:
       - key: PORT
         value: 8000

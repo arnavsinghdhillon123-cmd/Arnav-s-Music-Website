@@ -11,8 +11,7 @@ RUN apt-get update \
 
 COPY requirements-stems.txt /app/requirements-stems.txt
 RUN python -m pip install --upgrade pip \
-    && python -m pip install -r /app/requirements-stems.txt \
-    && python -m pip install torchcodec
+    && python -m pip install --no-cache-dir -r /app/requirements-stems.txt
 
 COPY . /app
 
