@@ -133,22 +133,16 @@ def audioshake_configured():
 
 
 def default_stem_model_for_engine(engine):
-    if engine == "audioshake":
-        return AUDIOSHAKE_DEFAULT_MODEL
     if engine == "demucs":
         return f"demucs:{demucs_model(DEFAULT_MODEL)}"
-    if engine == "spleeter":
-        return "spleeter:5stems"
     return DEFAULT_MODEL
 
 
 def available_stem_engine():
-    if audioshake_configured():
-        return "audioshake"
+    # WaveForge uses the local/hosted Demucs backend for stem splitting.
+    # Do not prefer AudioShake just because an old API key exists in env.
     if module_available("demucs"):
         return "demucs"
-    if module_available("spleeter"):
-        return "spleeter"
     return None
 
 
@@ -500,7 +494,7 @@ class StemHandler(SimpleHTTPRequestHandler):
         if not engine:
             self.send_json(
                 {
-                    "error": "No supported stem engine is installed. Install Demucs or Spleeter, then restart this server."
+                    "error": "Demucs is not installed in the stem backend. Install Demucs, then restart this server."
                 },
                 status=503,
             )
