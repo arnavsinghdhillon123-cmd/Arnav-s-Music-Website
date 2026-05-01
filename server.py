@@ -120,6 +120,24 @@ def demucs_model(requested_model):
     return "htdemucs"
 
 
+def demucs_segment():
+    configured = (os.environ.get("DEMUCS_SEGMENT") or "6").strip()
+    try:
+        value = float(configured)
+    except ValueError:
+        return "6"
+    return str(max(1, min(value, 10)))
+
+
+def demucs_jobs():
+    configured = (os.environ.get("DEMUCS_JOBS") or "1").strip()
+    try:
+        value = int(configured)
+    except ValueError:
+        return "1"
+    return str(max(1, min(value, 2)))
+
+
 def audioshake_api_key():
     return (os.environ.get("AUDIOSHAKE_API_KEY") or "").strip()
 
@@ -602,6 +620,10 @@ class StemHandler(SimpleHTTPRequestHandler):
                 model,
                 "-d",
                 device,
+                "--jobs",
+                demucs_jobs(),
+                "--segment",
+                demucs_segment(),
                 "-o",
                 str(output_dir),
                 str(input_path),
