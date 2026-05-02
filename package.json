@@ -36,7 +36,10 @@
       "target": [
         "dmg"
       ],
-      "category": "public.app-category.music"
+      "category": "public.app-category.music",
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "WaveForge needs microphone access to record audio tracks."
+      }
     },
     "win": {
       "target": [

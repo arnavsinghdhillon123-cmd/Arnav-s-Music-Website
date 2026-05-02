@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, session, systemPreferences } = require("electron");
 const fs = require("fs");
 const http = require("http");
 const path = require("path");
@@ -53,6 +53,33 @@ async function saveProjectFileToDocuments(payload = {}) {
   };
 }
 
+function nextAvailableFilePath(directory, fileName) {
+  const parsed = path.parse(fileName);
+  let candidate = path.join(directory, fileName);
+  let index = 1;
+  while (fs.existsSync(candidate)) {
+    candidate = path.join(directory, `${parsed.name} ${index}${parsed.ext}`);
+    index += 1;
+  }
+  return candidate;
+}
+
+async function saveAudioExportFileToDownloads(payload = {}) {
+  const safeFileName = sanitizeProjectFileName(payload?.fileName || "track.wav");
+  const downloadsDir = app.getPath("downloads");
+  const targetPath = nextAvailableFilePath(downloadsDir, safeFileName);
+  const rawData = payload?.data;
+  const buffer = Buffer.from(
+    rawData instanceof ArrayBuffer ? rawData : new Uint8Array(rawData || [])
+  );
+  fs.writeFileSync(targetPath, buffer);
+  return {
+    ok: true,
+    path: targetPath,
+    fileName: path.basename(targetPath)
+  };
+}
+
 async function showUnsavedChangesDialog() {
   const result = await dialog.showMessageBox(mainWindow || undefined, {
     type: "question",
@@ -64,6 +91,43 @@ async function showUnsavedChangesDialog() {
     detail: "You have unsaved changes in this project."
   });
   return { choice: ["save", "discard", "cancel"][result.response] || "cancel" };
+}
+
+function configureMediaPermissions() {
+  const defaultSession = session.defaultSession;
+  defaultSession.setPermissionRequestHandler((_webContents, permission, callback) => {
+    if (permission === "media" || permission === "microphone") {
+      callback(true);
+      return;
+    }
+    callback(false);
+  });
+  defaultSession.setPermissionCheckHandler((_webContents, permission) => {
+    if (permission === "media" || permission === "microphone") {
+      return true;
+    }
+    return false;
+  });
+}
+
+async function requestMacMicrophoneAccess() {
+  if (process.platform !== "darwin" || !systemPreferences?.askForMediaAccess) {
+    return { ok: true, status: "granted" };
+  }
+  const currentStatus = systemPreferences.getMediaAccessStatus?.("microphone") || "unknown";
+  if (currentStatus === "granted") {
+    return { ok: true, status: currentStatus };
+  }
+  if (currentStatus === "denied" || currentStatus === "restricted") {
+    return { ok: false, status: currentStatus };
+  }
+  try {
+    const granted = await systemPreferences.askForMediaAccess("microphone");
+    const nextStatus = systemPreferences.getMediaAccessStatus?.("microphone") || (granted ? "granted" : "denied");
+    return { ok: Boolean(granted), status: nextStatus };
+  } catch (error) {
+    return { ok: false, status: "error", message: String(error?.message || error) };
+  }
 }
 
 function delay(ms) {
@@ -176,6 +240,7 @@ function createWindow() {
 
 async function bootDesktopApp() {
   try {
+    configureMediaPermissions();
     await ensureBackendRunning();
     createWindow();
   } catch (error) {
@@ -209,6 +274,7 @@ ipcMain.handle("waveforge:get-backend-info", async () => ({
   healthUrl: HEALTH_URL,
   desktopPlatform: process.platform
 }));
+ipcMain.handle("waveforge:request-microphone-access", async () => requestMacMicrophoneAccess());
 ipcMain.handle("waveforge:ensure-plugin-instrument", async (_event, payload) => ensureInstrumentPluginHost({
   ...payload,
   rootDir: ROOT,
@@ -243,6 +309,7 @@ ipcMain.handle("waveforge:destroy-embedded-plugin", async (_event, trackId) => d
 ipcMain.handle("waveforge:get-embedded-plugin-info", async (_event, trackId) => getEmbeddedPluginHostInfo(trackId));
 
 ipcMain.handle("waveforge:save-project-file", async (_event, payload) => saveProjectFileToDocuments(payload));
+ipcMain.handle("waveforge:save-audio-export-file", async (_event, payload) => saveAudioExportFileToDownloads(payload));
 ipcMain.handle("waveforge:show-unsaved-changes-dialog", async () => showUnsavedChangesDialog());
 
 app.on("before-quit", () => {

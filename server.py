@@ -25,6 +25,11 @@ CLIP_PROCESS_CACHE_DIR = STEM_JOBS_DIR / "clip-cache"
 CLIP_PROCESS_CACHE_DIR.mkdir(exist_ok=True)
 DEFAULT_MODEL = "demucs:htdemucs"
 AUDIOSHAKE_DEFAULT_MODEL = "audioshake:music-5stem"
+EXPORT_FORMATS = {
+    "wav": {"suffix": ".wav", "codec": "pcm_s16le", "mime": "audio/wav"},
+    "mp3": {"suffix": ".mp3", "codec": "libmp3lame", "mime": "audio/mpeg"},
+    "alac": {"suffix": ".m4a", "codec": "alac", "mime": "audio/mp4"},
+}
 AUDIOSHAKE_TARGETS = [
     ("vocals", "Vocals"),
     ("drums", "Drums"),
@@ -121,11 +126,12 @@ def demucs_model(requested_model):
 
 
 def demucs_segment():
+    # Demucs requires an integer string here. Never return values like "6.0".
     configured = (os.environ.get("DEMUCS_SEGMENT") or "6").strip()
     try:
-        value = float(configured)
+        value = int(float(configured))
     except ValueError:
-        return "6"
+        value = 6
     return str(max(1, min(value, 10)))
 
 
@@ -148,6 +154,33 @@ def audioshake_base_url():
 
 def audioshake_configured():
     return bool(audioshake_api_key())
+
+
+def sanitize_export_file_name(name, default_name="track.wav"):
+    cleaned = str(name or default_name).replace("/", " ").replace("\\", " ")
+    for char in ':*?"<>|':
+        cleaned = cleaned.replace(char, " ")
+    cleaned = " ".join(cleaned.split()).strip()
+    return cleaned or default_name
+
+
+def downloads_dir():
+    target = Path.home() / "Downloads"
+    target.mkdir(parents=True, exist_ok=True)
+    return target
+
+
+def next_available_file_path(directory, file_name):
+    safe_name = sanitize_export_file_name(file_name)
+    parsed = Path(safe_name)
+    stem = parsed.stem or "track"
+    suffix = parsed.suffix
+    candidate = directory / f"{stem}{suffix}"
+    index = 1
+    while candidate.exists():
+        candidate = directory / f"{stem} {index}{suffix}"
+        index += 1
+    return candidate
 
 
 def default_stem_model_for_engine(engine):
@@ -455,6 +488,7 @@ class StemHandler(SimpleHTTPRequestHandler):
                     "python": stem_runtime_python(),
                     "ffmpeg": shutil.which("ffmpeg"),
                     "clipProcessorReady": bool(shutil.which("ffmpeg") and ffmpeg_supports_rubberband()),
+                    "demucsSegment": demucs_segment(),
                 }
             )
             return
@@ -475,6 +509,12 @@ class StemHandler(SimpleHTTPRequestHandler):
             return
         if parsed.path == "/api/process-audio-clip":
             self.handle_process_audio_clip()
+            return
+        if parsed.path == "/api/convert-audio-export":
+            self.handle_convert_audio_export()
+            return
+        if parsed.path == "/api/save-audio-export":
+            self.handle_save_audio_export()
             return
         self.send_json({"error": "Not found."}, status=404)
 
@@ -559,6 +599,46 @@ class StemHandler(SimpleHTTPRequestHandler):
         input_path = input_dir / f"source{suffix}"
         with input_path.open("wb") as destination:
             shutil.copyfileobj(upload.file, destination)
+
+        normalized_input_path = input_dir / "source-normalized.wav"
+        normalize_command = [
+            shutil.which("ffmpeg") or "ffmpeg",
+            "-y",
+            "-i",
+            str(input_path),
+            "-vn",
+            "-ac",
+            "2",
+            "-ar",
+            "44100",
+            "-acodec",
+            "pcm_s16le",
+            str(normalized_input_path),
+        ]
+        try:
+            subprocess.run(
+                normalize_command,
+                cwd=str(ROOT),
+                capture_output=True,
+                text=True,
+                timeout=10 * 60,
+                check=True,
+            )
+            if normalized_input_path.exists():
+                input_path = normalized_input_path
+        except subprocess.CalledProcessError as error:
+            stderr = (error.stderr or error.stdout or "").strip()
+            self.send_json(
+                {
+                    "error": "Could not prepare this audio file for stem splitting.",
+                    "details": stderr[-1200:],
+                },
+                status=500,
+            )
+            return
+        except subprocess.TimeoutExpired:
+            self.send_json({"error": "Preparing audio for stem splitting timed out."}, status=504)
+            return
 
         file_hash = hash_file(input_path)
 
@@ -706,6 +786,200 @@ class StemHandler(SimpleHTTPRequestHandler):
             pass
 
         self.send_json({"jobId": job_id, "engine": engine, "model": model, "stems": stems})
+
+    def send_file_response(self, target, content_type=None, download_name=None):
+        resolved_type = content_type or mimetypes.guess_type(str(target))[0] or "application/octet-stream"
+        self.send_response(200)
+        self.send_cors_headers()
+        self.send_header("Content-Type", resolved_type)
+        self.send_header("Content-Length", str(target.stat().st_size))
+        if download_name:
+            safe_name = str(download_name).replace('"', "")
+            self.send_header("Content-Disposition", f'attachment; filename="{safe_name}"')
+        self.end_headers()
+        with target.open("rb") as source:
+            shutil.copyfileobj(source, self.wfile)
+
+    def handle_convert_audio_export(self):
+        if not shutil.which("ffmpeg"):
+            self.send_json({"error": "ffmpeg is required for MP3 and ALAC export but was not found on PATH."}, status=503)
+            return
+
+        content_type = self.headers.get("Content-Type", "")
+        if "multipart/form-data" not in content_type:
+            self.send_json({"error": "Expected multipart form upload."}, status=400)
+            return
+
+        form = cgi.FieldStorage(
+            fp=self.rfile,
+            headers=self.headers,
+            environ={
+                "REQUEST_METHOD": "POST",
+                "CONTENT_TYPE": content_type,
+            },
+        )
+        upload = form["audio"] if "audio" in form else None
+        if upload is None or not getattr(upload, "file", None):
+            self.send_json({"error": "Missing uploaded audio file."}, status=400)
+            return
+
+        requested_format = str(form.getfirst("format", "wav")).strip().lower()
+        if requested_format not in EXPORT_FORMATS:
+            self.send_json({"error": "Unsupported export format."}, status=400)
+            return
+
+        cleanup_old_jobs()
+        job_id = uuid.uuid4().hex
+        job_dir = STEM_JOBS_DIR / job_id
+        input_dir = job_dir / "export-input"
+        output_dir = job_dir / "export-output"
+        input_dir.mkdir(parents=True, exist_ok=True)
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        input_path = input_dir / "track.wav"
+        with input_path.open("wb") as destination:
+            shutil.copyfileobj(upload.file, destination)
+
+        format_info = EXPORT_FORMATS[requested_format]
+        output_path = output_dir / f"track{format_info['suffix']}"
+        command = [
+            shutil.which("ffmpeg") or "ffmpeg",
+            "-y",
+            "-i",
+            str(input_path),
+            "-vn",
+            "-acodec",
+            format_info["codec"],
+        ]
+        if requested_format == "mp3":
+            command.extend(["-b:a", "320k"])
+        command.append(str(output_path))
+
+        try:
+            subprocess.run(
+                command,
+                cwd=str(ROOT),
+                capture_output=True,
+                text=True,
+                timeout=10 * 60,
+                check=True,
+            )
+        except subprocess.CalledProcessError as error:
+            stderr = (error.stderr or error.stdout or "").strip()
+            self.send_json(
+                {
+                    "error": f"Could not export {requested_format.upper()}.",
+                    "details": stderr[-1200:],
+                },
+                status=500,
+            )
+            return
+        except subprocess.TimeoutExpired:
+            self.send_json({"error": "Track export conversion timed out."}, status=504)
+            return
+
+        self.send_file_response(
+            output_path,
+            content_type=format_info["mime"],
+            download_name=f"track{format_info['suffix']}",
+        )
+
+    def write_converted_audio_export(self, input_path, output_path, requested_format):
+        format_info = EXPORT_FORMATS[requested_format]
+        if requested_format == "wav":
+            shutil.copy2(input_path, output_path)
+            return
+        if not shutil.which("ffmpeg"):
+            raise RuntimeError("ffmpeg is required for MP3 and ALAC export but was not found on PATH.")
+        command = [
+            shutil.which("ffmpeg") or "ffmpeg",
+            "-y",
+            "-i",
+            str(input_path),
+            "-vn",
+            "-acodec",
+            format_info["codec"],
+        ]
+        if requested_format == "mp3":
+            command.extend(["-b:a", "320k"])
+        command.append(str(output_path))
+        subprocess.run(
+            command,
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            timeout=10 * 60,
+            check=True,
+        )
+
+    def handle_save_audio_export(self):
+        content_type = self.headers.get("Content-Type", "")
+        if "multipart/form-data" not in content_type:
+            self.send_json({"error": "Expected multipart form upload."}, status=400)
+            return
+
+        form = cgi.FieldStorage(
+            fp=self.rfile,
+            headers=self.headers,
+            environ={
+                "REQUEST_METHOD": "POST",
+                "CONTENT_TYPE": content_type,
+            },
+        )
+        upload = form["audio"] if "audio" in form else None
+        if upload is None or not getattr(upload, "file", None):
+            self.send_json({"error": "Missing uploaded audio file."}, status=400)
+            return
+
+        requested_format = str(form.getfirst("format", "wav")).strip().lower()
+        if requested_format not in EXPORT_FORMATS:
+            self.send_json({"error": "Unsupported export format."}, status=400)
+            return
+
+        format_info = EXPORT_FORMATS[requested_format]
+        requested_name = sanitize_export_file_name(
+            form.getfirst("fileName", f"track{format_info['suffix']}"),
+            f"track{format_info['suffix']}",
+        )
+        parsed_name = Path(requested_name)
+        file_name = f"{parsed_name.stem or 'track'}{format_info['suffix']}"
+        target_path = next_available_file_path(downloads_dir(), file_name)
+
+        cleanup_old_jobs()
+        job_id = uuid.uuid4().hex
+        job_dir = STEM_JOBS_DIR / job_id / "export-save"
+        job_dir.mkdir(parents=True, exist_ok=True)
+        input_path = job_dir / "track.wav"
+        with input_path.open("wb") as destination:
+            shutil.copyfileobj(upload.file, destination)
+
+        try:
+            self.write_converted_audio_export(input_path, target_path, requested_format)
+        except RuntimeError as error:
+            self.send_json({"error": str(error)}, status=503)
+            return
+        except subprocess.CalledProcessError as error:
+            stderr = (error.stderr or error.stdout or "").strip()
+            self.send_json(
+                {
+                    "error": f"Could not export {requested_format.upper()}.",
+                    "details": stderr[-1200:],
+                },
+                status=500,
+            )
+            return
+        except subprocess.TimeoutExpired:
+            self.send_json({"error": "Track export conversion timed out."}, status=504)
+            return
+
+        self.send_json(
+            {
+                "ok": True,
+                "path": str(target_path),
+                "fileName": target_path.name,
+                "format": requested_format,
+            }
+        )
 
     def handle_process_audio_clip(self):
         if not shutil.which("ffmpeg"):
