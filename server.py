@@ -47,6 +47,7 @@ STEM_LABELS = {
 }
 STEM_ORDER = {name: index for index, name in enumerate(["vocals", "drums", "bass", "guitar", "piano", "other"])}
 ALLOWED_AUDIO_SUFFIXES = {".wav", ".mp3", ".flac", ".ogg", ".m4a", ".aac", ".aif", ".aiff", ".opus", ".webm"}
+ALLOWED_VIDEO_SUFFIXES = {".mp4", ".m4v", ".mov"}
 DEFAULT_STEM_RUNTIME = ROOT / ".venv-stems" / "bin" / "python"
 
 
@@ -509,6 +510,9 @@ class StemHandler(SimpleHTTPRequestHandler):
             return
         if parsed.path == "/api/process-audio-clip":
             self.handle_process_audio_clip()
+            return
+        if parsed.path == "/api/extract-audio-from-video":
+            self.handle_extract_audio_from_video()
             return
         if parsed.path == "/api/convert-audio-export":
             self.handle_convert_audio_export()
@@ -980,6 +984,99 @@ class StemHandler(SimpleHTTPRequestHandler):
                 "format": requested_format,
             }
         )
+
+    def handle_extract_audio_from_video(self):
+        if not shutil.which("ffmpeg"):
+            self.send_json({"error": "ffmpeg is required to extract audio from MP4 video files but was not found on PATH."}, status=503)
+            return
+
+        content_type = self.headers.get("Content-Type", "")
+        if "multipart/form-data" not in content_type:
+            self.send_json({"error": "Expected multipart form upload."}, status=400)
+            return
+
+        form = cgi.FieldStorage(
+            fp=self.rfile,
+            headers=self.headers,
+            environ={
+                "REQUEST_METHOD": "POST",
+                "CONTENT_TYPE": content_type,
+            },
+        )
+        upload = form["video"] if "video" in form else (form["file"] if "file" in form else None)
+        if upload is None or not getattr(upload, "file", None):
+            self.send_json({"error": "Missing uploaded MP4 video file."}, status=400)
+            return
+
+        cleanup_old_jobs()
+        job_id = uuid.uuid4().hex
+        job_dir = STEM_JOBS_DIR / job_id
+        input_dir = job_dir / "video-input"
+        output_dir = job_dir / "video-audio"
+        input_dir.mkdir(parents=True, exist_ok=True)
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        original_name = Path(upload.filename or "video.mp4")
+        suffix = original_name.suffix.lower()
+        if suffix not in ALLOWED_VIDEO_SUFFIXES:
+            suffix = ".mp4"
+        input_path = input_dir / f"source{suffix}"
+        with input_path.open("wb") as destination:
+            shutil.copyfileobj(upload.file, destination)
+
+        output_path = output_dir / "extracted.wav"
+        command = [
+            shutil.which("ffmpeg") or "ffmpeg",
+            "-y",
+            "-i",
+            str(input_path),
+            "-vn",
+            "-map",
+            "0:a:0",
+            "-ac",
+            "2",
+            "-ar",
+            "44100",
+            "-acodec",
+            "pcm_s16le",
+            str(output_path),
+        ]
+
+        try:
+            subprocess.run(
+                command,
+                cwd=str(ROOT),
+                capture_output=True,
+                text=True,
+                timeout=5 * 60,
+                check=True,
+            )
+        except subprocess.CalledProcessError as error:
+            stderr = (error.stderr or error.stdout or "").strip()
+            self.send_json(
+                {
+                    "error": "Could not extract audio from this MP4. Make sure the video has an audio track.",
+                    "details": stderr[-1200:],
+                },
+                status=500,
+            )
+            return
+        except subprocess.TimeoutExpired:
+            self.send_json({"error": "Extracting audio from the MP4 timed out."}, status=504)
+            return
+
+        if not output_path.exists() or output_path.stat().st_size <= 0:
+            self.send_json({"error": "The MP4 did not produce a usable audio file."}, status=500)
+            return
+
+        self.send_response(200)
+        self.send_cors_headers()
+        self.send_header("Content-Type", "audio/wav")
+        self.send_header("Content-Length", str(output_path.stat().st_size))
+        self.send_header("Content-Disposition", 'attachment; filename="extracted-audio.wav"')
+        self.end_headers()
+        with output_path.open("rb") as source:
+            shutil.copyfileobj(source, self.wfile)
 
     def handle_process_audio_clip(self):
         if not shutil.which("ffmpeg"):
