@@ -21,6 +21,7 @@
   "build": {
     "appId": "com.waveforge.desktop",
     "productName": "Online DAW",
+    "asar": false,
     "files": [
       "desktop/**/*",
       "index.html",

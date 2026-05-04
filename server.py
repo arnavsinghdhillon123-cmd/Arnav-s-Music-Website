@@ -16,9 +16,11 @@ from urllib import error as urlerror
 from urllib import request as urlrequest
 
 
-ROOT = Path(__file__).resolve().parent
-STEM_JOBS_DIR = ROOT / ".stem-jobs"
-STEM_JOBS_DIR.mkdir(exist_ok=True)
+ROOT = Path(os.environ.get("WAVEFORGE_APP_ROOT") or Path(__file__).resolve().parent).resolve()
+DATA_ROOT = Path(os.environ.get("WAVEFORGE_DATA_ROOT") or ROOT).resolve()
+DATA_ROOT.mkdir(parents=True, exist_ok=True)
+STEM_JOBS_DIR = DATA_ROOT / ".stem-jobs"
+STEM_JOBS_DIR.mkdir(parents=True, exist_ok=True)
 STEM_CACHE_DIR = STEM_JOBS_DIR / "cache"
 STEM_CACHE_DIR.mkdir(exist_ok=True)
 CLIP_PROCESS_CACHE_DIR = STEM_JOBS_DIR / "clip-cache"

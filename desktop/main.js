@@ -2,7 +2,7 @@ const { app, BrowserWindow, dialog, ipcMain, session, systemPreferences } = requ
 const fs = require("fs");
 const http = require("http");
 const path = require("path");
-const { spawn } = require("child_process");
+const { execFile, spawn } = require("child_process");
 const { scanInstalledPlugins, DEFAULT_SCAN_SECONDS } = require("./plugin-discovery");
 const { openPluginUi } = require("./plugin-host");
 const {
@@ -22,6 +22,7 @@ const {
 } = require("./embedded-plugin-host");
 
 const ROOT = path.resolve(__dirname, "..");
+const SERVER_SCRIPT = path.join(ROOT, "server.py");
 const SERVER_URL = "http://127.0.0.1:8000";
 const HEALTH_URL = `${SERVER_URL}/api/stem-health`;
 const BACKEND_TIMEOUT_MS = 30000;
@@ -31,6 +32,88 @@ const AU_HOST_BINARY = path.join(ROOT, "desktop", "bin", "au-host");
 let mainWindow = null;
 let backendProcess = null;
 let backendStartedByApp = false;
+let backendLogPath = "";
+let preparedBackendRuntime = null;
+
+function getBackendLogPath() {
+  if (!backendLogPath) {
+    backendLogPath = path.join(app.getPath("userData"), "waveforge-backend.log");
+  }
+  return backendLogPath;
+}
+
+function writeBackendLog(message) {
+  try {
+    fs.mkdirSync(path.dirname(getBackendLogPath()), { recursive: true });
+    fs.appendFileSync(getBackendLogPath(), `${new Date().toISOString()} ${message}\n`, "utf8");
+  } catch (_error) {
+    // Logging should never stop the app from trying to launch.
+  }
+}
+
+function findStemRuntimePython() {
+  const candidates = [
+    process.env.STEM_RUNTIME_PYTHON,
+    path.join(ROOT, ".venv-stems", "bin", "python"),
+    path.join(app.getPath("documents"), "Music website code", ".venv-stems", "bin", "python"),
+    path.join(app.getPath("home"), "Work", "Music website code", ".venv-stems", "bin", "python")
+  ].filter(Boolean);
+  return candidates.find((candidate) => fs.existsSync(candidate)) || "";
+}
+
+function backendEnvironment() {
+  const pathParts = [
+    "/opt/homebrew/bin",
+    "/usr/local/bin",
+    "/usr/bin",
+    "/bin",
+    "/opt/local/bin",
+    process.env.PATH || ""
+  ].filter(Boolean);
+  const stemRuntimePython = findStemRuntimePython();
+  return {
+    ...process.env,
+    PATH: [...new Set(pathParts.join(path.delimiter).split(path.delimiter).filter(Boolean))].join(path.delimiter),
+    PYTHONUNBUFFERED: "1",
+    HOST: "127.0.0.1",
+    WAVEFORGE_APP_ROOT: ROOT,
+    WAVEFORGE_DATA_ROOT: path.join(app.getPath("userData"), "backend-data"),
+    ...(stemRuntimePython ? { STEM_RUNTIME_PYTHON: stemRuntimePython } : {})
+  };
+}
+
+function copyBackendRuntimePath(runtimeRoot, relativePath) {
+  const source = path.join(ROOT, relativePath);
+  if (!fs.existsSync(source)) {
+    return;
+  }
+  const target = path.join(runtimeRoot, relativePath);
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.cpSync(source, target, { recursive: true, force: true });
+}
+
+function prepareBackendRuntime() {
+  if (preparedBackendRuntime) {
+    return preparedBackendRuntime;
+  }
+  const runtimeRoot = path.join(app.getPath("userData"), "backend-runtime");
+  fs.mkdirSync(runtimeRoot, { recursive: true });
+  [
+    "server.py",
+    "index.html",
+    "minimal-mic-recorder.html",
+    "music_instruments.html",
+    "download.html",
+    "requirements-stems.txt",
+    "STEM_SPLITTER_SETUP.md",
+    "assets"
+  ].forEach((relativePath) => copyBackendRuntimePath(runtimeRoot, relativePath));
+  preparedBackendRuntime = {
+    root: runtimeRoot,
+    script: path.join(runtimeRoot, "server.py")
+  };
+  return preparedBackendRuntime;
+}
 
 function sanitizeProjectFileName(input) {
   return String(input || "Untitled Project")
@@ -134,6 +217,19 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function execFileText(command, args = [], options = {}) {
+  return new Promise((resolve) => {
+    execFile(command, args, { ...options, encoding: "utf8" }, (error, stdout, stderr) => {
+      resolve({
+        ok: !error,
+        stdout: String(stdout || ""),
+        stderr: String(stderr || ""),
+        error
+      });
+    });
+  });
+}
+
 function requestUrl(url) {
   return new Promise((resolve) => {
     const request = http.get(url, (response) => {
@@ -152,18 +248,60 @@ async function isBackendReady() {
   return requestUrl(HEALTH_URL);
 }
 
-function getPythonLaunchOptions() {
+async function clearStaleBackendPort() {
+  if (process.platform === "win32") {
+    return false;
+  }
+  const lsof = await execFileText("lsof", ["-nP", "-iTCP:8000", "-sTCP:LISTEN", "-Fp"]);
+  const pids = lsof.stdout
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith("p"))
+    .map((line) => Number(line.slice(1)))
+    .filter((pid) => Number.isInteger(pid) && pid > 0 && pid !== process.pid);
+  if (!pids.length) {
+    return false;
+  }
+  let cleared = false;
+  for (const pid of pids) {
+    const ps = await execFileText("ps", ["-p", String(pid), "-o", "command="]);
+    const commandLine = ps.stdout.trim();
+    if (!/server\.py/.test(commandLine)) {
+      writeBackendLog(`Port 8000 is occupied by PID ${pid}, but it does not look like WaveForge server.py: ${commandLine}`);
+      continue;
+    }
+    try {
+      process.kill(pid, "SIGTERM");
+      writeBackendLog(`Stopped stale WaveForge backend on port 8000: PID ${pid} ${commandLine}`);
+      cleared = true;
+    } catch (error) {
+      writeBackendLog(`Could not stop stale backend PID ${pid}: ${error?.message || error}`);
+    }
+  }
+  if (cleared) {
+    await delay(900);
+  }
+  return cleared;
+}
+
+function getPythonLaunchOptions(serverScript) {
+  const serverArgs = [serverScript];
   if (process.platform === "win32") {
     return [
-      { command: "py", args: ["-3", "server.py"] },
-      { command: "python", args: ["server.py"] },
-      { command: "python3", args: ["server.py"] }
+      { command: "py", args: ["-3", ...serverArgs] },
+      { command: "python", args: serverArgs },
+      { command: "python3", args: serverArgs }
     ];
   }
   return [
-    { command: "python3", args: ["server.py"] },
-    { command: "python", args: ["server.py"] }
-  ];
+    "/usr/bin/python3",
+    "/opt/homebrew/bin/python3",
+    "/usr/local/bin/python3",
+    "python3",
+    "python"
+  ]
+    .filter((command, index, commands) => commands.indexOf(command) === index)
+    .map((command) => ({ command, args: serverArgs }));
 }
 
 async function ensureBackendRunning() {
@@ -171,26 +309,64 @@ async function ensureBackendRunning() {
     return;
   }
 
-  const launchOptions = getPythonLaunchOptions();
+  if (!fs.existsSync(SERVER_SCRIPT)) {
+    throw new Error(`server.py was not found at ${SERVER_SCRIPT}. Rebuild the desktop app from the latest source.`);
+  }
+  const runtime = prepareBackendRuntime();
+  if (!fs.existsSync(runtime.script)) {
+    throw new Error(`server.py could not be prepared at ${runtime.script}. Rebuild the desktop app from the latest source.`);
+  }
+
+  await clearStaleBackendPort();
+  if (await isBackendReady()) {
+    return;
+  }
+
+  const launchOptions = getPythonLaunchOptions(runtime.script);
   let lastError = null;
+  let lastOutput = "";
+  writeBackendLog(`Starting backend from ${runtime.script} with app root ${ROOT}`);
 
   for (const option of launchOptions) {
     try {
+      writeBackendLog(`Trying backend command: ${option.command} ${option.args.join(" ")}`);
+      let spawnFailed = false;
       backendProcess = spawn(option.command, option.args, {
-        cwd: ROOT,
-        stdio: "ignore",
+        cwd: runtime.root,
+        env: backendEnvironment(),
+        stdio: ["ignore", "pipe", "pipe"],
         windowsHide: true
       });
       backendStartedByApp = true;
 
       backendProcess.on("error", (error) => {
         lastError = error;
+        spawnFailed = true;
+        writeBackendLog(`Spawn error: ${error.message}`);
+      });
+      backendProcess.stdout?.on("data", (chunk) => {
+        const text = String(chunk).trim();
+        if (text) {
+          lastOutput = `${lastOutput}\n${text}`.slice(-3000);
+          writeBackendLog(`[stdout] ${text}`);
+        }
+      });
+      backendProcess.stderr?.on("data", (chunk) => {
+        const text = String(chunk).trim();
+        if (text) {
+          lastOutput = `${lastOutput}\n${text}`.slice(-3000);
+          writeBackendLog(`[stderr] ${text}`);
+        }
       });
 
       const startedAt = Date.now();
       while (Date.now() - startedAt < BACKEND_TIMEOUT_MS) {
         if (await isBackendReady()) {
+          writeBackendLog(`Backend ready at ${HEALTH_URL}`);
           return;
+        }
+        if (spawnFailed) {
+          break;
         }
         if (backendProcess.exitCode !== null) {
           break;
@@ -201,16 +377,17 @@ async function ensureBackendRunning() {
       if (backendProcess.exitCode === null) {
         backendProcess.kill();
       }
+      writeBackendLog(`Backend command did not become ready: ${option.command}`);
       backendProcess = null;
       backendStartedByApp = false;
     } catch (error) {
       lastError = error;
+      writeBackendLog(`Launch attempt failed: ${error?.message || error}`);
     }
   }
 
   throw new Error(
-    lastError?.message ||
-      "The desktop app could not start the local Python backend. Make sure Python 3 is installed."
+    `${lastError?.message || "The desktop app could not start the local Python backend. Make sure Python 3 is installed."}${lastOutput ? `\n\nBackend output:\n${lastOutput}` : ""}\n\nLog file: ${getBackendLogPath()}`
   );
 }
 
