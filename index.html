@@ -846,7 +846,7 @@
     height: 100%;
     min-height: 376px;
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 92px 1fr 20px;
     gap: 12px;
     padding: 13px 12px 12px;
     border-radius: 22px;
@@ -856,6 +856,7 @@
       linear-gradient(180deg, rgba(24, 29, 35, 0.98), rgba(13, 16, 20, 0.98));
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 22px 60px rgba(0,0,0,0.28);
     animation: mixerChannelRise 180ms ease both;
+    contain: layout paint;
   }
 
   .mixer-channel.master {
@@ -876,8 +877,18 @@
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--channel-color) 28%, transparent), 0 24px 70px rgba(0,0,0,0.32);
   }
 
+  .mixer-channel.mixer-selected {
+    border-color: color-mix(in srgb, var(--channel-color) 72%, #fff 10%);
+    box-shadow:
+      inset 0 0 0 2px color-mix(in srgb, var(--channel-color) 48%, transparent),
+      0 0 0 2px rgba(255,255,255,0.08),
+      0 24px 70px rgba(0,0,0,0.34);
+  }
+
   .mixer-channel-head {
     min-width: 0;
+    height: 92px;
+    overflow: hidden;
   }
 
   .mixer-channel-title-row {
@@ -914,6 +925,7 @@
     display: flex;
     gap: 9px;
     padding-top: 2px;
+    flex: 0 0 auto;
   }
 
   .mixer-pan-row {
@@ -926,6 +938,7 @@
     border-radius: 14px;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.06);
+    height: 46px;
   }
 
   .mixer-pan-copy {
@@ -943,6 +956,8 @@
 
   .mixer-channel-strip {
     min-height: 0;
+    height: 238px;
+    align-self: end;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -1003,6 +1018,7 @@
     gap: 6px;
     color: var(--muted);
     font-size: 0.72rem;
+    width: 56px;
   }
 
   .mixer-fader > span:first-child {
@@ -1043,14 +1059,12 @@
     font-size: 0.54rem;
     font-weight: 800;
     line-height: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
   }
 
   .mixer-fader-scale span {
-    position: relative;
+    position: absolute;
+    left: 0;
+    transform: translateY(50%);
     white-space: nowrap;
   }
 
@@ -1068,6 +1082,10 @@
     color: rgba(227,255,221,0.82);
   }
 
+  .mixer-fader-scale .top-db {
+    transform: translateY(calc(50% + 5px));
+  }
+
   .mixer-fader-fill {
     position: absolute;
     left: 0;
@@ -1077,6 +1095,7 @@
     border-radius: 999px;
     background: var(--channel-color, #4aa3ff);
     box-shadow: 0 0 12px color-mix(in srgb, var(--channel-color, #4aa3ff) 52%, transparent);
+    transition: height 180ms ease;
   }
 
   .mixer-fader-thumb {
@@ -1093,12 +1112,14 @@
     box-shadow: 0 0 0 4px rgba(255,255,255,0.15), 0 7px 16px rgba(0,0,0,0.32);
     cursor: grab;
     touch-action: none;
+    transition: bottom 180ms ease, box-shadow 120ms ease;
   }
 
   .mixer-fader-thumb:active,
   .mixer-fader-thumb.dragging {
     cursor: grabbing;
     box-shadow: 0 0 0 5px rgba(255,255,255,0.2), 0 9px 20px rgba(0,0,0,0.38);
+    transition: box-shadow 120ms ease;
   }
 
   .mixer-channel-footer {
@@ -1112,7 +1133,8 @@
   }
 
   .mixer-fader-value {
-    min-width: 52px;
+    width: 58px;
+    min-width: 58px;
     padding: 4px 7px;
     border-radius: 999px;
     background: rgba(255,255,255,0.055);
@@ -1120,6 +1142,7 @@
     font-weight: 800;
     font-size: 0.72rem;
     text-align: center;
+    font-variant-numeric: tabular-nums;
   }
 
   .mixer-empty {
@@ -1134,6 +1157,127 @@
 
   .mixer-empty.visible {
     display: grid;
+  }
+
+  .mix-assistant-modal {
+    width: min(760px, calc(100vw - 28px));
+    max-height: min(720px, calc(100vh - 36px));
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 16px;
+  }
+
+  .mix-assistant-summary {
+    display: grid;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .mix-assistant-track-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .mix-assistant-chip {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.065);
+    color: var(--text);
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+
+  .mix-assistant-mode-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .mix-assistant-mode-btn {
+    min-height: 34px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 0.5px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.045);
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 900;
+  }
+
+  .mix-assistant-mode-btn.active {
+    border-color: rgba(74,164,255,0.45);
+    background: rgba(74,164,255,0.17);
+    color: #b8e1ff;
+  }
+
+  .mix-assistant-results {
+    min-height: 160px;
+    overflow: auto;
+    border-radius: 18px;
+    border: 0.5px solid rgba(255,255,255,0.08);
+    background: rgba(8,11,16,0.28);
+  }
+
+  .mix-assistant-empty {
+    min-height: 160px;
+    display: grid;
+    place-items: center;
+    padding: 22px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .mix-suggestion-row {
+    display: grid;
+    grid-template-columns: minmax(130px, 1.1fr) 92px 96px minmax(160px, 1.4fr);
+    gap: 12px;
+    align-items: center;
+    padding: 12px 14px;
+    border-bottom: 0.5px solid rgba(255,255,255,0.07);
+  }
+
+  .mix-suggestion-row:last-child {
+    border-bottom: 0;
+  }
+
+  .mix-suggestion-row.preview {
+    background: rgba(74,164,255,0.08);
+  }
+
+  .mix-suggestion-row span {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .mix-suggestion-row strong {
+    display: block;
+    color: var(--text);
+    font-size: 0.88rem;
+    margin-top: 3px;
+  }
+
+  .mix-suggestion-change.positive {
+    color: #7ee787;
+  }
+
+  .mix-suggestion-change.negative {
+    color: #ffb86b;
+  }
+
+  .mix-assistant-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
   .timeline-grid {
@@ -4085,9 +4229,111 @@
 
   .eq-panel.expanded-effect .eq-workspace {
     flex: 1;
-    grid-template-columns: minmax(0, 1fr) 226px;
+    grid-template-columns: minmax(0, 1fr);
     min-height: 0;
     align-items: stretch;
+  }
+
+  .eq-rack-sliders {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(34px, 1fr));
+    align-items: end;
+    gap: 8px;
+    padding: 8px 2px 2px;
+  }
+
+  .eq-rack-band {
+    min-width: 0;
+    display: grid;
+    justify-items: center;
+    align-content: end;
+    gap: 5px;
+  }
+
+  .eq-rack-band-value {
+    min-height: 13px;
+    color: rgba(255,255,255,0.76);
+    font-size: 0.56rem;
+    font-weight: 900;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .eq-rack-slider-wrap {
+    height: 78px;
+    width: 30px;
+    position: relative;
+  }
+
+  .eq-rack-slider-wrap::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 3px;
+    bottom: 3px;
+    width: 4px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.13);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .eq-rack-slider {
+    width: 78px;
+    height: 22px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transform-origin: center;
+    cursor: ns-resize;
+    z-index: 1;
+  }
+
+  .eq-rack-slider::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  .eq-rack-slider::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 17px;
+    height: 17px;
+    margin-top: -6.5px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.9);
+    background: var(--track-color, #4aa3ff);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.32);
+  }
+
+  .eq-rack-slider::-moz-range-track {
+    height: 4px;
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  .eq-rack-slider::-moz-range-thumb {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.9);
+    background: var(--track-color, #4aa3ff);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.32);
+  }
+
+  .eq-rack-band-label {
+    color: var(--muted);
+    font-size: 0.55rem;
+    font-weight: 900;
+    line-height: 1;
+    white-space: nowrap;
   }
 
   .eq-graph-wrap {
@@ -5731,6 +5977,14 @@
     color: #1f2937;
   }
 
+  body.light-mode .eq-rack-band-value {
+    color: rgba(31, 41, 55, 0.74);
+  }
+
+  body.light-mode .eq-rack-slider-wrap::before {
+    background: rgba(31, 41, 55, 0.16);
+  }
+
   body.light-mode .transport-btn,
   body.light-mode .ghost-btn,
   body.light-mode .small-btn,
@@ -5943,6 +6197,17 @@
 
   body.light-mode .mixer-fader-scale .zero-db {
     color: rgba(21,128,61,0.86);
+  }
+
+  body.light-mode .mix-assistant-results {
+    background: rgba(255,255,255,0.46);
+    border-color: rgba(29,35,43,0.1);
+  }
+
+  body.light-mode .mix-assistant-chip,
+  body.light-mode .mix-assistant-mode-btn {
+    background: rgba(24,30,38,0.06);
+    border-color: rgba(24,30,38,0.12);
   }
 
 </style>
@@ -6344,7 +6609,7 @@
       <div class="chooser-head">
         <div>
           <strong>Save Project</strong>
-          <p>Name this project and WaveForge will save it in your Documents folder.</p>
+          <p>Name this project and WaveForge will save it as a WAV file.</p>
         </div>
       </div>
       <div class="rename-track-field">
@@ -6353,7 +6618,7 @@
       </div>
       <div class="rename-track-actions">
         <button id="saveProjectCancelBtn" class="ghost-btn" type="button">Cancel</button>
-        <button id="saveProjectSaveBtn" class="primary-btn" type="button">Save Project</button>
+        <button id="saveProjectSaveBtn" class="primary-btn" type="button">Save WAV</button>
       </div>
     </div>
   </div>
@@ -6419,6 +6684,12 @@
     <button id="createMidiClipBtn" class="context-action">Create MIDI Clip</button>
     <button id="joinMidiClipsBtn" class="context-action">Join MIDI Clips</button>
     <button id="exportTrackAudioBtn" class="context-action">Export Track Audio</button>
+    <button id="aiMixAssistantBtn" class="context-action gradient-text">AI Mix Assistant</button>
+    <button id="aiMasteringAssistantBtn" class="context-action gradient-text">AI Mastering Assistant</button>
+    <button id="analyzeMixerTrackBtn" class="context-action">Analyze This Track</button>
+    <button id="resetMixerVolumesBtn" class="context-action">Reset Track Volume</button>
+    <button id="muteMixerTracksBtn" class="context-action">Mute Track</button>
+    <button id="soloMixerTracksBtn" class="context-action">Solo Track</button>
     <button id="deleteEffectBtn" class="context-action danger">Delete Effect</button>
     <button id="deleteRegionBtn" class="context-action danger">Delete Region</button>
     <button id="renameTrackBtn" class="context-action">Rename Track</button>
@@ -6432,6 +6703,25 @@
         <button class="context-color" data-context-color="#ffb32a" style="background:#ffb32a;"></button>
         <button class="context-color" data-context-color="#ff7421" style="background:#ff7421;"></button>
         <button class="context-color" data-context-color="#ff3f2e" style="background:#ff3f2e;"></button>
+      </div>
+    </div>
+  </div>
+  <div id="mixAssistantOverlay" class="chooser-overlay rename-track-overlay" role="dialog" aria-modal="true" aria-labelledby="mixAssistantTitle">
+    <div class="chooser-modal mix-assistant-modal">
+      <div class="chooser-head">
+        <div>
+          <strong id="mixAssistantTitle">AI Mix Assistant</strong>
+          <p id="mixAssistantSubtitle">Analyze selected mixer tracks before applying changes.</p>
+        </div>
+        <button id="mixAssistantCloseBtn" class="settings-close-btn" type="button" aria-label="Close assistant">×</button>
+      </div>
+      <div id="mixAssistantSummary" class="mix-assistant-summary"></div>
+      <div id="mixAssistantResults" class="mix-assistant-results"></div>
+      <div class="mix-assistant-actions">
+        <button id="mixAssistantAnalyzeBtn" class="ghost-btn" type="button">Analyze</button>
+        <button id="mixAssistantPreviewBtn" class="ghost-btn" type="button">Preview Changes</button>
+        <button id="mixAssistantApplyBtn" class="primary-btn" type="button">Apply Changes</button>
+        <button id="mixAssistantResetBtn" class="ghost-btn" type="button">Reset</button>
       </div>
     </div>
   </div>
@@ -6768,6 +7058,12 @@
   const METER_YELLOW_DB = 3;
   const METER_MAX_DB = 6;
   const MIXER_FADER_SCALE_MARKERS = [6, 3, 0, -12, -24, -36, -48, -60];
+  const MIXER_FADER_SCALE_MARKERS_ASC = [...MIXER_FADER_SCALE_MARKERS].sort((left, right) => left - right);
+  const MIX_ASSISTANT_TARGET_RMS = {
+    balanced: -18,
+    loud: -14,
+    soft: -22
+  };
   const TRACK_EXPORT_FORMATS = {
     wav: { label: "WAV", extension: "wav", mime: "audio/wav" },
     mp3: { label: "MP3", extension: "mp3", mime: "audio/mpeg" },
@@ -6942,6 +7238,15 @@
     appMenuOpen: false,
     settingsOpen: false,
     mixerOpen: false,
+    selectedMixerTrackIds: [],
+    mixAssistantMode: "balanced",
+    mixAssistantPanelType: "mix",
+    mixAssistantSuggestions: [],
+    mixAssistantAnalyses: [],
+    mixAssistantPreview: false,
+    mixAssistantOriginalGains: {},
+    mixAssistantAnalyzing: false,
+    meterLineDb: {},
     theme: "dark",
     trackCounter: 0,
     clipCounter: 1,
@@ -7141,6 +7446,12 @@
   const createMidiClipBtn = document.getElementById("createMidiClipBtn");
   const joinMidiClipsBtn = document.getElementById("joinMidiClipsBtn");
   const exportTrackAudioBtn = document.getElementById("exportTrackAudioBtn");
+  const aiMixAssistantBtn = document.getElementById("aiMixAssistantBtn");
+  const aiMasteringAssistantBtn = document.getElementById("aiMasteringAssistantBtn");
+  const analyzeMixerTrackBtn = document.getElementById("analyzeMixerTrackBtn");
+  const resetMixerVolumesBtn = document.getElementById("resetMixerVolumesBtn");
+  const muteMixerTracksBtn = document.getElementById("muteMixerTracksBtn");
+  const soloMixerTracksBtn = document.getElementById("soloMixerTracksBtn");
   const deleteEffectBtn = document.getElementById("deleteEffectBtn");
   const deleteRegionBtn = document.getElementById("deleteRegionBtn");
   const renameTrackBtn = document.getElementById("renameTrackBtn");
@@ -7150,6 +7461,16 @@
   const tempoChoiceClipValue = document.getElementById("tempoChoiceClipValue");
   const keepProjectTempoBtn = document.getElementById("keepProjectTempoBtn");
   const changeProjectTempoBtn = document.getElementById("changeProjectTempoBtn");
+  const mixAssistantOverlay = document.getElementById("mixAssistantOverlay");
+  const mixAssistantTitle = document.getElementById("mixAssistantTitle");
+  const mixAssistantSubtitle = document.getElementById("mixAssistantSubtitle");
+  const mixAssistantSummary = document.getElementById("mixAssistantSummary");
+  const mixAssistantResults = document.getElementById("mixAssistantResults");
+  const mixAssistantCloseBtn = document.getElementById("mixAssistantCloseBtn");
+  const mixAssistantAnalyzeBtn = document.getElementById("mixAssistantAnalyzeBtn");
+  const mixAssistantPreviewBtn = document.getElementById("mixAssistantPreviewBtn");
+  const mixAssistantApplyBtn = document.getElementById("mixAssistantApplyBtn");
+  const mixAssistantResetBtn = document.getElementById("mixAssistantResetBtn");
   let audioAssetDbPromise = null;
   let resolveTempoChoice = null;
   const instrumentSampleState = {
@@ -10625,7 +10946,10 @@
   }
 
   function sanitizeProjectNameInput(value) {
-    const trimmed = String(value || "").replace(/\.waveforge\.json$/i, "").trim();
+    const trimmed = String(value || "")
+      .replace(/\.waveforge\.json$/i, "")
+      .replace(/\.wav$/i, "")
+      .trim();
     return trimmed || "Untitled Project";
   }
 
@@ -11046,8 +11370,12 @@
       return;
     }
     try {
-      await saveProjectToDocuments(requestedName);
       const mode = state.saveProjectMode;
+      if (mode === "save") {
+        await saveProjectMixdownAsWav(requestedName);
+      } else {
+        await saveProjectToDocuments(requestedName);
+      }
       closeSaveProjectOverlay();
       if (mode === "new") {
         await performNewProject();
@@ -11283,7 +11611,7 @@
     }
   }
 
-  function setMasterOutputVolume(value, sourceInput = null) {
+  function setMasterOutputVolume(value, sourceInput = null, options = {}) {
     ensureAudioContext();
     const nextValue = Math.max(0, Math.min(100, Number(value) || 0));
     state.outputVolume = nextValue;
@@ -11305,7 +11633,9 @@
     document.querySelectorAll('[data-master-gain-value]').forEach((label) => {
       label.textContent = formatMixerFaderDb(nextValue);
     });
-    scheduleProjectSave();
+    if (options.persist !== false) {
+      scheduleProjectSave();
+    }
   }
 
   function updateMasterMixerButtons() {
@@ -11469,10 +11799,51 @@
     return Math.max(FADER_UNITY_SLIDER_VALUE, Math.min(100, FADER_UNITY_SLIDER_VALUE + ((numericDb / FADER_MAX_DB) * (100 - FADER_UNITY_SLIDER_VALUE))));
   }
 
+  function faderDbToMixerVisualValue(db) {
+    const numericDb = Number(db);
+    if (!Number.isFinite(numericDb)) {
+      return 0;
+    }
+    const markers = MIXER_FADER_SCALE_MARKERS_ASC;
+    if (numericDb <= markers[0]) {
+      return 0;
+    }
+    if (numericDb >= markers[markers.length - 1]) {
+      return 100;
+    }
+    for (let index = 0; index < markers.length - 1; index += 1) {
+      const lower = markers[index];
+      const upper = markers[index + 1];
+      if (numericDb >= lower && numericDb <= upper) {
+        const sectionStart = (index / (markers.length - 1)) * 100;
+        const sectionSize = 100 / (markers.length - 1);
+        const progress = (numericDb - lower) / Math.max(upper - lower, 1);
+        return sectionStart + (progress * sectionSize);
+      }
+    }
+    return 0;
+  }
+
+  function mixerVisualValueToFaderDb(value) {
+    const visualValue = Math.max(0, Math.min(100, Number(value) || 0));
+    const markers = MIXER_FADER_SCALE_MARKERS_ASC;
+    if (visualValue <= 0) {
+      return markers[0];
+    }
+    if (visualValue >= 100) {
+      return markers[markers.length - 1];
+    }
+    const sectionSize = 100 / (markers.length - 1);
+    const sectionIndex = Math.min(markers.length - 2, Math.floor(visualValue / sectionSize));
+    const sectionStart = sectionIndex * sectionSize;
+    const progress = (visualValue - sectionStart) / sectionSize;
+    return markers[sectionIndex] + ((markers[sectionIndex + 1] - markers[sectionIndex]) * progress);
+  }
+
   function getMixerFaderScaleMarkup() {
     return `<div class="mixer-fader-scale" aria-hidden="true">${MIXER_FADER_SCALE_MARKERS.map((db) => {
       const label = db > 0 ? `+${db}` : String(db);
-      return `<span class="${db === 0 ? "zero-db" : ""}">${label}</span>`;
+      return `<span class="${db === 0 ? "zero-db" : ""}${db === FADER_MAX_DB ? " top-db" : ""}" style="bottom:${faderDbToMixerVisualValue(db)}%;">${label}</span>`;
     }).join("")}</div>`;
   }
 
@@ -11642,6 +12013,7 @@
     }
     const level = typeof sample === "object" ? sample.level : sample;
     const db = typeof sample === "object" ? sample.db : NaN;
+    state.meterLineDb[key] = Number.isFinite(db) ? db : -Infinity;
     const clamped = Math.max(0, Math.min(1, Number(level) || 0));
     const previous = state.meterLevels[key] ?? 0;
     const smoothed = clamped > previous
@@ -11713,8 +12085,9 @@
       return;
     }
     const sliderValue = Math.max(0, Math.min(100, Number(value) || 0));
+    const visualValue = faderDbToMixerVisualValue(sliderValueToDb(sliderValue));
     control.dataset.faderValue = String(sliderValue);
-    control.style.setProperty("--range-progress", `${sliderValue}%`);
+    control.style.setProperty("--range-progress", `${visualValue}%`);
     const thumb = control.querySelector(".mixer-fader-thumb");
     if (thumb) {
       thumb.setAttribute("aria-valuenow", String(Math.round(sliderValue)));
@@ -11729,7 +12102,8 @@
       return Number(control?.dataset.faderValue) || 0;
     }
     const adjustedY = event.clientY - (Number(offsetY) || 0);
-    return Math.max(0, Math.min(100, ((rect.bottom - adjustedY) / rect.height) * 100));
+    const visualValue = Math.max(0, Math.min(100, ((rect.bottom - adjustedY) / rect.height) * 100));
+    return faderDbToSliderValue(mixerVisualValueToFaderDb(visualValue));
   }
 
   function mixerFaderThumbCenterY(control) {
@@ -11739,13 +12113,14 @@
       return 0;
     }
     const value = Math.max(0, Math.min(100, Number(control?.dataset.faderValue) || 0));
-    return rect.bottom - ((value / 100) * rect.height);
+    const visualValue = faderDbToMixerVisualValue(sliderValueToDb(value));
+    return rect.bottom - ((visualValue / 100) * rect.height);
   }
 
   function applyMixerFaderDragValue(value, sourceControl = state.mixerFaderControl) {
     const sliderValue = Math.max(0, Math.min(100, Number(value) || 0));
     if (state.mixerFaderKind === "master") {
-      setMasterOutputVolume(sliderValue, null);
+      setMasterOutputVolume(sliderValue, null, { persist: false });
       if (sourceControl) {
         updateMixerFaderControl(sourceControl, sliderValue);
       }
@@ -11756,7 +12131,7 @@
       if (!track) {
         return;
       }
-      setTrackGainFromSlider(track, sliderValue, null);
+      setTrackGainFromSlider(track, sliderValue, null, { persist: false });
       if (sourceControl) {
         updateMixerFaderControl(sourceControl, sliderValue);
       }
@@ -11791,15 +12166,19 @@
     if (event && state.mixerFaderPointerId !== event.pointerId) {
       return;
     }
+    const shouldPersist = Boolean(state.mixerFaderKind);
     state.mixerFaderControl?.querySelector(".mixer-fader-thumb")?.classList.remove("dragging");
     state.mixerFaderPointerId = null;
     state.mixerFaderKind = "";
     state.mixerFaderTrackId = "";
     state.mixerFaderControl = null;
     state.mixerFaderPointerOffsetY = 0;
+    if (shouldPersist) {
+      scheduleProjectSave();
+    }
   }
 
-  function setTrackGainFromSlider(track, value, sourceInput = null) {
+  function setTrackGainFromSlider(track, value, sourceInput = null, options = {}) {
     if (!track) {
       return;
     }
@@ -11818,7 +12197,404 @@
       label.textContent = formatMixerFaderDb(sliderValue);
     });
     ensureTrackOutput(track);
+    if (options.persist !== false) {
+      scheduleProjectSave();
+    }
+  }
+
+  function syncMixerSelectionVisuals() {
+    const selectedIds = new Set(state.selectedMixerTrackIds || []);
+    mixerView?.querySelectorAll(".mixer-channel[data-track-id]").forEach((channel) => {
+      channel.classList.toggle("mixer-selected", selectedIds.has(channel.dataset.trackId));
+    });
+  }
+
+  function setMixerTrackSelection(trackId = "", options = {}) {
+    if (!trackId || !state.tracks.some((track) => track.id === trackId)) {
+      state.selectedMixerTrackIds = [];
+      syncMixerSelectionVisuals();
+      return;
+    }
+    const selected = new Set(state.selectedMixerTrackIds || []);
+    if (options.extend) {
+      if (selected.has(trackId)) {
+        selected.delete(trackId);
+      } else {
+        selected.add(trackId);
+      }
+    } else {
+      selected.clear();
+      selected.add(trackId);
+    }
+    state.selectedMixerTrackIds = [...selected].filter((id) => state.tracks.some((track) => track.id === id));
+    syncMixerSelectionVisuals();
+  }
+
+  function getSelectedMixerTracks() {
+    const selectedIds = new Set(state.selectedMixerTrackIds || []);
+    return state.tracks.filter((track) => selectedIds.has(track.id));
+  }
+
+  function getTrackCurrentFaderDb(track) {
+    return sliderValueToDb(gainToSliderValue(track?.gain ?? 1));
+  }
+
+  function formatAssistantDb(value) {
+    if (!Number.isFinite(Number(value))) {
+      return "-∞ dB";
+    }
+    const rounded = Math.round(Number(value) * 10) / 10;
+    return `${rounded > 0 ? "+" : ""}${rounded.toFixed(1)} dB`;
+  }
+
+  function clampMixGainDb(value) {
+    return Math.max(-6, Math.min(6, Number(value) || 0));
+  }
+
+  function sampleBufferStats(audioBuffer) {
+    if (!audioBuffer?.length) {
+      return null;
+    }
+    let sum = 0;
+    let peak = 0;
+    let count = 0;
+    for (let channel = 0; channel < audioBuffer.numberOfChannels; channel += 1) {
+      const data = audioBuffer.getChannelData(channel);
+      for (let index = 0; index < data.length; index += 1) {
+        const sample = Number(data[index]) || 0;
+        const abs = Math.abs(sample);
+        sum += sample * sample;
+        peak = Math.max(peak, abs);
+        count += 1;
+      }
+    }
+    if (!count) {
+      return null;
+    }
+    const rms = Math.sqrt(sum / count);
+    return {
+      rms,
+      peak,
+      rmsDb: rms > 0.000001 ? 20 * Math.log10(rms) : -Infinity,
+      peakDb: peak > 0.000001 ? 20 * Math.log10(peak) : -Infinity,
+      source: "buffer"
+    };
+  }
+
+  function fallbackTrackMeterStats(track) {
+    const leftDb = Number(state.meterLineDb?.[`${track.id}:L`]);
+    const rightDb = Number(state.meterLineDb?.[`${track.id}:R`]);
+    const candidates = [leftDb, rightDb].filter(Number.isFinite);
+    if (!candidates.length) {
+      return {
+        rms: 0,
+        peak: 0,
+        rmsDb: -Infinity,
+        peakDb: -Infinity,
+        source: "silent"
+      };
+    }
+    const peakDb = Math.max(...candidates);
+    return {
+      rms: Math.pow(10, peakDb / 20),
+      peak: Math.pow(10, Math.min(0, peakDb + 6) / 20),
+      rmsDb: peakDb,
+      peakDb: Math.min(0, peakDb + 6),
+      source: "meter"
+    };
+  }
+
+  async function analyzeMixerTrack(track) {
+    let stats = null;
+    if ((track?.clips || []).some((clip) => clip.type === "audio")) {
+      try {
+        const buffer = await renderTrackAudioExportBuffer(track);
+        stats = sampleBufferStats(buffer);
+      } catch (error) {
+        stats = null;
+      }
+    }
+    if (!stats) {
+      stats = fallbackTrackMeterStats(track);
+    }
+    return {
+      trackId: track.id,
+      trackName: track.name,
+      currentDb: getTrackCurrentFaderDb(track),
+      rmsDb: stats.rmsDb,
+      peakDb: stats.peakDb,
+      source: stats.source
+    };
+  }
+
+  function reasonForMixSuggestion(analysis, gainDb, averageRms) {
+    if (Number.isFinite(analysis.peakDb) && analysis.peakDb > -1) {
+      return "Peaking too high";
+    }
+    if (!Number.isFinite(analysis.rmsDb)) {
+      return "No usable signal detected";
+    }
+    if (analysis.rmsDb < averageRms - 2.5 || gainDb > 0.8) {
+      return "Too quiet vs mix average";
+    }
+    if (analysis.rmsDb > averageRms + 2.5 || gainDb < -0.8) {
+      return "Too loud vs mix average";
+    }
+    return "Close to target balance";
+  }
+
+  function generateMixSuggestions(analyses, mode = state.mixAssistantMode) {
+    // TODO: Add real AI model integration, genre-based mixing presets, instrument detection, and EQ/compression suggestions.
+    const targetRms = MIX_ASSISTANT_TARGET_RMS[mode] ?? MIX_ASSISTANT_TARGET_RMS.balanced;
+    const finite = analyses.filter((analysis) => Number.isFinite(analysis.rmsDb));
+    const averageRms = finite.length
+      ? finite.reduce((sum, analysis) => sum + analysis.rmsDb, 0) / finite.length
+      : targetRms;
+    return analyses.map((analysis) => {
+      let gainDb = Number.isFinite(analysis.rmsDb) ? targetRms - analysis.rmsDb : 0;
+      if (Number.isFinite(analysis.rmsDb)) {
+        gainDb += Math.max(-1.5, Math.min(1.5, (averageRms - analysis.rmsDb) * 0.25));
+      }
+      if (Number.isFinite(analysis.peakDb) && analysis.peakDb + gainDb > -1) {
+        gainDb = Math.min(gainDb, -1 - analysis.peakDb);
+      }
+      if (Number.isFinite(analysis.peakDb) && analysis.peakDb > -1) {
+        gainDb = Math.min(gainDb, -1 - analysis.peakDb);
+      }
+      gainDb = clampMixGainDb(gainDb);
+      return {
+        trackId: analysis.trackId,
+        trackName: analysis.trackName,
+        currentDb: analysis.currentDb,
+        rmsDb: analysis.rmsDb,
+        peakDb: analysis.peakDb,
+        suggestedDbChange: gainDb,
+        reason: reasonForMixSuggestion(analysis, gainDb, averageRms)
+      };
+    });
+  }
+
+  function generateMasteringSuggestion(analysis) {
+    const targetRms = -14;
+    let gainDb = Number.isFinite(analysis.rmsDb) ? targetRms - analysis.rmsDb : 0;
+    if (Number.isFinite(analysis.peakDb) && analysis.peakDb + gainDb > -1) {
+      gainDb = -1 - analysis.peakDb;
+    }
+    if (Number.isFinite(analysis.peakDb) && analysis.peakDb > -1) {
+      gainDb = Math.min(gainDb, -1 - analysis.peakDb);
+    }
+    gainDb = clampMixGainDb(gainDb);
+    return {
+      trackId: analysis.trackId,
+      trackName: analysis.trackName,
+      currentDb: analysis.currentDb,
+      rmsDb: analysis.rmsDb,
+      peakDb: analysis.peakDb,
+      suggestedDbChange: gainDb,
+      reason: Number.isFinite(analysis.peakDb) && analysis.peakDb + gainDb > -1
+        ? "Clipping risk: reducing gain"
+        : "Normalize safely toward mastering target"
+    };
+  }
+
+  function applyVolumeChanges(suggestions = state.mixAssistantSuggestions) {
+    suggestions.forEach((suggestion) => {
+      const track = state.tracks.find((item) => item.id === suggestion.trackId);
+      if (!track) {
+        return;
+      }
+      const currentSlider = gainToSliderValue(track.gain);
+      const currentDb = sliderValueToDb(currentSlider);
+      const nextDb = Math.max(FADER_MIN_DB, Math.min(FADER_MAX_DB, (Number.isFinite(currentDb) ? currentDb : FADER_MIN_DB) + suggestion.suggestedDbChange));
+      setTrackGainFromSlider(track, faderDbToSliderValue(nextDb), null, { persist: false });
+    });
     scheduleProjectSave();
+    renderMixer();
+  }
+
+  function resetMixerAssistantOriginalGains() {
+    Object.entries(state.mixAssistantOriginalGains || {}).forEach(([trackId, gain]) => {
+      const track = state.tracks.find((item) => item.id === trackId);
+      if (track) {
+        track.gain = Number(gain) || 0;
+      }
+    });
+    state.mixAssistantSuggestions = [];
+    state.mixAssistantAnalyses = [];
+    state.mixAssistantPreview = false;
+    renderMixer();
+    refreshTrackOutputStates();
+    scheduleProjectSave();
+    renderMixAssistantPanel();
+  }
+
+  function setSelectedMixerTrackVolumesToUnity() {
+    getSelectedMixerTracks().forEach((track) => {
+      setTrackGainFromSlider(track, FADER_UNITY_SLIDER_VALUE, null, { persist: false });
+    });
+    scheduleProjectSave();
+    renderMixer();
+    closeContextMenu();
+    setStatus("Selected mixer track volume reset.");
+  }
+
+  function setSelectedMixerTracksMuted(muted = true) {
+    getSelectedMixerTracks().forEach((track) => {
+      track.muted = Boolean(muted);
+      if (track.muted) {
+        track.solo = false;
+      }
+      normalizeTrackMonitorState(track, "mute");
+      updateTrackMonitorButtons(track);
+    });
+    refreshTrackOutputStates();
+    renderMixer();
+    scheduleProjectSave();
+    closeContextMenu();
+    setStatus(`${getSelectedMixerTracks().length} mixer track${getSelectedMixerTracks().length === 1 ? "" : "s"} muted.`);
+  }
+
+  function setSelectedMixerTracksSoloed(solo = true) {
+    getSelectedMixerTracks().forEach((track) => {
+      track.solo = Boolean(solo);
+      if (track.solo) {
+        track.muted = false;
+      }
+      normalizeTrackMonitorState(track, "solo");
+      updateTrackMonitorButtons(track);
+    });
+    refreshTrackOutputStates();
+    renderMixer();
+    scheduleProjectSave();
+    closeContextMenu();
+    setStatus(`${getSelectedMixerTracks().length} mixer track${getSelectedMixerTracks().length === 1 ? "" : "s"} soloed.`);
+  }
+
+  function getAssistantTrackSelection() {
+    return getSelectedMixerTracks().filter(Boolean);
+  }
+
+  function renderMixAssistantRows() {
+    const suggestions = state.mixAssistantSuggestions || [];
+    if (!suggestions.length) {
+      return `<div class="mix-assistant-empty">Click Analyze to calculate safe, local volume suggestions for the selected mixer track${state.mixAssistantPanelType === "mix" ? "s" : ""}.</div>`;
+    }
+    return suggestions.map((suggestion) => {
+      const changeClass = suggestion.suggestedDbChange > 0.05
+        ? "positive"
+        : (suggestion.suggestedDbChange < -0.05 ? "negative" : "");
+      const currentLabel = state.mixAssistantPanelType === "master"
+        ? `${formatAssistantDb(suggestion.rmsDb)} RMS · ${formatAssistantDb(suggestion.peakDb)} peak`
+        : formatAssistantDb(suggestion.currentDb);
+      return `
+        <div class="mix-suggestion-row${state.mixAssistantPreview ? " preview" : ""}">
+          <div><span>Track</span><strong>${escapeHtml(suggestion.trackName)}</strong></div>
+          <div><span>${state.mixAssistantPanelType === "master" ? "Signal" : "Current"}</span><strong>${currentLabel}</strong></div>
+          <div><span>Change</span><strong class="mix-suggestion-change ${changeClass}">${formatAssistantDb(suggestion.suggestedDbChange)}</strong></div>
+          <div><span>Reason</span><strong>${escapeHtml(suggestion.reason)}</strong></div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderMixAssistantPanel() {
+    if (!mixAssistantOverlay?.classList.contains("active")) {
+      return;
+    }
+    const tracks = getAssistantTrackSelection();
+    const isMaster = state.mixAssistantPanelType === "master";
+    mixAssistantTitle.textContent = isMaster ? "AI Mastering Assistant" : "AI Mix Assistant";
+    mixAssistantSubtitle.textContent = isMaster
+      ? "Analyze this mixer track and apply safe loudness changes manually."
+      : "Balance only the selected mixer tracks. No changes are applied until you click Apply Changes.";
+    mixAssistantSummary.innerHTML = isMaster
+      ? `
+        <div><strong>${escapeHtml(tracks[0]?.name || "No track selected")}</strong></div>
+        <div class="mix-assistant-track-list">${tracks.map((track) => `<span class="mix-assistant-chip">${escapeHtml(track.name)}</span>`).join("")}</div>
+      `
+      : `
+        <div>${tracks.length} selected mixer track${tracks.length === 1 ? "" : "s"}</div>
+        <div class="mix-assistant-track-list">${tracks.map((track) => `<span class="mix-assistant-chip">${escapeHtml(track.name)}</span>`).join("")}</div>
+        <div class="mix-assistant-mode-row">
+          ${Object.keys(MIX_ASSISTANT_TARGET_RMS).map((mode) => `
+            <button class="mix-assistant-mode-btn${state.mixAssistantMode === mode ? " active" : ""}" type="button" data-mix-mode="${mode}">
+              ${mode[0].toUpperCase() + mode.slice(1)}
+            </button>
+          `).join("")}
+        </div>
+      `;
+    mixAssistantResults.innerHTML = renderMixAssistantRows();
+    mixAssistantPreviewBtn.style.display = isMaster ? "none" : "inline-flex";
+    mixAssistantApplyBtn.textContent = isMaster ? "Apply" : "Apply Changes";
+    mixAssistantAnalyzeBtn.disabled = state.mixAssistantAnalyzing;
+    mixAssistantAnalyzeBtn.textContent = state.mixAssistantAnalyzing ? "Analyzing..." : "Analyze";
+    mixAssistantApplyBtn.disabled = !state.mixAssistantSuggestions.length;
+    mixAssistantPreviewBtn.disabled = !state.mixAssistantSuggestions.length;
+  }
+
+  function openMixAssistantPanel(type = "mix") {
+    const tracks = getAssistantTrackSelection();
+    if ((type === "mix" && tracks.length < 2) || (type === "master" && tracks.length !== 1)) {
+      setStatus(type === "mix" ? "Select 2 or more mixer tracks first." : "Select exactly one mixer track first.");
+      return;
+    }
+    closeContextMenu();
+    state.mixAssistantPanelType = type;
+    state.mixAssistantSuggestions = [];
+    state.mixAssistantAnalyses = [];
+    state.mixAssistantPreview = false;
+    state.mixAssistantOriginalGains = Object.fromEntries(tracks.map((track) => [track.id, track.gain]));
+    mixAssistantOverlay.classList.add("active");
+    renderMixAssistantPanel();
+  }
+
+  function closeMixAssistantPanel() {
+    mixAssistantOverlay?.classList.remove("active");
+    state.mixAssistantPreview = false;
+  }
+
+  async function analyzeMixAssistantSelection() {
+    const tracks = getAssistantTrackSelection();
+    if (!tracks.length) {
+      setStatus("Select mixer tracks before analyzing.");
+      return;
+    }
+    state.mixAssistantAnalyzing = true;
+    renderMixAssistantPanel();
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    const analyses = [];
+    for (const track of tracks) {
+      analyses.push(await analyzeMixerTrack(track));
+    }
+    state.mixAssistantAnalyses = analyses;
+    state.mixAssistantSuggestions = state.mixAssistantPanelType === "master"
+      ? [generateMasteringSuggestion(analyses[0])]
+      : generateMixSuggestions(analyses, state.mixAssistantMode);
+    state.mixAssistantPreview = false;
+    state.mixAssistantAnalyzing = false;
+    renderMixAssistantPanel();
+    setStatus(`${state.mixAssistantPanelType === "master" ? "Mastering" : "Mix"} analysis complete.`);
+  }
+
+  function previewMixAssistantChanges() {
+    if (!state.mixAssistantSuggestions.length) {
+      setStatus("Analyze first before previewing changes.");
+      return;
+    }
+    state.mixAssistantPreview = true;
+    renderMixAssistantPanel();
+    setStatus("Preview ready. Click Apply Changes to commit.");
+  }
+
+  function applyMixAssistantChanges() {
+    if (!state.mixAssistantSuggestions.length) {
+      setStatus("Analyze first before applying changes.");
+      return;
+    }
+    applyVolumeChanges(state.mixAssistantSuggestions);
+    state.mixAssistantPreview = false;
+    renderMixAssistantPanel();
+    setStatus(`${state.mixAssistantPanelType === "master" ? "Mastering" : "Mix"} assistant changes applied.`);
   }
 
   function stopPanDialDrag(shouldPersist = true) {
@@ -12653,6 +13429,88 @@
       mixClipBufferIntoTrackExport(buffer, outputBuffer, startSample, track.gain ?? 1, track.pan ?? 0);
     });
     return outputBuffer;
+  }
+
+  async function renderProjectAudioExportBuffer() {
+    const audibleTracks = state.tracks.filter((track) => isTrackAudible(track));
+    const renderedClips = [];
+    let sampleRate = 44100;
+    let channelCount = 2;
+    let maxEndSample = 1;
+
+    for (const track of audibleTracks) {
+      const audioClips = (track.clips || []).filter((clip) => clip.type === "audio");
+      for (const clip of audioClips) {
+        const playbackRate = Math.max(0.25, Math.min(8, state.tempo / (clip.sourceTempo || state.tempo)));
+        const pitchRate = Math.pow(2, (Number(clip.pitchSemitones) || 0) / 12);
+        const fullBuffer = await ensureClipProcessedPlaybackBuffer(clip, playbackRate, pitchRate);
+        if (!fullBuffer) {
+          continue;
+        }
+        const trimStartSeconds = beatsToSeconds(getClipTrimStartBeats(clip), state.tempo);
+        const visibleDurationSeconds = beatsToSeconds(Math.max(0.001, Number(clip.beatDuration) || 0.001), state.tempo);
+        const trimStartSample = Math.max(0, Math.min(fullBuffer.length - 1, Math.floor(trimStartSeconds * fullBuffer.sampleRate)));
+        const trimEndSample = Math.max(trimStartSample + 1, Math.min(fullBuffer.length, Math.ceil((trimStartSeconds + visibleDurationSeconds) * fullBuffer.sampleRate)));
+        const buffer = (getClipTrimStartBeats(clip) > 0.0001 || getClipTrimEndBeats(clip) > 0.0001)
+          ? sliceAudioBuffer(fullBuffer, trimStartSample, trimEndSample)
+          : fullBuffer;
+        if (!buffer) {
+          continue;
+        }
+        if (!renderedClips.length) {
+          sampleRate = buffer.sampleRate || sampleRate;
+          channelCount = Math.max(2, Math.min(2, buffer.numberOfChannels || 2));
+        }
+        const startSeconds = beatsToSeconds(Number(clip.beatStart) || 0, state.tempo);
+        const startSample = Math.max(0, Math.round(startSeconds * sampleRate));
+        renderedClips.push({ track, buffer, startSample });
+        maxEndSample = Math.max(maxEndSample, startSample + buffer.length);
+      }
+    }
+
+    if (!renderedClips.length) {
+      return null;
+    }
+
+    const outputBuffer = createEmptyAudioBuffer(channelCount, maxEndSample, sampleRate);
+    renderedClips.forEach(({ track, buffer, startSample }) => {
+      mixClipBufferIntoTrackExport(buffer, outputBuffer, startSample, track.gain ?? 1, track.pan ?? 0);
+    });
+
+    const masterGain = sliderValueToGain(state.outputVolume);
+    const masterPan = Math.max(-1, Math.min(1, Number(state.outputPan) || 0));
+    const leftMasterGain = masterPan > 0 ? 1 - masterPan : 1;
+    const rightMasterGain = masterPan < 0 ? 1 + masterPan : 1;
+    for (let channel = 0; channel < outputBuffer.numberOfChannels; channel += 1) {
+      const data = outputBuffer.getChannelData(channel);
+      const panGain = channel === 0 ? leftMasterGain : rightMasterGain;
+      for (let frame = 0; frame < data.length; frame += 1) {
+        data[frame] = Math.max(-1, Math.min(1, (data[frame] || 0) * masterGain * panGain));
+      }
+    }
+    return outputBuffer;
+  }
+
+  async function saveProjectMixdownAsWav(projectName) {
+    const resolvedProjectName = sanitizeProjectNameInput(projectName || state.currentProjectName);
+    setStatus(`Rendering ${resolvedProjectName} as WAV...`);
+    await persistProjectNow();
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    const renderedBuffer = await renderProjectAudioExportBuffer();
+    if (!renderedBuffer) {
+      throw new Error("There is no audible audio to save as WAV.");
+    }
+    const wavBlob = audioBufferToWavBlob(renderedBuffer);
+    const fileName = `${resolvedProjectName}.wav`;
+    const result = await saveExportBlob(wavBlob, fileName);
+    state.currentProjectName = resolvedProjectName;
+    state.lastSavedSnapshot = projectSnapshotString();
+    state.historySnapshot = state.lastSavedSnapshot;
+    updateProjectDirtyState(state.lastSavedSnapshot);
+    setStatus(result?.path
+      ? `${resolvedProjectName} saved as WAV to Downloads.`
+      : `${resolvedProjectName} saved as WAV.`);
+    return result;
   }
 
   function downloadBlob(blob, filename) {
@@ -14005,6 +14863,40 @@
     selectMidiClipForContext();
   }
 
+  function deleteAudioClip(trackId = "", clipId = "", options = {}) {
+    const track = state.tracks.find((item) => item.id === trackId);
+    const clip = track?.clips.find((item) => item.id === clipId && item.type === "audio");
+    if (!track || !clip) {
+      return false;
+    }
+    track.clips = track.clips.filter((item) => item.id !== clip.id);
+    deleteAudioAsset(clip.id).catch(() => {});
+    if (state.armedAudioClipContextTrackId === track.id && state.armedAudioClipContextClipId === clip.id) {
+      armAudioClipContext();
+    }
+    renderTracks();
+    scheduleProjectSave();
+    if (options.status !== false) {
+      setStatus(`${clip.name || "Audio clip"} deleted.`);
+    }
+    return true;
+  }
+
+  function deleteArmedAudioClipFromKeyboard(event) {
+    if (isTypingField() || event.metaKey || event.ctrlKey || event.altKey) {
+      return false;
+    }
+    if (event.key !== "Delete" && event.key !== "Backspace") {
+      return false;
+    }
+    const deleted = deleteAudioClip(state.armedAudioClipContextTrackId, state.armedAudioClipContextClipId);
+    if (deleted) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    return deleted;
+  }
+
   function renderEffectPicker() {
     const track = getSelectedTrack();
     if (effectPickerSearch && effectPickerSearch.value !== state.effectPickerQuery) {
@@ -14120,6 +15012,32 @@
     return padding + (normalized * (100 - (padding * 2)));
   }
 
+  function getEqRackSliderMarkup(track, eqEffect) {
+    return `
+      <div class="eq-rack-sliders" aria-label="EQ band gain sliders">
+        ${eqEffect.bands.map((band, index) => `
+          <label class="eq-rack-band">
+            <span class="eq-rack-band-value" data-eq-rack-gain="${track.id}:${band.id}">${formatEqGainLabel(band.gain)}</span>
+            <span class="eq-rack-slider-wrap">
+              <input
+                class="eq-rack-slider"
+                type="range"
+                min="${EQ_MIN_GAIN}"
+                max="${EQ_MAX_GAIN}"
+                step="0.1"
+                value="${clampEqGain(band.gain)}"
+                data-action="eq-band-gain"
+                data-track-id="${track.id}"
+                data-band-id="${band.id}"
+                aria-label="EQ band ${index + 1} gain">
+            </span>
+            <span class="eq-rack-band-label">${formatEqFrequencyValue(band.frequency)}</span>
+          </label>
+        `).join("")}
+      </div>
+    `;
+  }
+
   function getEqPanelMarkup(track, eqEffect, effectCount, scope) {
     const isRack = scope === "rack";
     const isExpanded = scope === "expanded";
@@ -14152,49 +15070,53 @@
             <div class="effects-window-slot">${effectCount} slot${effectCount === 1 ? "" : "s"}</div>
           </div>
         </div>
-        <div class="eq-workspace">
-          <div class="eq-graph-wrap" data-action="eq-graph" data-track-id="${track.id}">
-            <canvas class="eq-graph-canvas" data-eq-canvas="${track.id}"></canvas>
-            <div class="eq-node-layer">
-              ${eqEffect.bands.map((band, index) => `
-                <button
-                  type="button"
-                  class="eq-node${band.id === eqEffect.selectedBandId ? " selected" : ""}${band.enabled ? "" : " disabled"}"
-                  data-action="eq-node"
-                  data-track-id="${track.id}"
-                  data-band-id="${band.id}"
-                  style="left:${getEqBandX(band.frequency)}%; top:${getEqBandY(band.gain)}%;"
-                  title="${escapeHtml(`${EQ_FILTER_LABELS[band.type]} · ${formatEqFrequencyValue(band.frequency)} · ${Math.round(band.gain * 10) / 10} dB · Q ${Math.round(band.q * 10) / 10}`)}">
-                  ${index + 1}
-                </button>
-              `).join("")}
+        ${isRack ? getEqRackSliderMarkup(track, eqEffect) : `
+          <div class="eq-workspace">
+            <div class="eq-graph-wrap" data-action="eq-graph" data-track-id="${track.id}">
+              <canvas class="eq-graph-canvas" data-eq-canvas="${track.id}"></canvas>
+              <div class="eq-node-layer">
+                ${eqEffect.bands.map((band, index) => `
+                  <button
+                    type="button"
+                    class="eq-node${band.id === eqEffect.selectedBandId ? " selected" : ""}${band.enabled ? "" : " disabled"}"
+                    data-action="eq-node"
+                    data-track-id="${track.id}"
+                    data-band-id="${band.id}"
+                    style="left:${getEqBandX(band.frequency)}%; top:${getEqBandY(band.gain)}%;"
+                    title="${escapeHtml(`${EQ_FILTER_LABELS[band.type]} · ${formatEqFrequencyValue(band.frequency)} · ${Math.round(band.gain * 10) / 10} dB · Q ${Math.round(band.q * 10) / 10}`)}">
+                    ${index + 1}
+                  </button>
+                `).join("")}
+              </div>
             </div>
+            ${isExpanded ? "" : `
+              <div class="eq-side-panel">
+                <label class="eq-param-row">
+                  <span>Mode</span>
+                  <select class="eq-mode-select" data-action="eq-mode" data-track-id="${track.id}">
+                    ${EQ_MODE_OPTIONS.map((mode) => `<option value="${mode}"${eqEffect.mode === mode ? " selected" : ""}>${mode === "mid-side" ? "Mid/Side" : mode[0].toUpperCase() + mode.slice(1)}</option>`).join("")}
+                  </select>
+                </label>
+                <label class="eq-param-row">
+                  <span>Band</span>
+                  <select class="eq-band-select" data-action="eq-select-band" data-track-id="${track.id}">
+                    ${eqEffect.bands.map((band, index) => `<option value="${band.id}"${band.id === selectedBand.id ? " selected" : ""}>${index + 1} · ${EQ_FILTER_LABELS[band.type]}</option>`).join("")}
+                  </select>
+                </label>
+                <div class="eq-param-row"><span>Frequency</span><strong data-eq-readout="${track.id}:frequency">${formatEqFrequencyValue(selectedBand.frequency)}</strong></div>
+                <div class="eq-param-row"><span>Gain</span><strong data-eq-readout="${track.id}:gain">${formatEqGainLabel(selectedBand.gain)}</strong></div>
+                <div class="eq-param-row"><span>Q</span><strong data-eq-readout="${track.id}:q">${Number(selectedBand.q).toFixed(2)}</strong></div>
+                <div class="eq-param-row"><span>Type</span><strong data-eq-readout="${track.id}:type">${EQ_FILTER_LABELS[selectedBand.type]}</strong></div>
+                <div class="eq-param-row"><span>Target</span><strong data-eq-readout="${track.id}:target">${selectedBand.target.toUpperCase()}</strong></div>
+                <div class="eq-band-controls">
+                  <button type="button" class="eq-band-toggle${selectedBand.enabled ? "" : " inactive"}" data-action="eq-toggle-band" data-track-id="${track.id}" data-band-id="${selectedBand.id}">${selectedBand.enabled ? "Enabled" : "Disabled"}</button>
+                  <button type="button" class="eq-band-toggle${selectedBand.dynamic ? "" : " inactive"}" data-action="eq-toggle-dynamic" data-track-id="${track.id}" data-band-id="${selectedBand.id}">Dynamic</button>
+                  <button type="button" class="eq-band-toggle" data-action="eq-cycle-target" data-track-id="${track.id}" data-band-id="${selectedBand.id}">Target</button>
+                </div>
+              </div>
+            `}
           </div>
-          <div class="eq-side-panel">
-            <label class="eq-param-row">
-              <span>Mode</span>
-              <select class="eq-mode-select" data-action="eq-mode" data-track-id="${track.id}">
-                ${EQ_MODE_OPTIONS.map((mode) => `<option value="${mode}"${eqEffect.mode === mode ? " selected" : ""}>${mode === "mid-side" ? "Mid/Side" : mode[0].toUpperCase() + mode.slice(1)}</option>`).join("")}
-              </select>
-            </label>
-            <label class="eq-param-row">
-              <span>Band</span>
-              <select class="eq-band-select" data-action="eq-select-band" data-track-id="${track.id}">
-                ${eqEffect.bands.map((band, index) => `<option value="${band.id}"${band.id === selectedBand.id ? " selected" : ""}>${index + 1} · ${EQ_FILTER_LABELS[band.type]}</option>`).join("")}
-              </select>
-            </label>
-            <div class="eq-param-row"><span>Frequency</span><strong data-eq-readout="${track.id}:frequency">${formatEqFrequencyValue(selectedBand.frequency)}</strong></div>
-            <div class="eq-param-row"><span>Gain</span><strong data-eq-readout="${track.id}:gain">${formatEqGainLabel(selectedBand.gain)}</strong></div>
-            <div class="eq-param-row"><span>Q</span><strong data-eq-readout="${track.id}:q">${Number(selectedBand.q).toFixed(2)}</strong></div>
-            <div class="eq-param-row"><span>Type</span><strong data-eq-readout="${track.id}:type">${EQ_FILTER_LABELS[selectedBand.type]}</strong></div>
-            <div class="eq-param-row"><span>Target</span><strong data-eq-readout="${track.id}:target">${selectedBand.target.toUpperCase()}</strong></div>
-            <div class="eq-band-controls">
-              <button type="button" class="eq-band-toggle${selectedBand.enabled ? "" : " inactive"}" data-action="eq-toggle-band" data-track-id="${track.id}" data-band-id="${selectedBand.id}">${selectedBand.enabled ? "Enabled" : "Disabled"}</button>
-              <button type="button" class="eq-band-toggle${selectedBand.dynamic ? "" : " inactive"}" data-action="eq-toggle-dynamic" data-track-id="${track.id}" data-band-id="${selectedBand.id}">Dynamic</button>
-              <button type="button" class="eq-band-toggle" data-action="eq-cycle-target" data-track-id="${track.id}" data-band-id="${selectedBand.id}">Target</button>
-            </div>
-          </div>
-        </div>
+        `}
       </div>
     `;
   }
@@ -15162,6 +16084,17 @@
       node.classList.toggle("disabled", band.enabled === false);
       node.title = `${EQ_FILTER_LABELS[band.type]} · ${formatEqFrequencyValue(band.frequency)} · ${Math.round(band.gain * 10) / 10} dB · Q ${Math.round(band.q * 10) / 10}`;
     });
+    document.querySelectorAll(`[data-action="eq-band-gain"][data-track-id="${trackId}"]`).forEach((slider) => {
+      const band = eqEffect.bands.find((item) => item.id === slider.dataset.bandId);
+      if (!band) return;
+      slider.value = String(clampEqGain(band.gain));
+    });
+    document.querySelectorAll(`[data-eq-rack-gain^="${trackId}:"]`).forEach((node) => {
+      const bandId = String(node.dataset.eqRackGain || "").split(":")[1];
+      const band = eqEffect.bands.find((item) => item.id === bandId);
+      if (!band) return;
+      node.textContent = formatEqGainLabel(band.gain);
+    });
   }
 
 
@@ -15820,6 +16753,11 @@
       : [];
     const canJoinMidiClips = isMidiClip && selectedMidiClipIds.length >= 2 && selectedMidiClipIds.includes(clipId);
     const canExportTrackAudio = Boolean((mode === "track" || mode === "clip") && track?.clips?.some((item) => item.type === "audio"));
+    [aiMixAssistantBtn, aiMasteringAssistantBtn, analyzeMixerTrackBtn, resetMixerVolumesBtn, muteMixerTracksBtn, soloMixerTracksBtn].forEach((button) => {
+      if (button) {
+        button.style.display = "none";
+      }
+    });
     if (canSplitToStems) {
       await refreshStemSplitterHealth();
     }
@@ -15883,6 +16821,66 @@
     contextMenu.classList.add("active");
     const { innerWidth, innerHeight } = window;
     const menuWidth = 240;
+    const menuHeight = Math.min(contextMenu.scrollHeight || 260, innerHeight - 24);
+    contextMenu.style.left = `${Math.min(x, innerWidth - menuWidth - 12)}px`;
+    contextMenu.style.top = `${Math.min(y, innerHeight - menuHeight - 12)}px`;
+  }
+
+  function openMixerContextMenu(x, y, trackId = "") {
+    if (!state.mixerOpen) {
+      return;
+    }
+    const track = state.tracks.find((item) => item.id === trackId);
+    if (!track) {
+      return;
+    }
+    if (!state.selectedMixerTrackIds.includes(track.id)) {
+      setMixerTrackSelection(track.id);
+    }
+    const selectedCount = getSelectedMixerTracks().length;
+    if (!selectedCount) {
+      closeContextMenu();
+      return;
+    }
+    contextMenu.dataset.mode = "mixer";
+    contextMenu.dataset.trackId = track.id;
+    contextMenu.dataset.clipId = "";
+    contextMenu.dataset.effectType = "";
+    contextMenu.dataset.effectId = "";
+
+    [
+      splitStemsBtn,
+      detectChordsBtn,
+      splitAudioClipBtn,
+      copyAudioClipBtn,
+      pasteAudioClipBtn,
+      createMidiClipBtn,
+      joinMidiClipsBtn,
+      exportTrackAudioBtn,
+      deleteEffectBtn,
+      deleteRegionBtn,
+      renameTrackBtn,
+      deleteTrackBtn
+    ].forEach((button) => {
+      if (button) {
+        button.style.display = "none";
+      }
+    });
+    trackColorSection.style.display = "none";
+
+    aiMixAssistantBtn.style.display = selectedCount >= 2 ? "block" : "none";
+    aiMasteringAssistantBtn.style.display = selectedCount === 1 ? "block" : "none";
+    analyzeMixerTrackBtn.style.display = selectedCount === 1 ? "block" : "none";
+    resetMixerVolumesBtn.style.display = "block";
+    resetMixerVolumesBtn.textContent = selectedCount >= 2 ? "Reset Selected Track Volumes" : "Reset Track Volume";
+    muteMixerTracksBtn.style.display = "block";
+    muteMixerTracksBtn.textContent = selectedCount >= 2 ? "Mute Selected Tracks" : "Mute Track";
+    soloMixerTracksBtn.style.display = "block";
+    soloMixerTracksBtn.textContent = selectedCount >= 2 ? "Solo Selected Tracks" : "Solo Track";
+
+    contextMenu.classList.add("active");
+    const { innerWidth, innerHeight } = window;
+    const menuWidth = 260;
     const menuHeight = Math.min(contextMenu.scrollHeight || 260, innerHeight - 24);
     contextMenu.style.left = `${Math.min(x, innerWidth - menuWidth - 12)}px`;
     contextMenu.style.top = `${Math.min(y, innerHeight - menuHeight - 12)}px`;
@@ -16298,9 +17296,14 @@
     ruler.innerHTML = "";
     const measureCount = projectMeasureCount();
     const timelineWidth = measureCount * BEATS_PER_MEASURE * PIXELS_PER_BEAT;
-    ruler.style.gridTemplateColumns = `repeat(${measureCount}, minmax(120px, 1fr))`;
+    ruler.style.gridTemplateColumns = `repeat(${measureCount}, ${PIXELS_PER_MEASURE}px)`;
+    ruler.style.width = `${timelineWidth}px`;
     ruler.style.minWidth = `${timelineWidth}px`;
+    timelineContent.style.width = `${timelineWidth}px`;
     timelineContent.style.minWidth = `${timelineWidth}px`;
+    timelineContent.parentElement?.style.setProperty("width", `${timelineWidth}px`);
+    timelineContent.parentElement?.style.setProperty("min-width", `${timelineWidth}px`);
+    syncTimelineRulerScroll();
     for (let measure = 1; measure <= measureCount; measure += 1) {
       const cell = document.createElement("div");
       cell.className = "measure";
@@ -16322,11 +17325,20 @@
     }
   }
 
+  function syncTimelineRulerScroll() {
+    if (!timelineArea || !rulerWrap) {
+      return;
+    }
+    rulerWrap.scrollLeft = timelineArea.scrollLeft;
+  }
+
   function renderMixerChannel(track, index) {
     const selected = track.id === state.selectedTrackId;
+    const mixerSelected = (state.selectedMixerTrackIds || []).includes(track.id);
     const gainValue = Math.round(gainToSliderValue(track.gain));
+    const visualGainValue = faderDbToMixerVisualValue(sliderValueToDb(gainValue));
     const channel = document.createElement("div");
-    channel.className = `mixer-channel${selected ? " selected" : ""}`;
+    channel.className = `mixer-channel${selected ? " selected" : ""}${mixerSelected ? " mixer-selected" : ""}`;
     channel.dataset.trackId = track.id;
     channel.style.setProperty("--channel-color", track.color);
     channel.style.animationDelay = `${Math.min(index * 18, 180)}ms`;
@@ -16388,7 +17400,7 @@
             data-fader-kind="track"
             data-track-id="${track.id}"
             data-fader-value="${gainValue}"
-            style="--range-progress:${gainValue}%; --channel-color:${track.color};">
+            style="--range-progress:${visualGainValue}%; --channel-color:${track.color};">
             <div class="mixer-fader-rail">
               <div class="mixer-fader-fill"></div>
               ${getMixerFaderScaleMarkup()}
@@ -16416,6 +17428,7 @@
       return;
     }
     const gainValue = Math.round(state.outputVolume);
+    const visualGainValue = faderDbToMixerVisualValue(sliderValueToDb(gainValue));
     const channel = document.createElement("div");
     channel.className = "mixer-channel master";
     channel.innerHTML = `
@@ -16472,7 +17485,7 @@
             class="mixer-fader-control"
             data-fader-kind="master"
             data-fader-value="${gainValue}"
-            style="--range-progress:${gainValue}%; --channel-color:#f8c35b;">
+            style="--range-progress:${visualGainValue}%; --channel-color:#f8c35b;">
             <div class="mixer-fader-rail">
               <div class="mixer-fader-fill"></div>
               ${getMixerFaderScaleMarkup()}
@@ -16501,6 +17514,7 @@
       return;
     }
     mixerChannels.innerHTML = "";
+    state.selectedMixerTrackIds = (state.selectedMixerTrackIds || []).filter((id) => state.tracks.some((track) => track.id === id));
     mixerEmpty.classList.toggle("visible", !state.tracks.length);
     mixerChannels.style.display = state.tracks.length ? "flex" : "none";
     state.tracks.forEach((track, index) => {
@@ -19790,6 +20804,42 @@
         setStatus(String(error?.message || error || "Track export failed."));
       });
     });
+    aiMixAssistantBtn?.addEventListener("click", () => openMixAssistantPanel("mix"));
+    aiMasteringAssistantBtn?.addEventListener("click", () => openMixAssistantPanel("master"));
+    analyzeMixerTrackBtn?.addEventListener("click", () => {
+      openMixAssistantPanel("master");
+      analyzeMixAssistantSelection().catch((error) => {
+        state.mixAssistantAnalyzing = false;
+        renderMixAssistantPanel();
+        setStatus(String(error?.message || error || "Track analysis failed."));
+      });
+    });
+    resetMixerVolumesBtn?.addEventListener("click", setSelectedMixerTrackVolumesToUnity);
+    muteMixerTracksBtn?.addEventListener("click", () => setSelectedMixerTracksMuted(true));
+    soloMixerTracksBtn?.addEventListener("click", () => setSelectedMixerTracksSoloed(true));
+    mixAssistantCloseBtn?.addEventListener("click", closeMixAssistantPanel);
+    mixAssistantOverlay?.addEventListener("click", (event) => {
+      if (event.target === mixAssistantOverlay) {
+        closeMixAssistantPanel();
+      }
+      const modeButton = event.target.closest?.("[data-mix-mode]");
+      if (modeButton) {
+        state.mixAssistantMode = modeButton.dataset.mixMode || "balanced";
+        state.mixAssistantSuggestions = [];
+        state.mixAssistantPreview = false;
+        renderMixAssistantPanel();
+      }
+    });
+    mixAssistantAnalyzeBtn?.addEventListener("click", () => {
+      analyzeMixAssistantSelection().catch((error) => {
+        state.mixAssistantAnalyzing = false;
+        renderMixAssistantPanel();
+        setStatus(String(error?.message || error || "Mix analysis failed."));
+      });
+    });
+    mixAssistantPreviewBtn?.addEventListener("click", previewMixAssistantChanges);
+    mixAssistantApplyBtn?.addEventListener("click", applyMixAssistantChanges);
+    mixAssistantResetBtn?.addEventListener("click", resetMixerAssistantOriginalGains);
     renameTrackInput.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
@@ -20027,6 +21077,10 @@
       if (action === "eq-select-band") {
         selectEqBand(track, event.target.value);
         scheduleProjectSave();
+        return;
+      }
+      if (action === "eq-band-gain") {
+        setEqBandValues(track, event.target.dataset.bandId, { gain: event.target.value });
         return;
       }
       if (action?.startsWith("reverb-")) {
@@ -20574,10 +21628,24 @@
       const channel = event.target.closest(".mixer-channel[data-track-id]");
       if (channel) {
         const track = state.tracks.find((item) => item.id === channel.dataset.trackId);
+        setMixerTrackSelection(channel.dataset.trackId, { extend: event.shiftKey });
         selectTrack(channel.dataset.trackId);
         focusEffectsRack(track);
-        renderMixer();
       }
+    });
+
+    mixerView?.addEventListener("contextmenu", (event) => {
+      const channel = event.target.closest(".mixer-channel[data-track-id]");
+      if (!channel || !state.mixerOpen) {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      if (!state.selectedMixerTrackIds.includes(channel.dataset.trackId)) {
+        setMixerTrackSelection(channel.dataset.trackId);
+        selectTrack(channel.dataset.trackId);
+      }
+      openMixerContextMenu(event.clientX, event.clientY, channel.dataset.trackId);
     });
 
     mixerView?.addEventListener("input", (event) => {
@@ -20739,6 +21807,10 @@
         closeEffectsWindow();
         return;
       }
+      if (event.key === "Escape" && mixAssistantOverlay.classList.contains("active")) {
+        closeMixAssistantPanel();
+        return;
+      }
       if (event.key === "Escape" && state.composerPanelMode === "sampler") {
         closeSamplerWindow();
         return;
@@ -20765,6 +21837,9 @@
       if (event.code === "Space" && !isTypingField()) {
         event.preventDefault();
         togglePlayback();
+        return;
+      }
+      if (deleteArmedAudioClipFromKeyboard(event)) {
         return;
       }
       if (state.composerPanelMode === "midi-roll" && !isTypingField() && (event.key === "Delete" || event.key === "Backspace")) {
@@ -21024,6 +22099,16 @@
     rulerWrap.addEventListener("click", (event) => {
       seekTransportToBeat(timelineBeatFromClientX(event.clientX, ruler));
     });
+    rulerWrap.addEventListener("wheel", (event) => {
+      if (!timelineArea) {
+        return;
+      }
+      event.preventDefault();
+      timelineArea.scrollLeft += Math.abs(event.deltaX) > Math.abs(event.deltaY)
+        ? event.deltaX
+        : event.deltaY;
+      syncTimelineRulerScroll();
+    }, { passive: false });
     timelineContent.addEventListener("click", (event) => {
       if (performance.now() - state.lastClipDragAt < 240) {
         event.preventDefault();
@@ -21116,7 +22201,7 @@
       openMidiRoll(track.id, { clipId: clip.id, silent: false });
     });
     timelineArea.addEventListener("scroll", () => {
-      rulerWrap.scrollLeft = timelineArea.scrollLeft;
+      syncTimelineRulerScroll();
     });
     deleteRegionBtn.addEventListener("click", () => {
       const track = state.tracks.find((item) => item.id === contextMenu.dataset.trackId);
@@ -21125,10 +22210,12 @@
         return;
       }
       const removedClip = track.clips.find((clip) => clip.id === contextMenu.dataset.clipId);
-      track.clips = track.clips.filter((clip) => clip.id !== contextMenu.dataset.clipId);
-      if (removedClip?.type === "audio") {
-        deleteAudioAsset(removedClip.id).catch(() => {});
+      if (removedClip?.type === "audio" && deleteAudioClip(track.id, removedClip.id, { status: false })) {
+        closeContextMenu();
+        setStatus("Region deleted.");
+        return;
       }
+      track.clips = track.clips.filter((clip) => clip.id !== contextMenu.dataset.clipId);
       renderTracks();
       scheduleProjectSave();
       closeContextMenu();
